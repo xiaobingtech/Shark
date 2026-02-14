@@ -9,11 +9,11 @@ export function SettingViewBuilder(name: string, param: Object) {
 
 @Preview
 @Component
-struct SettingView {
+export struct SettingView {
   @State defaultSave: boolean = true;
 
   build() {
-    NavDestination() {
+    Navigation() {
       Column({ space: 8 }) {
         List() {
           ListItem() {
@@ -24,6 +24,7 @@ struct SettingView {
           }
           .height(undefined)
           .width('100%')
+          .align(Alignment.Start)
 
           ListItemGroup() {
             ListItem({ style: ListItemStyle.CARD }) {
@@ -68,12 +69,11 @@ struct SettingView {
               .fontColor($r('sys.color.font_secondary'))
               .margin({
                 top: $r('sys.float.padding_level4'),
-                left: $r('sys.float.padding_level8'),
-                right: $r('sys.float.padding_level8')
               })
           }
           .height(undefined)
           .width('100%')
+          .align(Alignment.Start)
 
           ListItem() {
             Text('信息')
@@ -83,6 +83,7 @@ struct SettingView {
           }
           .height(undefined)
           .width('100%')
+          .align(Alignment.Start)
 
           ListItemGroup() {
             ListItem({ style: ListItemStyle.CARD }) {
@@ -124,12 +125,11 @@ struct SettingView {
               .fontColor($r('sys.color.font_secondary'))
               .margin({
                 top: $r('sys.float.padding_level4'),
-                left: $r('sys.float.padding_level8'),
-                right: $r('sys.float.padding_level8')
               })
           }
           .height(undefined)
           .width('100%')
+          .align(Alignment.Start)
 
           ListItem() {
             Text('其他')
@@ -139,6 +139,7 @@ struct SettingView {
           }
           .height(undefined)
           .width('100%')
+          .align(Alignment.Start)
 
           ListItemGroup() {
             ListItem({ style: ListItemStyle.CARD }) {
@@ -190,6 +191,7 @@ struct SettingView {
           }
           .height(undefined)
           .width('100%')
+          .align(Alignment.Start)
 
           ListItemGroup() {
             ListItem({ style: ListItemStyle.CARD }) {
