@@ -34,6 +34,7 @@ export default class EntryAbility extends UIAbility {
       .create()
 
     AppStorage.setOrCreate('navPathStack', new NavPathStack())
+    AppStorage.setOrCreate('tabBarHidden', false)
     let data = preferences.getPreferencesSync(this.context, { name: PREFERENCES_NAME })
     let savedToken = data.getSync(DEVICE_TOKEN_KEY, '') as string
     let savedReady = data.getSync(DEVICE_TOKEN_READY_KEY, false) as boolean

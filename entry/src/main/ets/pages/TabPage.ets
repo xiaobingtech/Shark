@@ -7,6 +7,7 @@ import { SettingView } from './SettingView'
 @Entry
 @Component
 struct TabPage {
+  @StorageLink('tabBarHidden') tabBarHidden: boolean = false
   @State symbolModifier1: SymbolGlyphModifier = new SymbolGlyphModifier($r('sys.symbol.cloud'))
   @State symbolModifier2: SymbolGlyphModifier = new SymbolGlyphModifier($r('sys.symbol.clock'))
   @State symbolModifier3: SymbolGlyphModifier = new SymbolGlyphModifier($r('sys.symbol.gearshape'))
@@ -39,7 +40,7 @@ struct TabPage {
     .scrollable(false)
     .barMode(BarMode.Fixed)
     .barWidth('100%')
-    .barHeight('auto')
+    .barHeight(this.tabBarHidden ? 0 : 'auto')
     .width('100%')
     .height('100%')
   }

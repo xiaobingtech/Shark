@@ -5,6 +5,7 @@ import { BusinessError } from '@kit.BasicServicesKit'
 @Component
 export struct AddServerView {
   @StorageLink('navPathStack') navPathStack: NavPathStack = new NavPathStack()
+  @StorageLink('tabBarHidden') tabBarHidden: boolean = false
   @State serverUrl: string = 'https://'
 
   private startScan(): void {
@@ -44,6 +45,8 @@ export struct AddServerView {
               this.serverUrl = value
             })
           SymbolGlyph($r('sys.symbol.qrcode'))
+            .fontSize($r('sys.float.Title_M'))
+            .fontColor([$r('sys.color.icon')])
             .onClick(() => {
               this.startScan()
             })
@@ -66,6 +69,7 @@ export struct AddServerView {
     }
     .title('添加私有服务器')
     .onBackPressed(() => {
+      this.tabBarHidden = false
       this.navPathStack.pop()
       return true
     })

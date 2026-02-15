@@ -1,0 +1,59 @@
+02-15 13:05:42.832   10835-10835   C02805/com.xiao...InputKeyFlow  com.xiaobingkj.shark  I     [][OnPointerEvent:242] ac: down: 16630
+02-15 13:05:42.832   10835-10835   C02805/com.xiao...InputKeyFlow  com.xiaobingkj.shark  I     [P:D:16630][OnPointerEvent:649] recv
+02-15 13:05:42.832   10835-10835   C04213/com.xiao...InputKeyFlow  com.xiaobingkj.shark  I     HandleInputEvent: eid:32,InputId:16630,wid:97,ac:2
+02-15 13:05:42.833   10835-10835   C03951/com.xiao...InputKeyFlow  com.xiaobingkj.shark  I     [(100000:100000:scope)] ITK Id:16630, fId:0, T:0, I=0, M=0
+02-15 13:05:42.834   10835-10835   C03951/com.xiao...InputKeyFlow  com.xiaobingkj.shark  I     [(100000:100000:scope)] ITK Id:16630, TTHNI:fId: 0{ T: Swiper, D: 6 };{ T: List, D: 13 };{ T: ListItem, D: 17 };
+02-15 13:05:42.834   10835-10835   C03951/com.xiao...InputKeyFlow  com.xiaobingkj.shark  I     [(100000:100000:scope)] ITK Id:16630, TTHRTI: T ClickRecognizer info: { T: List }; { T: Row };T PanRecognizer info: { T: List };
+02-15 13:05:42.836   10835-10835   C0394B/com.xiao...AceScrollBar  com.xiaobingkj.shark  I     [(100000:100000:scope)] inner scrollBar touch down, panDirection: 0
+02-15 13:05:42.836   10835-10835   C03915/com.xia...ark/AceSwiper  com.xiaobingkj.shark  I     [(100000:100000:scope)] Swiper HandleTouchDown id: 6
+02-15 13:05:42.836   10835-10835   C03919/com.xia...InputTracking  com.xiaobingkj.shark  I     [(100000:100000:scope)] Consumed id:16630, last id:16628
+02-15 13:05:42.836   10835-10835   C04213/com.xiao...InputKeyFlow  com.xiaobingkj.shark  I     ConsumePointerEventInner: InputId:16630,wid:97,pointId:0,srcType:2,rect:[0,0,1224,2776],notify:1
+02-15 13:05:42.836   10835-10835   C02805/com.xiao...InputKeyFlow  com.xiaobingkj.shark  I     [][OnPointerEvent:242] ac: move: 16631
+02-15 13:05:42.904   10835-10835   C02805/com.xiao...InputKeyFlow  com.xiaobingkj.shark  I     [][OnPointerEvent:242] ac: move, first: 16632-(2026-02-15 13:05:42.837ms), 16641, count: 10, last: ac: up: 16642
+02-15 13:05:42.904   10835-10835   C02805/com.xiao...InputKeyFlow  com.xiaobingkj.shark  I     [P:U:16642][OnPointerEvent:649] recv
+02-15 13:05:42.904   10835-10835   C04213/com.xiao...InputKeyFlow  com.xiaobingkj.shark  I     HandleInputEvent: eid:33,InputId:16642,wid:97,ac:4
+02-15 13:05:42.905   10835-10835   C03951/com.xiao...InputKeyFlow  com.xiaobingkj.shark  I     [(100000:100000:scope)] ITK Id:16642, fId:0, T:1, I=0, M=0
+02-15 13:05:42.905   10835-10835   C03915/com.xia...ark/AceSwiper  com.xiaobingkj.shark  I     [(100000:100000:scope)] Swiper HandleTouchUp id: 6
+02-15 13:05:42.905   10835-10835   C0391E/com.xia...rk/AceGesture  com.xiaobingkj.shark  I     [(100000:100000:scope)] Click try accept
+02-15 13:05:42.905   10835-10835   C0390B/com.xia...AceScrollable  com.xiaobingkj.shark  I     [(100000:100000:scope)] Scrollable GestureJudge:0, 0
+02-15 13:05:42.905   10835-10835   C0391E/com.xia...rk/AceGesture  com.xiaobingkj.shark  I     [(100000:100000:scope)] Click gesture judge reject
+02-15 13:05:42.905   10835-10835   C0391E/com.xia...rk/AceGesture  com.xiaobingkj.shark  I     [(100000:100000:scope)] Click try accept
+02-15 13:05:42.905   10835-10835   C03951/com.xiao...InputKeyFlow  com.xiaobingkj.shark  I     [(100000:100000:scope)] CLK RACC, T: Row
+02-15 13:05:42.906   10835-10835   C03919/com.xia...InputTracking  com.xiaobingkj.shark  I     [(100000:100000:scope)] Consumed id:16642, last id:16641
+02-15 13:05:42.906   10835-10835   C04213/com.xiao...InputKeyFlow  com.xiaobingkj.shark  I     ConsumePointerEventInner: InputId:16642,wid:97,pointId:0,srcType:2,rect:[0,0,1224,2776],notify:1
+02-15 13:05:42.907   10835-10835   C02B2B/com.xiao...AVPlayerNapi  com.xiaobingkj.shark  I     #614 JsReset In
+02-15 13:05:42.907   10835-10835   C02B2B/com.xiao...AVPlayerNapi  com.xiaobingkj.shark  I     #627 0xC45800 JsReset EnqueueTask In
+02-15 13:05:42.908   10835-10835   C02B2B/com.xiao...AVPlayerNapi  com.xiaobingkj.shark  I     #629 0xC45800 JsReset EnqueueTask Out
+02-15 13:05:42.908   10835-10835   C02B2B/com.xiao...AVPlayerNapi  com.xiaobingkj.shark  I     #652 0xC45800 JsReset Out
+02-15 13:05:42.908   10835-11228   C02B2B/com.xiao...AVPlayerNapi  com.xiaobingkj.shark  I     #579 0xC45800 Reset Task In
+02-15 13:05:42.908   10835-13624   C02B2B/com.xiao...AVPlayerNapi  com.xiaobingkj.shark  I     #644 Wait Reset Task Start
+02-15 13:05:42.910   10835-13623   C02B2B/com.xia...layerCallback  com.xiaobingkj.shark  I     #869 0x80F6D8 Instance OnStateChanged is called, current state: 1
+02-15 13:05:42.910   10835-13623   C02B2B/com.xiao...AVPlayerNapi  com.xiaobingkj.shark  I     #3557 0xC45800 notify idle
+02-15 13:05:42.910   10835-11228   C02B2B/com.xiao...AVPlayerNapi  com.xiaobingkj.shark  I     #600 0xC45800 Reset Task Out
+02-15 13:05:42.911   10835-13624   C02B2B/com.xiao...AVPlayerNapi  com.xiaobingkj.shark  I     #646 Wait Reset Task Stop
+02-15 13:05:42.911   10835-10835   C02B2B/com.xiao...AVPlayerNapi  com.xiaobingkj.shark  I     #1931 JsSetAVFileDescriptor In
+02-15 13:05:42.911   10835-10835   C02B2B/com.xiao...AVPlayerNapi  com.xiaobingkj.shark  I     #1970 JsSetAVFileDescriptor Out
+02-15 13:05:42.911   10835-11228   C02B2B/com.xiao...AVPlayerNapi  com.xiaobingkj.shark  I     #1958 SetAVFileDescriptor Task
+02-15 13:05:42.911   10835-11228   C02B2B/com.xiao...AVPlayerNapi  com.xiaobingkj.shark  I     #1962 JsSetAVFileDescriptor fd: 67, offset: 1295116, size: 18988
+02-15 13:05:42.911   10835-11228   C02B2B/com.xia...shark/FdUtils  com.xiaobingkj.shark  W     #72 Getxattr value failed, errno is No data available
+02-15 13:05:42.911   10835-11228   C02B2B/com.xia...shark/FdUtils  com.xiaobingkj.shark  W     #62 === fd is cloud
+02-15 13:05:42.913   10835-11228   C02B2B/com.xia...rk/PlayerImpl  com.xiaobingkj.shark  I     #197 PlayerImpl:0x883118 SetSourceTask dupFd
+02-15 13:05:42.916   10835-13623   C02B2B/com.xia...layerCallback  com.xiaobingkj.shark  I     #869 0x80F6D8 Instance OnStateChanged is called, current state: 2
+02-15 13:05:42.916   10835-13623   C02B2B/com.xiao...AVPlayerNapi  com.xiaobingkj.shark  I     #3557 0xC45800 notify initialized
+02-15 13:05:42.916   10835-10835   C02B2B/com.xiao...AVPlayerNapi  com.xiaobingkj.shark  I     #304 JsPrepare In
+02-15 13:05:42.916   10835-10835   C02B2B/com.xiao...AVPlayerNapi  com.xiaobingkj.shark  I     #321 0xC45800 JsPrepare EnqueueTask In
+02-15 13:05:42.916   10835-10835   C02B2B/com.xiao...AVPlayerNapi  com.xiaobingkj.shark  I     #323 0xC45800 JsPrepare EnqueueTask out
+02-15 13:05:42.916   10835-11228   C02B2B/com.xiao...AVPlayerNapi  com.xiaobingkj.shark  I     #265 0xC45800 Prepare Task In
+02-15 13:05:42.917   10835-10835   C02B2B/com.xiao...AVPlayerNapi  com.xiaobingkj.shark  I     #339 0xC45800 JsPrepare Out
+02-15 13:05:42.917   10835-13626   C02B2B/com.xiao...AVPlayerNapi  com.xiaobingkj.shark  I     #330 Wait Prepare Task Start
+02-15 13:05:42.919   10835-13623   C02B2B/com.xia...layerCallback  com.xiaobingkj.shark  I     #869 0x80F6D8 Instance OnStateChanged is called, current state: 0
+02-15 13:05:42.920   10835-13623   C02B2B/com.xiao...AVPlayerNapi  com.xiaobingkj.shark  I     #3557 0xC45800 notify error
+02-15 13:05:42.920   10835-13623   C02B2B/com.xia...rListenerStub  com.xiaobingkj.shark  I     #101 DisableMonitor, type = 5, extra = 0.
+02-15 13:05:42.920   10835-13626   C02B2B/com.xia...rk/CommonNapi  com.xiaobingkj.shark  E     #855 SignError: failed to prepare, avplayer enter error status, please check error callback messages!
+02-15 13:05:42.920   10835-13623   C02B2B/com.xia...rk/PlayerImpl  com.xiaobingkj.shark  I     #1078 PlayerImplCallback apiVersion 22
+02-15 13:05:42.920   10835-13626   C02B2B/com.xiao...AVPlayerNapi  com.xiaobingkj.shark  I     #334 Wait Prepare Task End
+02-15 13:05:42.920   10835-13623   C02B2B/com.xia...layerCallback  com.xiaobingkj.shark  I     #869 0x80F6D8 Instance OnStateChanged is called, current state: 0
+02-15 13:05:42.920   10835-13623   C02B2B/com.xia...layerCallback  com.xiaobingkj.shark  E     #787 OnErrorCb:errorCode 5400106, errorMsg Unsupported Format: unsupport interface, unsupport container format type
+02-15 13:05:42.920   10835-13623   C02B2B/com.xia...layerCallback  com.xiaobingkj.shark  W     #790 0x80F6D8 can not find error callback!
+02-15 13:05:42.920   10835-10835   C01320/com.xia...j.shark/JsEnv  com.xiaobingkj.shark  W     [source_map145]the stack without line info
+02-15 13:05:42.920   10835-10835   A00000/com.xia...ark/SoundView  com.xiaobingkj.shark  E     Failed to prepare: 5400102 failed to prepare, avplayer enter error status, please check error callback messages!

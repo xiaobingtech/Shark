@@ -6,6 +6,7 @@ import { pushService } from '@kit.PushKit'
 import { hilog } from '@kit.PerformanceAnalysisKit'
 import { efRcpClientApi } from '@yunkss/ef_rcp'
 import { AddServerView } from './AddServerView'
+import { SoundView } from './SoundView'
 import { notificationManager } from '@kit.NotificationKit'
 
 const DOMAIN: number = 0x0000
@@ -30,6 +31,7 @@ interface RegisterResponse {
 @Component
 export struct ServerView {
   @StorageLink('navPathStack') navPathStack: NavPathStack = new NavPathStack()
+  @StorageLink('tabBarHidden') tabBarHidden: boolean = false
   @StorageLink(DEVICE_TOKEN_KEY) deviceToken: string = ''
   @StorageLink(DEVICE_TOKEN_READY_KEY) hasDeviceToken: boolean = false
   @StorageLink(DEVICE_KEY) deviceKey: string = ''
@@ -40,6 +42,9 @@ export struct ServerView {
   pageMap(name: string) {
     if (name === 'AddServerView') {
       AddServerView()
+    }
+    if (name === 'SoundView') {
+      SoundView()
     }
   }
 
@@ -55,6 +60,7 @@ export struct ServerView {
         value: 'add',
         symbolIcon: new SymbolGlyphModifier($r('sys.symbol.plus')),
         action: () => {
+          this.tabBarHidden = true
           this.navPathStack.pushPath({ name: 'AddServerView' })
         }
       }
@@ -140,8 +146,27 @@ export struct ServerView {
     return url
   }
 
-  private copyPushUrl(): void {
-    let url: string = this.buildPushUrlDisplay()
+  private buildSoundUrlDisplay(): string {
+    let key = this.deviceKey.length > 0 ? this.deviceKey : 'Your Key'
+    let url = `${SERVER_BASE_URL}/${key}`
+    if (this.pushTitle.length > 0) {
+      url = `${url}/${this.pushTitle}`
+    }
+    url = `${url}?sound=minuet`
+    return url
+  }
+
+  private buildSoundUrlEncoded(): string {
+    let key = this.deviceKey.length > 0 ? this.deviceKey : 'Your Key'
+    let url = `${SERVER_BASE_URL}/${key}`
+    if (this.pushTitle.length > 0) {
+      url = `${url}/${encodeURIComponent(this.pushTitle)}`
+    }
+    url = `${url}?sound=minuet`
+    return url
+  }
+
+  private copyUrl(url: string): void {
     let data = pasteboard.createData(pasteboard.MIMETYPE_TEXT_PLAIN, url)
     let systemPasteboard = pasteboard.getSystemPasteboard()
     systemPasteboard.setData(data).catch((err: BusinessError) => {
@@ -152,8 +177,7 @@ export struct ServerView {
     })
   }
 
-  private openPushUrl(): void {
-    let url: string = this.buildPushUrlEncoded()
+  private openUrl(url: string): void {
     let want: Want = {
       action: 'ohos.want.action.viewData',
       entities: ['entity.system.browsable'],
@@ -208,13 +232,13 @@ export struct ServerView {
                     .fontSize($r('sys.float.Title_M'))
                     .fontColor([$r('sys.color.icon_secondary')])
                   .onClick(() => {
-                    this.copyPushUrl()
+                    this.copyUrl(this.buildPushUrlDisplay())
                   })
                   SymbolGlyph($r('sys.symbol.forward_end_fill'))
                     .fontSize($r('sys.float.Title_M'))
                     .fontColor([$r('sys.color.icon_secondary')])
                   .onClick(() => {
-                    this.openPushUrl()
+                    this.openUrl(this.buildPushUrlEncoded())
                   })
                 }
               }
@@ -236,9 +260,63 @@ export struct ServerView {
           }
           .borderRadius($r('sys.float.corner_radius_level8'))
           .clip(true)
+          GridItem() {
+            Column({ space: 10 }) {
+              Row() {
+                Column({ space: 5 }) {
+                  Text('推送铃声')
+                    .fontSize($r('sys.float.Subtitle_M'))
+                    .fontWeight(FontWeight.Medium)
+                    .fontColor($r('sys.color.font_primary'))
+                }
+                .alignItems(HorizontalAlign.Start)
+                .layoutWeight(1)
+                Row({ space: 15 }) {
+                  SymbolGlyph($r('sys.symbol.rectangle_on_rectangle'))
+                    .fontSize($r('sys.float.Title_M'))
+                    .fontColor([$r('sys.color.icon_secondary')])
+                  .onClick(() => {
+                    this.copyUrl(this.buildSoundUrlDisplay())
+                  })
+                  SymbolGlyph($r('sys.symbol.forward_end_fill'))
+                    .fontSize($r('sys.float.Title_M'))
+                    .fontColor([$r('sys.color.icon_secondary')])
+                  .onClick(() => {
+                    this.openUrl(this.buildSoundUrlEncoded())
+                  })
+                }
+              }
+              Text(this.buildSoundUrlDisplay())
+                .fontSize($r('sys.float.Body_S'))
+                .fontColor($r('sys.color.font_primary'))
+                .maxLines(2)
+                .textOverflow({ overflow: TextOverflow.Ellipsis })
+              Row() {
+                Text('可以为推送设置不同的铃声')
+                  .fontSize($r('sys.float.Body_S'))
+                  .fontColor($r('sys.color.font_secondary'))
+                Blank()
+                Text('查看所有铃声')
+                  .fontSize($r('sys.float.Body_S'))
+                  .fontColor($r('sys.color.font_emphasize'))
+                  .onClick(() => {
+                    this.tabBarHidden = true
+                    this.navPathStack.pushPath({ name: 'SoundView' })
+                  })
+              }
+            }
+            .alignItems(HorizontalAlign.Start)
+            .padding($r('sys.float.padding_level8'))
+            .width('100%')
+            .height(undefined)
+            .backgroundColor($r('sys.color.comp_background_primary'))
+            .borderRadius($r('sys.float.corner_radius_level8'))
+          }
+          .borderRadius($r('sys.float.corner_radius_level8'))
+          .clip(true)
         }
         .columnsTemplate('1fr')
-        .rowsTemplate('1fr')
+        .rowsTemplate('1fr 1fr')
         .padding($r('sys.float.padding_level8'))
         .width('100%')
         .height('100%')
