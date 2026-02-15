@@ -6,7 +6,9 @@
   "author": "",
   "license": "",
   "dependencies": {
-    "@ohos/common": "file:../common"
-  }
+    "@ohos/common": "file:../common",
+    "@yunkss/ef_rcp": "^1.0.12"
+  },
+  "devDependencies": {},
+  "dynamicDependencies": {}
 }
-
