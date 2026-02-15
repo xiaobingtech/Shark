@@ -108,7 +108,7 @@ export struct SoundView {
     }
     let player: media.AVPlayer = this.avPlayer
     let context = getContext(this) as common.UIAbilityContext
-    let fileDescriptor = await context.resourceManager.getRawFd(`${name}.caf`)
+    let fileDescriptor = await context.resourceManager.getRawFd(`${name}.mp3`)
     let avFileDescriptor: media.AVFileDescriptor = {
       fd: fileDescriptor.fd,
       offset: fileDescriptor.offset,
