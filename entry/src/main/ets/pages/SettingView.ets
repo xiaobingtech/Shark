@@ -2,6 +2,8 @@ import { CardItem } from '../common/CardItem'
 import { CardRightItem } from '../common/CardRightItem'
 import { CardToogleItem } from '../common/CardToogleItem'
 
+const DEVICE_TOKEN_KEY: string = 'deviceToken'
+
 @Builder
 export function SettingViewBuilder(name: string, param: Object) {
   SettingView()
@@ -11,6 +13,7 @@ export function SettingViewBuilder(name: string, param: Object) {
 @Component
 export struct SettingView {
   @State defaultSave: boolean = true;
+  @StorageLink(DEVICE_TOKEN_KEY) deviceToken: string = ''
 
   build() {
     Navigation() {
@@ -90,7 +93,7 @@ export struct SettingView {
               CardRightItem({
                 isShow: false,
                 textContent: 'Device Token',
-                rightText: '未知',
+                rightText: this.deviceToken.length > 0 ? this.deviceToken : '未知',
                 symbolSrc: $r('sys.symbol.envelope')
               })
             }

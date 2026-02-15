@@ -1,8 +1,12 @@
 import { AbilityConstant, ConfigurationConstant, UIAbility, Want } from '@kit.AbilityKit';
-import { hilog } from '@kit.PerformanceAnalysisKit';
+import { preferences } from '@kit.ArkData';
 import { window } from '@kit.ArkUI';
+import { hilog } from '@kit.PerformanceAnalysisKit';
 
 const DOMAIN = 0x0000;
+const PREFERENCES_NAME: string = 'shark.db';
+const DEVICE_TOKEN_KEY: string = 'deviceToken';
+const DEVICE_TOKEN_READY_KEY: string = 'hasDeviceToken';
 
 export default class EntryAbility extends UIAbility {
   onCreate(want: Want, launchParam: AbilityConstant.LaunchParam): void {
@@ -23,6 +27,11 @@ export default class EntryAbility extends UIAbility {
     hilog.info(DOMAIN, 'testTag', '%{public}s', 'Ability onWindowStageCreate');
 
     AppStorage.setOrCreate('navPathStack', new NavPathStack())
+    let data = preferences.getPreferencesSync(this.context, { name: PREFERENCES_NAME })
+    let savedToken = data.getSync(DEVICE_TOKEN_KEY, '') as string
+    let savedReady = data.getSync(DEVICE_TOKEN_READY_KEY, false) as boolean
+    AppStorage.setOrCreate(DEVICE_TOKEN_KEY, savedToken)
+    AppStorage.setOrCreate(DEVICE_TOKEN_READY_KEY, savedReady)
 
     windowStage.loadContent('pages/TabPage', (err) => {
       if (err.code) {
