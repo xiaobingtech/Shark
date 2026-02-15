@@ -28,6 +28,11 @@
             "actions": [
               "ohos.want.action.home"
             ]
+          },
+          {
+            "actions": [
+              "com.xiaobingkj.shark.history"
+            ]
           }
         ]
       }
