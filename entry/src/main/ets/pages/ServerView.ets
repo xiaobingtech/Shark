@@ -4,19 +4,35 @@ import { promptAction, PromptAction, SymbolGlyphModifier } from '@kit.ArkUI'
 import { BusinessError, pasteboard } from '@kit.BasicServicesKit'
 import { pushService } from '@kit.PushKit'
 import { hilog } from '@kit.PerformanceAnalysisKit'
+import { efRcpClientApi } from '@yunkss/ef_rcp'
 import { AddServerView } from './AddServerView'
+import { notificationManager } from '@kit.NotificationKit'
 
 const DOMAIN: number = 0x0000
 const PREFERENCES_NAME: string = 'shark.db'
 const DEVICE_TOKEN_KEY: string = 'deviceToken'
 const DEVICE_TOKEN_READY_KEY: string = 'hasDeviceToken'
-const SERVER_BASE_URL: string = 'https://api.shark.app'
+const DEVICE_KEY: string = 'deviceKey'
+const SERVER_BASE_URL: string = 'http://192.168.6.7:8080'
+
+interface RegisterResponseData {
+  key: string
+  device_key: string
+  device_token: string
+}
+
+interface RegisterResponse {
+  code: number
+  message: string
+  data: RegisterResponseData
+}
 
 @Component
 export struct ServerView {
   @StorageLink('navPathStack') navPathStack: NavPathStack = new NavPathStack()
   @StorageLink(DEVICE_TOKEN_KEY) deviceToken: string = ''
   @StorageLink(DEVICE_TOKEN_READY_KEY) hasDeviceToken: boolean = false
+  @StorageLink(DEVICE_KEY) deviceKey: string = ''
   @State pushTitle: string = '推送标题'
   @State pushBody: string = '这里改成你自己的推送内容'
 
@@ -45,33 +61,87 @@ export struct ServerView {
     ]
   }
 
-  private persistDeviceToken(token: string, hasToken: boolean): void {
+  private persistDeviceInfo(token: string, hasToken: boolean, deviceKey: string): void {
     let data = preferences.getPreferencesSync(getContext(this), { name: PREFERENCES_NAME })
     data.putSync(DEVICE_TOKEN_KEY, token)
     data.putSync(DEVICE_TOKEN_READY_KEY, hasToken)
+    data.putSync(DEVICE_KEY, deviceKey)
     data.flush()
   }
 
   private registerDevice(): void {
-    pushService.getToken().then((token: string) => {
-      let hasToken: boolean = token.length > 0
-      this.deviceToken = token
-      this.hasDeviceToken = hasToken
-      this.persistDeviceToken(token, hasToken)
-      hilog.info(DOMAIN, 'ServerView', 'Succeeded in getting push token')
+    notificationManager.requestEnableNotification().then(() => {
+      hilog.info(0x0000, 'testTag', '%{public}s', `requestEnableNotification success`);
+      pushService.getToken().then((token: string) => {
+        let hasToken: boolean = token.length > 0
+        this.deviceToken = token
+        this.hasDeviceToken = hasToken
+        this.persistDeviceInfo(token, hasToken, this.deviceKey)
+        this.registerDeviceOnServer(token)
+        hilog.info(DOMAIN, 'ServerView', 'Succeeded in getting push token')
+      }).catch((err: BusinessError) => {
+        hilog.error(DOMAIN, 'ServerView', 'Failed to get push token: %{public}d %{public}s', err.code, err.message)
+      })
     }).catch((err: BusinessError) => {
-      hilog.error(DOMAIN, 'ServerView', 'Failed to get push token: %{public}d %{public}s', err.code, err.message)
-    })
+      hilog.error(0x0000, 'testTag', '%{public}s', `requestEnableNotification failed, code is ${err.code}, message is ${err.message}`);
+    });
   }
 
-  private buildPushUrl(): string {
-    let title: string = encodeURIComponent(this.pushTitle)
-    let body: string = encodeURIComponent(this.pushBody)
-    return `${SERVER_BASE_URL}/${this.deviceToken}/${title}/${body}`
+  private async registerDeviceOnServer(token: string): Promise<void> {
+    let response = await efRcpClientApi.post<RegisterResponse>({
+      url: '/register',
+      query: {
+        'device_key': this.deviceKey,
+        'device_token': token,
+        'platform': 'harmony'
+      }
+    })
+    if (response.error) {
+      hilog.error(DOMAIN, 'ServerView', 'Failed to register device: %{public}s', response.error.message)
+      return
+    }
+    let responseData = response.data?.data
+    if (responseData === undefined) {
+      return
+    }
+    let newKey: string = ''
+    if (responseData.device_key.length > 0) {
+      newKey = responseData.device_key
+    } else if (responseData.key.length > 0) {
+      newKey = responseData.key
+    }
+    if (newKey.length > 0) {
+      this.deviceKey = newKey
+      this.persistDeviceInfo(this.deviceToken, this.hasDeviceToken, newKey)
+    }
+  }
+
+  private buildPushUrlDisplay(): string {
+    let key = this.deviceKey.length > 0 ? this.deviceKey : 'Your Key'
+    let url = `${SERVER_BASE_URL}/${key}`
+    if (this.pushTitle.length > 0) {
+      url = `${url}/${this.pushTitle}`
+    }
+    if (this.pushBody.length > 0) {
+      url = `${url}/${this.pushBody}`
+    }
+    return url
+  }
+
+  private buildPushUrlEncoded(): string {
+    let key = this.deviceKey.length > 0 ? this.deviceKey : 'Your Key'
+    let url = `${SERVER_BASE_URL}/${key}`
+    if (this.pushTitle.length > 0) {
+      url = `${url}/${encodeURIComponent(this.pushTitle)}`
+    }
+    if (this.pushBody.length > 0) {
+      url = `${url}/${encodeURIComponent(this.pushBody)}`
+    }
+    return url
   }
 
   private copyPushUrl(): void {
-    let url: string = this.buildPushUrl()
+    let url: string = this.buildPushUrlDisplay()
     let data = pasteboard.createData(pasteboard.MIMETYPE_TEXT_PLAIN, url)
     let systemPasteboard = pasteboard.getSystemPasteboard()
     systemPasteboard.setData(data).catch((err: BusinessError) => {
@@ -83,7 +153,7 @@ export struct ServerView {
   }
 
   private openPushUrl(): void {
-    let url: string = this.buildPushUrl()
+    let url: string = this.buildPushUrlEncoded()
     let want: Want = {
       action: 'ohos.want.action.viewData',
       entities: ['entity.system.browsable'],
@@ -97,6 +167,19 @@ export struct ServerView {
       context.startAbility(want)
     } catch (err) {
       hilog.error(DOMAIN, 'ServerView', 'Failed to open url: %{public}s', JSON.stringify(err))
+    }
+  }
+
+  aboutToAppear(): void {
+    if (this.hasDeviceToken) {
+      let enabled = notificationManager.isNotificationEnabledSync()
+      if (!enabled){
+        notificationManager.requestEnableNotification().then(() => {
+          hilog.info(0x0000, 'testTag', '%{public}s', `requestEnableNotification success`);
+        }).catch((err: BusinessError) => {
+          hilog.error(0x0000, 'testTag', '%{public}s', `requestEnableNotification failed, code is ${err.code}, message is ${err.message}`);
+        });
+      }
     }
   }
 
@@ -135,7 +218,7 @@ export struct ServerView {
                   })
                 }
               }
-              Text(this.buildPushUrl())
+              Text(this.buildPushUrlDisplay())
                 .fontSize($r('sys.float.Body_S'))
                 .fontColor($r('sys.color.font_primary'))
                 .maxLines(2)
@@ -179,7 +262,7 @@ export struct ServerView {
         .backgroundColor($r('sys.color.background_secondary'))
       }
     }
-    .title('api.shark.app')
+    .title('http://192.168.6.7:8080')
     .menus(this.buildMenuItems())
     .navDestination(this.pageMap)
   }
