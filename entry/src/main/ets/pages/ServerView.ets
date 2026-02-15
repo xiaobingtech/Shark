@@ -268,7 +268,6 @@ export struct ServerView {
                   Text(this.pushBody)
                     .fontSize($r('sys.float.Body_M'))
                     .fontColor($r('sys.color.font_secondary'))
-                    .maxLines(2)
                     .textOverflow({ overflow: TextOverflow.Ellipsis })
                 }
                 .alignItems(HorizontalAlign.Start)
@@ -291,7 +290,6 @@ export struct ServerView {
               Text(this.buildPushUrlDisplay())
                 .fontSize($r('sys.float.Body_S'))
                 .fontColor($r('sys.color.font_primary'))
-                .maxLines(2)
                 .textOverflow({ overflow: TextOverflow.Ellipsis })
               Text('推送标题的字号比推送内容粗一点')
                 .fontSize($r('sys.float.Body_S'))
@@ -335,7 +333,6 @@ export struct ServerView {
               Text(this.buildSoundUrlDisplay())
                 .fontSize($r('sys.float.Body_S'))
                 .fontColor($r('sys.color.font_primary'))
-                .maxLines(2)
                 .textOverflow({ overflow: TextOverflow.Ellipsis })
               Row() {
                 Text('可以为推送设置不同的铃声')
@@ -389,7 +386,6 @@ export struct ServerView {
               Text(this.buildMultilineUrlDisplay())
                 .fontSize($r('sys.float.Body_S'))
                 .fontColor($r('sys.color.font_primary'))
-                .maxLines(2)
                 .textOverflow({ overflow: TextOverflow.Ellipsis })
               Text('多行文本样式需设置 style=3 与 inboxContent')
                 .fontSize($r('sys.float.Body_S'))
