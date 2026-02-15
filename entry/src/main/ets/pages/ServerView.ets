@@ -39,6 +39,9 @@ export struct ServerView {
   @State pushSoundTitle: string = '推送铃声'
   @State pushBody: string = '这里改成你自己的推送内容'
   @State pushInboxContent: Array<string> = ['1. 通知栏消息样式', '2. 通知栏消息提醒方式和展示方式', '3. 通知栏消息语言本地化']
+  @State pushBadgeAddNum: number = 1
+  @State pushBadgeSetNum: number = 99
+  @State pushImageUrl: string = 'https://static.xiaobingkj.icu/IMG_1779.jpg'
 
   @Builder
   pageMap(name: string) {
@@ -209,6 +212,80 @@ export struct ServerView {
       url = `${url}/${encodeURIComponent(this.pushBody)}`
     }
     url = `${url}?style=3&inboxContent=${this.buildInboxContentEncoded()}`
+    return url
+  }
+
+  private buildBadgeQuery(): string {
+    let addNum = this.pushBadgeAddNum
+    let setNum = this.pushBadgeSetNum
+    if (addNum === 0 && setNum === 0) {
+      return ''
+    }
+    if (setNum !== 0) {
+      return `badge_set=${setNum}`
+    }
+    return `badge_add=${addNum}`
+  }
+
+  private buildBadgeUrlDisplay(): string {
+    let key = this.deviceKey.length > 0 ? this.deviceKey : 'Your Key'
+    let url = `${SERVER_BASE_URL}/${key}`
+    if (this.pushTitle.length > 0) {
+      url = `${url}/${this.pushTitle}`
+    }
+    if (this.pushBody.length > 0) {
+      url = `${url}/${this.pushBody}`
+    }
+    let badgeQuery = this.buildBadgeQuery()
+    if (badgeQuery.length > 0) {
+      url = `${url}?${badgeQuery}`
+    }
+    return url
+  }
+
+  private buildBadgeUrlEncoded(): string {
+    let key = this.deviceKey.length > 0 ? this.deviceKey : 'Your Key'
+    let url = `${SERVER_BASE_URL}/${key}`
+    if (this.pushTitle.length > 0) {
+      url = `${url}/${encodeURIComponent(this.pushTitle)}`
+    }
+    if (this.pushBody.length > 0) {
+      url = `${url}/${encodeURIComponent(this.pushBody)}`
+    }
+    let badgeQuery = this.buildBadgeQuery()
+    if (badgeQuery.length > 0) {
+      url = `${url}?${badgeQuery}`
+    }
+    return url
+  }
+
+  private buildImageUrlDisplay(): string {
+    let key = this.deviceKey.length > 0 ? this.deviceKey : 'Your Key'
+    let url = `${SERVER_BASE_URL}/${key}`
+    if (this.pushTitle.length > 0) {
+      url = `${url}/${this.pushTitle}`
+    }
+    if (this.pushBody.length > 0) {
+      url = `${url}/${this.pushBody}`
+    }
+    if (this.pushImageUrl.length > 0) {
+      url = `${url}?image=${this.pushImageUrl}`
+    }
+    return url
+  }
+
+  private buildImageUrlEncoded(): string {
+    let key = this.deviceKey.length > 0 ? this.deviceKey : 'Your Key'
+    let url = `${SERVER_BASE_URL}/${key}`
+    if (this.pushTitle.length > 0) {
+      url = `${url}/${encodeURIComponent(this.pushTitle)}`
+    }
+    if (this.pushBody.length > 0) {
+      url = `${url}/${encodeURIComponent(this.pushBody)}`
+    }
+    if (this.pushImageUrl.length > 0) {
+      url = `${url}?image=${encodeURIComponent(this.pushImageUrl)}`
+    }
     return url
   }
 
@@ -388,6 +465,92 @@ export struct ServerView {
                 .fontColor($r('sys.color.font_primary'))
                 .textOverflow({ overflow: TextOverflow.Ellipsis })
               Text('多行文本样式需设置 style=3 与 inboxContent')
+                .fontSize($r('sys.float.Body_S'))
+                .fontColor($r('sys.color.font_secondary'))
+            }
+            .alignItems(HorizontalAlign.Start)
+            .padding($r('sys.float.padding_level8'))
+            .width('100%')
+            .height(undefined)
+            .backgroundColor($r('sys.color.comp_background_primary'))
+            .borderRadius($r('sys.float.corner_radius_level8'))
+          }
+          .borderRadius($r('sys.float.corner_radius_level8'))
+          .clip(true)
+          GridItem() {
+            Column({ space: 10 }) {
+              Row() {
+                Column({ space: 5 }) {
+                  Text('通知角标')
+                    .fontSize($r('sys.float.Subtitle_M'))
+                    .fontWeight(FontWeight.Medium)
+                    .fontColor($r('sys.color.font_primary'))
+                }
+                .alignItems(HorizontalAlign.Start)
+                .layoutWeight(1)
+                Row({ space: 15 }) {
+                  SymbolGlyph($r('sys.symbol.rectangle_on_rectangle'))
+                    .fontSize($r('sys.float.Title_M'))
+                    .fontColor([$r('sys.color.icon_secondary')])
+                  .onClick(() => {
+                    this.copyUrl(this.buildBadgeUrlDisplay())
+                  })
+                  SymbolGlyph($r('sys.symbol.forward_end_fill'))
+                    .fontSize($r('sys.float.Title_M'))
+                    .fontColor([$r('sys.color.icon_secondary')])
+                  .onClick(() => {
+                    this.openUrl(this.buildBadgeUrlEncoded())
+                  })
+                }
+              }
+              Text(this.buildBadgeUrlDisplay())
+                .fontSize($r('sys.float.Body_S'))
+                .fontColor($r('sys.color.font_primary'))
+                .textOverflow({ overflow: TextOverflow.Ellipsis })
+              Text('设置 badge_add 或 badge_set')
+                .fontSize($r('sys.float.Body_S'))
+                .fontColor($r('sys.color.font_secondary'))
+            }
+            .alignItems(HorizontalAlign.Start)
+            .padding($r('sys.float.padding_level8'))
+            .width('100%')
+            .height(undefined)
+            .backgroundColor($r('sys.color.comp_background_primary'))
+            .borderRadius($r('sys.float.corner_radius_level8'))
+          }
+          .borderRadius($r('sys.float.corner_radius_level8'))
+          .clip(true)
+          GridItem() {
+            Column({ space: 10 }) {
+              Row() {
+                Column({ space: 5 }) {
+                  Text('通知大图标')
+                    .fontSize($r('sys.float.Subtitle_M'))
+                    .fontWeight(FontWeight.Medium)
+                    .fontColor($r('sys.color.font_primary'))
+                }
+                .alignItems(HorizontalAlign.Start)
+                .layoutWeight(1)
+                Row({ space: 15 }) {
+                  SymbolGlyph($r('sys.symbol.rectangle_on_rectangle'))
+                    .fontSize($r('sys.float.Title_M'))
+                    .fontColor([$r('sys.color.icon_secondary')])
+                  .onClick(() => {
+                    this.copyUrl(this.buildImageUrlDisplay())
+                  })
+                  SymbolGlyph($r('sys.symbol.forward_end_fill'))
+                    .fontSize($r('sys.float.Title_M'))
+                    .fontColor([$r('sys.color.icon_secondary')])
+                  .onClick(() => {
+                    this.openUrl(this.buildImageUrlEncoded())
+                  })
+                }
+              }
+              Text(this.buildImageUrlDisplay())
+                .fontSize($r('sys.float.Body_S'))
+                .fontColor($r('sys.color.font_primary'))
+                .textOverflow({ overflow: TextOverflow.Ellipsis })
+              Text('设置 image 为图片链接')
                 .fontSize($r('sys.float.Body_S'))
                 .fontColor($r('sys.color.font_secondary'))
             }
