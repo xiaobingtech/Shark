@@ -1,8 +1,19 @@
+import { pasteboard } from '@kit.BasicServicesKit'
+import { promptAction } from '@kit.ArkUI'
+import { common, Want } from '@kit.AbilityKit'
+import { CommonConstants, ProcessUtil } from '@ohos/common'
 import { CardItem } from '../common/CardItem'
 import { CardRightItem } from '../common/CardRightItem'
 import { CardToogleItem } from '../common/CardToogleItem'
 
 const DEVICE_TOKEN_KEY: string = 'deviceToken'
+const HISTORY_DATA_VALUE_KEY: string = 'historyStoreData'
+
+class HistoryStoreData {
+  titles: string[] = []
+  bodies: string[] = []
+  times: string[] = []
+}
 
 @Builder
 export function SettingViewBuilder(name: string, param: Object) {
@@ -14,6 +25,42 @@ export function SettingViewBuilder(name: string, param: Object) {
 export struct SettingView {
   @State defaultSave: boolean = true;
   @StorageLink(DEVICE_TOKEN_KEY) deviceToken: string = ''
+  @StorageLink(HISTORY_DATA_VALUE_KEY) historyStoreData: HistoryStoreData = new HistoryStoreData()
+
+  private getHistoryCount(): number {
+    let titleCount: number = this.historyStoreData.titles.length
+    let bodyCount: number = this.historyStoreData.bodies.length
+    let timeCount: number = this.historyStoreData.times.length
+    let minCount: number = titleCount
+    if (bodyCount < minCount) {
+      minCount = bodyCount
+    }
+    if (timeCount < minCount) {
+      minCount = timeCount
+    }
+    return minCount
+  }
+
+  private copyDeviceToken(): void {
+    let pasteData = pasteboard.createData(pasteboard.MIMETYPE_TEXT_PLAIN, this.deviceToken)
+    let systemPasteboard = pasteboard.getSystemPasteboard()
+    systemPasteboard.setDataSync(pasteData)
+    promptAction.showToast({ message: '复制成功' })
+  }
+
+  private openGithubRun(): void {
+    let url: string = 'https://github.com/xiaobingtech/Shark/actions/runs/' + CommonConstants.GITHUB_RUN_ID
+    let context: common.UIAbilityContext = getContext(this) as common.UIAbilityContext
+    let want: Want = {
+      action: 'ohos.want.action.viewData',
+      entities: ['entity.system.browsable'],
+      uri: url,
+      parameters: {
+        'ohos.ability.params.showDefaultPicker': true
+      }
+    }
+    ProcessUtil.startAbility(context, want)
+  }
 
   build() {
     Navigation() {
@@ -34,7 +81,7 @@ export struct SettingView {
               CardRightItem({
                 isShow: false,
                 textContent: '导出/导入',
-                rightText: '0 条消息',
+                rightText: this.getHistoryCount() + ' 条消息',
                 symbolSrc: $r('sys.symbol.arrow_right_to_line')
               })
             }
@@ -94,7 +141,10 @@ export struct SettingView {
                 isShow: false,
                 textContent: 'Device Token',
                 rightText: this.deviceToken.length > 0 ? this.deviceToken : '未知',
-                symbolSrc: $r('sys.symbol.envelope')
+                symbolSrc: $r('sys.symbol.envelope'),
+                onclick: () => {
+                  this.copyDeviceToken()
+                }
               })
             }
             .height(undefined)
@@ -104,8 +154,11 @@ export struct SettingView {
               CardRightItem({
                 isShow: false,
                 textContent: 'Github Run Id',
-                rightText: '21157353214',
-                symbolSrc: $r('sys.symbol.doc_text_fill')
+                rightText: CommonConstants.GITHUB_RUN_ID,
+                symbolSrc: $r('sys.symbol.doc_text_fill'),
+                onclick: () => {
+                  this.openGithubRun()
+                }
               })
             }
             .height(undefined)

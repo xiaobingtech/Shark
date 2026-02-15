@@ -14,6 +14,7 @@
  */
 
 export class CommonConstants {
+  public static readonly GITHUB_RUN_ID: string = 'unknown';
   // Banner aspect
   public static BANNER_ASPECT_SM: number = 1.28;
   public static BANNER_ASPECT_MD: number = 0.53;

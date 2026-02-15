@@ -5,13 +5,13 @@
         "name": "default",
         "type": "HarmonyOS",
         "material": {
-          "storeFile": "./dis.p12",
-          "storePassword": "0000001C74DF8705DA0A042C47CC0B4119B8FDE77C23A692389276324B71B24E61E09C5845029DE899905958",
+          "certpath": "./dis.cer",
           "keyAlias": "key",
-          "keyPassword": "0000001C1D49643EC38DC0FE948FE461EB6F391956ED10266FDE87A3D04A05EB8E580734484DA22548478F78",
-          "signAlg": "SHA256withECDSA",
+          "keyPassword": "0000001C301AD9AED38C0FDE979DDCEA618EC2C7076D0DAF80DC12DC8869301128285297AFFD723FB1F0D8C5",
           "profile": "./disRelease.p7b",
-          "certpath": "./dis.cer"
+          "signAlg": "SHA256withECDSA",
+          "storeFile": "./dis.p12",
+          "storePassword": "0000001C4944C9DFA2B353FE6EE0E149C4519F51F94607D0826959CCF7F1E4F622D4167C21EB44767EAE74FC"
         }
       },
       {
@@ -20,11 +20,11 @@
         "material": {
           "certpath": "/Users/fandong/.ohos/config/device_Shark_YBXqv5bFF4V_GESz_t79C0aFFinYXuDuJlGlanjpMZM=.cer",
           "keyAlias": "debugKey",
-          "keyPassword": "0000001B0085FCD7D0B84A81547C3788C3331361AB19E710B6187742E7DC662AC27482CE512BF52E6A3BED",
+          "keyPassword": "0000001BA32C8A0047B9E4305D54E43843802C9C3A3379F69EB0D26E4C85DDF42A15BD9BE2E54E43F70FF6",
           "profile": "/Users/fandong/.ohos/config/device_Shark_YBXqv5bFF4V_GESz_t79C0aFFinYXuDuJlGlanjpMZM=.p7b",
           "signAlg": "SHA256withECDSA",
           "storeFile": "/Users/fandong/.ohos/config/device_Shark_YBXqv5bFF4V_GESz_t79C0aFFinYXuDuJlGlanjpMZM=.p12",
-          "storePassword": "0000001BBE74176C3F33AD527D059BE76E772A854746D2052C8E70CEF798E9B3C4D460377C6D45D2CF22B2"
+          "storePassword": "0000001BED4C5ACB086DC46C42A28F1C766C308324DC6D535FBE83AB1CB693B8B3D7B262ECADAE4E6A2875"
         }
       }
     ],
@@ -45,10 +45,21 @@
     ],
     "buildModeSet": [
       {
-        "name": "debug",
+        "name": "debug"
       },
       {
         "name": "release"
+      }
+    ],
+    "capabilities": [
+      {
+        "bundleName": "com.xiaobingkj.shark",
+        "config": [
+          {
+            "name": "Push Kit",
+            "capability": "com.huawei.service.push.base_service"
+          }
+        ]
       }
     ]
   },

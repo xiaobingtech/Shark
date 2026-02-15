@@ -1,208 +1,657 @@
 Device info:nova 12 Ultra
 Build info:ADL-AL00U 6.0.0.130(SP15C00E130R2P7)
-Fingerprint:cd184129a326687854673cf1a608ddaece118915b002f5ba57dbdffb7ac1e51e
-Timestamp:2026-02-15 14:35:04.712
+Fingerprint:bea1ef63bdeb1dc054d0ac682fa12fd57fbc8d7f635321dcf61a62670b766f35
+Timestamp:2026-02-15 15:07:16.372
 Module name:com.xiaobingkj.shark
 Version:1.0.0
 VersionCode:1000000
 PreInstalled:No
 Foreground:Yes
-Pid:53745
+Pid:11998
 Uid:20020241
-Process life time:1s
-Process Memory(kB): 132689(Rss)
-Device Memory(kB): Total 11863176, Free 898040, Available 2432000
+Process life time:6s
+Process Memory(kB): 184004(Rss)
+Device Memory(kB): Total 11863176, Free 309740, Available 2214912
+Page switch history:
+  15:07:11.379 :enters foreground
 Reason:TypeError
 Error name:TypeError
-Error message:undefined is not callable
+Error message:Cannot read property getHostContext of undefined
 Stacktrace:
-SourceMap is not initialized yet 
-    at appendHistoryMessage (entry|entry|1.0.0|src/main/ets/entryability/EntryAbility.ts:128:46)
-    at handleWant (entry|entry|1.0.0|src/main/ets/entryability/EntryAbility.ts:47:14)
-    at onCreate (entry|entry|1.0.0|src/main/ets/entryability/EntryAbility.ts:39:14)
+    at openGithubRun entry (entry/src/main/ets/pages/SettingView.ets:54:54)
+    at onclick entry (entry/src/main/ets/pages/SettingView.ets:161:24)
+    at anonymous entry (entry/src/main/ets/common/CardRightItem.ets:55:12)
 HybridStack:
 #00 pc 00000000005659bc /system/lib64/platformsdk/libark_jsruntime.so(1fbc7781e52c91f8ef788e22d5b6bd0d)
 #01 pc 0000000000563cbc /system/lib64/platformsdk/libark_jsruntime.so(1fbc7781e52c91f8ef788e22d5b6bd0d)
 #02 pc 0000000000563698 /system/lib64/platformsdk/libark_jsruntime.so(1fbc7781e52c91f8ef788e22d5b6bd0d)
 #03 pc 0000000000443b64 /system/lib64/platformsdk/libark_jsruntime.so(1fbc7781e52c91f8ef788e22d5b6bd0d)
 #04 pc 000000000034cc90 /system/lib64/platformsdk/libark_jsruntime.so(panda::ecmascript::ObjectFactory::GetJSError(panda::ecmascript::base::ErrorType const&, char const*, panda::ecmascript::StackCheck)+292)(1fbc7781e52c91f8ef788e22d5b6bd0d)
-#05 pc 000000000055567c /system/lib64/platformsdk/libark_jsruntime.so(1fbc7781e52c91f8ef788e22d5b6bd0d)
-#06 pc 0000000000e2714c /system/lib64/module/arkcompiler/stub.an(RTStub_CallRuntime+44)
-#07 pc 000000000045f378 /system/lib64/module/arkcompiler/stub.an(BCStub_HandleCallthis1Imm8V8V8StwCopy+176)
-#08 at appendHistoryMessage (entry|entry|1.0.0|src/main/ets/entryability/EntryAbility.ts:128:46)
-#09 at handleWant (entry|entry|1.0.0|src/main/ets/entryability/EntryAbility.ts:47:14)
-#10 at onCreate (entry|entry|1.0.0|src/main/ets/entryability/EntryAbility.ts:39:14)
-#11 pc 00000000004f2ebc /system/lib64/platformsdk/libark_jsruntime.so(1fbc7781e52c91f8ef788e22d5b6bd0d)
-#12 pc 00000000004f23d0 /system/lib64/platformsdk/libark_jsruntime.so(panda::FunctionRef::CallForNapi(panda::ecmascript::EcmaVM const*, panda::JSValueRef*, panda::JSValueRef* const*, int)+564)(1fbc7781e52c91f8ef788e22d5b6bd0d)
-#13 pc 000000000006fa34 /system/lib64/platformsdk/libace_napi.z.so(napi_call_function+212)(c9ea79c24f2d2830cec559f6b018bae9)
-#14 pc 000000000003d920 /system/lib64/platformsdk/libuiabilitykit_native.z.so(OHOS::AbilityRuntime::JsUIAbility::CallObjectMethod(char const*, napi_value__* const*, unsigned long, bool, bool)+1244)(95cece518a3d399b71b610a75a8b9c88)
-#15 pc 000000000003cecc /system/lib64/platformsdk/libuiabilitykit_native.z.so(OHOS::AbilityRuntime::JsUIAbility::OnStart(OHOS::AAFwk::Want const&, OHOS::sptr<OHOS::AAFwk::SessionInfo>)+1068)(95cece518a3d399b71b610a75a8b9c88)
-#16 pc 000000000008f54c /system/lib64/platformsdk/libuiabilitykit_native.z.so(OHOS::AbilityRuntime::UIAbilityImpl::Start(OHOS::AAFwk::Want const&, OHOS::sptr<OHOS::AAFwk::SessionInfo>)+452)(95cece518a3d399b71b610a75a8b9c88)
-#17 pc 0000000000090848 /system/lib64/platformsdk/libuiabilitykit_native.z.so(OHOS::AbilityRuntime::UIAbilityImpl::HandleAbilityTransaction(OHOS::AAFwk::Want const&, OHOS::AAFwk::LifeCycleStateInfo const&, OHOS::sptr<OHOS::AAFwk::SessionInfo>)+1084)(95cece518a3d399b71b610a75a8b9c88)
-#18 pc 000000000004db4c /system/lib64/platformsdk/libability_thread.z.so(OHOS::AbilityRuntime::UIAbilityThread::HandleAbilityTransaction(OHOS::AAFwk::Want const&, OHOS::AAFwk::LifeCycleStateInfo const&, OHOS::sptr<OHOS::AAFwk::SessionInfo>)+648)(dce5ad978b805b66bad6a6e8b7eb6d74)
-#19 pc 00000000000547c8 /system/lib64/platformsdk/libability_thread.z.so(dce5ad978b805b66bad6a6e8b7eb6d74)
-#20 pc 000000000001feac /system/lib64/chipset-sdk-sp/libeventhandler.z.so(6715b33ca4843cf9aee5903eb88326a5)
-#21 pc 000000000001ed94 /system/lib64/chipset-sdk-sp/libeventhandler.z.so(6715b33ca4843cf9aee5903eb88326a5)
-#22 pc 000000000003cee8 /system/lib64/chipset-sdk-sp/libeventhandler.z.so(OHOS::AppExecFwk::EventRunner::Run()+400)(6715b33ca4843cf9aee5903eb88326a5)
-#23 pc 00000000000d4978 /system/lib64/platformsdk/libappkit_native.z.so(OHOS::AppExecFwk::MainThread::Start()+420)(2578e681cf5af64ea74dfc93eaf591f0)
-#24 pc 0000000000005ae0 /system/lib64/appspawn/appspawn/libappspawn_ace.z.so(cfc8c0542014038c67fd6e8022c89b35)
-#25 pc 000000000000bf0c /system/bin/appspawn(d2a86de64bd8aa5709c415afe0910d27)
-#26 pc 00000000000177b8 /system/bin/appspawn(d2a86de64bd8aa5709c415afe0910d27)
-#27 pc 0000000000014ce0 /system/bin/appspawn(d2a86de64bd8aa5709c415afe0910d27)
-#28 pc 0000000000017b90 /system/lib64/chipset-sdk-sp/libbegetutil.z.so(ed4a2a880937610a44920d3fc964188f)
-#29 pc 00000000000174a8 /system/lib64/chipset-sdk-sp/libbegetutil.z.so(ed4a2a880937610a44920d3fc964188f)
-#30 pc 0000000000014798 /system/lib64/chipset-sdk-sp/libbegetutil.z.so(ed4a2a880937610a44920d3fc964188f)
-#31 pc 0000000000014228 /system/lib64/chipset-sdk-sp/libbegetutil.z.so(ed4a2a880937610a44920d3fc964188f)
-#32 pc 00000000000118fc /system/bin/appspawn(d2a86de64bd8aa5709c415afe0910d27)
-#33 pc 000000000000f6b0 /system/bin/appspawn(d2a86de64bd8aa5709c415afe0910d27)
-#34 pc 00000000000a98f4 /system/lib/ld-musl-aarch64.so.1(6dfe4ecea22714b3e8fc8be36e2d9484)
-#35 pc 000000000000bc50 /system/bin/appspawn(d2a86de64bd8aa5709c415afe0910d27)
+#05 pc 0000000000312ed8 /system/lib64/platformsdk/libark_jsruntime.so(1fbc7781e52c91f8ef788e22d5b6bd0d)
+#06 pc 00000000003103bc /system/lib64/platformsdk/libark_jsruntime.so(1fbc7781e52c91f8ef788e22d5b6bd0d)
+#07 pc 0000000000e2714c /system/lib64/module/arkcompiler/stub.an(RTStub_CallRuntime+44)
+#08 pc 0000000000479ac8 /system/lib64/module/arkcompiler/stub.an(BCStub_HandleLdobjbynameImm8Id16StwCopy+5408)
+#09 at openGithubRun entry (entry/src/main/ets/pages/SettingView.ets:54:54)
+#10 at onclick entry (entry/src/main/ets/pages/SettingView.ets:161:24)
+#11 at anonymous entry (entry/src/main/ets/common/CardRightItem.ets:55:12)
+#12 pc 00000000002b3848 /system/lib64/platformsdk/libark_jsruntime.so(1fbc7781e52c91f8ef788e22d5b6bd0d)
+#13 pc 00000000006d8e98 /system/lib64/platformsdk/libark_jsruntime.so(panda::FunctionRef::Call(panda::ecmascript::EcmaVM const*, panda::Local<panda::JSValueRef>, panda::Local<panda::JSValueRef> const*, int)+520)(1fbc7781e52c91f8ef788e22d5b6bd0d)
+#14 pc 0000000000a402c8 /system/lib64/platformsdk/libace_compatible.z.so(e396829cf06b76ec87ccc92d7e45e3ed)
+#15 pc 0000000000ac59a8 /system/lib64/platformsdk/libace_compatible.z.so(e396829cf06b76ec87ccc92d7e45e3ed)
+#16 pc 00000000010a1544 /system/lib64/platformsdk/libace_compatible.z.so(e396829cf06b76ec87ccc92d7e45e3ed)
+#17 pc 00000000010a01f0 /system/lib64/platformsdk/libace_compatible.z.so(e396829cf06b76ec87ccc92d7e45e3ed)
+#18 pc 000000000136e0e0 /system/lib64/platformsdk/libace_compatible.z.so(e396829cf06b76ec87ccc92d7e45e3ed)
+#19 pc 000000000111ff40 /system/lib64/platformsdk/libace_compatible.z.so(e396829cf06b76ec87ccc92d7e45e3ed)
+#20 pc 0000000000ee8254 /system/lib64/platformsdk/libace_compatible.z.so(e396829cf06b76ec87ccc92d7e45e3ed)
+#21 pc 0000000000ce8770 /system/lib64/platformsdk/libace_compatible.z.so(e396829cf06b76ec87ccc92d7e45e3ed)
+#22 pc 0000000000ee813c /system/lib64/platformsdk/libace_compatible.z.so(e396829cf06b76ec87ccc92d7e45e3ed)
+#23 pc 0000000000c17dd4 /system/lib64/platformsdk/libace_compatible.z.so(e396829cf06b76ec87ccc92d7e45e3ed)
+#24 pc 0000000000c17bf0 /system/lib64/platformsdk/libace_compatible.z.so(e396829cf06b76ec87ccc92d7e45e3ed)
+#25 pc 0000000000c178d8 /system/lib64/platformsdk/libace_compatible.z.so(e396829cf06b76ec87ccc92d7e45e3ed)
+#26 pc 0000000000c17ad8 /system/lib64/platformsdk/libace_compatible.z.so(e396829cf06b76ec87ccc92d7e45e3ed)
+#27 pc 0000000001373e78 /system/lib64/platformsdk/libace_compatible.z.so(e396829cf06b76ec87ccc92d7e45e3ed)
+#28 pc 0000000000acbe80 /system/lib64/platformsdk/libace_compatible.z.so(e396829cf06b76ec87ccc92d7e45e3ed)
+#29 pc 0000000000acb644 /system/lib64/platformsdk/libace_compatible.z.so(e396829cf06b76ec87ccc92d7e45e3ed)
+#30 pc 0000000000bce330 /system/lib64/platformsdk/libace_compatible.z.so(e396829cf06b76ec87ccc92d7e45e3ed)
+#31 pc 0000000000afa144 /system/lib64/platformsdk/libace_compatible.z.so(e396829cf06b76ec87ccc92d7e45e3ed)
+#32 pc 0000000000af6730 /system/lib64/platformsdk/libace_compatible.z.so(e396829cf06b76ec87ccc92d7e45e3ed)
+#33 pc 0000000000db6438 /system/lib64/platformsdk/libace_compatible.z.so(OHOS::Ace::NG::PipelineContext::OnTouchEvent(OHOS::Ace::TouchEvent const&, OHOS::Ace::RefPtr<OHOS::Ace::NG::FrameNode> const&, bool)+1892)(e396829cf06b76ec87ccc92d7e45e3ed)
+#34 pc 0000000000db5948 /system/lib64/platformsdk/libace_compatible.z.so(e396829cf06b76ec87ccc92d7e45e3ed)
+#35 pc 0000000000dc8894 /system/lib64/platformsdk/libace_compatible.z.so(e396829cf06b76ec87ccc92d7e45e3ed)
+#36 pc 000000000375bb44 /system/lib64/platformsdk/libace_compatible.z.so(OHOS::Ace::UIContentImpl::ProcessPointerEvent(std::__h::shared_ptr<OHOS::MMI::PointerEvent> const&)+1152)(e396829cf06b76ec87ccc92d7e45e3ed)
+#37 pc 0000000000232aa8 /system/lib64/libwm.z.so(OHOS::Rosen::WindowSessionImpl::NotifyPointerEvent(std::__h::shared_ptr<OHOS::MMI::PointerEvent> const&)+1216)(0ef74800756a1df4fa0d0f2c5bbcbe0d)
+#38 pc 00000000001ff5e4 /system/lib64/libwm.z.so(OHOS::Rosen::WindowSceneSessionImpl::ConsumePointerEventInner(std::__h::shared_ptr<OHOS::MMI::PointerEvent> const&, OHOS::MMI::PointerEvent::PointerItem&, bool)+808)(0ef74800756a1df4fa0d0f2c5bbcbe0d)
+#39 pc 00000000001c38a8 /system/lib64/libwm.z.so(OHOS::Rosen::WindowSceneSessionImpl::ConsumePointerEvent(std::__h::shared_ptr<OHOS::MMI::PointerEvent> const&)+1372)(0ef74800756a1df4fa0d0f2c5bbcbe0d)
+#40 pc 000000000018de18 /system/lib64/libwm.z.so(OHOS::Rosen::WindowInputChannel::HandlePointerEvent(std::__h::shared_ptr<OHOS::MMI::PointerEvent>&)+1496)(0ef74800756a1df4fa0d0f2c5bbcbe0d)
+#41 pc 000000000010cbd0 /system/lib64/libwm.z.so(OHOS::Rosen::InputEventListener::HandleInputEvent(std::__h::shared_ptr<OHOS::MMI::PointerEvent>) const+208)(0ef74800756a1df4fa0d0f2c5bbcbe0d)
+#42 pc 000000000010d2e8 /system/lib64/libwm.z.so(OHOS::Rosen::InputEventListener::OnInputEvent(std::__h::shared_ptr<OHOS::MMI::PointerEvent>) const+164)(0ef74800756a1df4fa0d0f2c5bbcbe0d)
+#43 pc 00000000000be854 /system/lib64/platformsdk/libmmi-client.z.so(OHOS::MMI::InputManagerImpl::OnPointerEvent(std::__h::shared_ptr<OHOS::MMI::PointerEvent>)+1992)(50ca24f374812967adbc5d4d96b493ba)
+#44 pc 00000000000a4580 /system/lib64/platformsdk/libmmi-client.z.so(OHOS::MMI::ClientMsgHandler::OnPointerEvent(OHOS::MMI::UDSClient const&, OHOS::MMI::NetPacket&)+1520)(50ca24f374812967adbc5d4d96b493ba)
+#45 pc 00000000000a2954 /system/lib64/platformsdk/libmmi-client.z.so(OHOS::MMI::ClientMsgHandler::OnMsgHandler(OHOS::MMI::UDSClient const&, OHOS::MMI::NetPacket&)+792)(50ca24f374812967adbc5d4d96b493ba)
+#46 pc 000000000005fa20 /system/lib64/platformsdk/libmmi-util.z.so(OHOS::MMI::UDSSocket::OnReadPackets(OHOS::MMI::CircleStreamBuffer&, std::__h::function<void (OHOS::MMI::NetPacket&)>)+340)(734f6bd8c83eecbda782cf2ca80564f5)
+#47 pc 00000000000ecccc /system/lib64/platformsdk/libmmi-client.z.so(OHOS::MMI::MMIClient::OnRecvMsg(char const*, unsigned long)+368)(50ca24f374812967adbc5d4d96b493ba)
+#48 pc 00000000000eebd8 /system/lib64/platformsdk/libmmi-client.z.so(50ca24f374812967adbc5d4d96b493ba)
+#49 pc 000000000002bf0c /system/lib64/chipset-sdk-sp/libeventhandler.z.so(6715b33ca4843cf9aee5903eb88326a5)
+#50 pc 000000000001feac /system/lib64/chipset-sdk-sp/libeventhandler.z.so(6715b33ca4843cf9aee5903eb88326a5)
+#51 pc 000000000001ed94 /system/lib64/chipset-sdk-sp/libeventhandler.z.so(6715b33ca4843cf9aee5903eb88326a5)
+#52 pc 000000000003cee8 /system/lib64/chipset-sdk-sp/libeventhandler.z.so(OHOS::AppExecFwk::EventRunner::Run()+400)(6715b33ca4843cf9aee5903eb88326a5)
+#53 pc 00000000000d4978 /system/lib64/platformsdk/libappkit_native.z.so(OHOS::AppExecFwk::MainThread::Start()+420)(2578e681cf5af64ea74dfc93eaf591f0)
+#54 pc 0000000000005ae0 /system/lib64/appspawn/appspawn/libappspawn_ace.z.so(cfc8c0542014038c67fd6e8022c89b35)
+#55 pc 000000000000bf0c /system/bin/appspawn(d2a86de64bd8aa5709c415afe0910d27)
+#56 pc 00000000000177b8 /system/bin/appspawn(d2a86de64bd8aa5709c415afe0910d27)
+#57 pc 0000000000014ce0 /system/bin/appspawn(d2a86de64bd8aa5709c415afe0910d27)
+#58 pc 0000000000017b90 /system/lib64/chipset-sdk-sp/libbegetutil.z.so(ed4a2a880937610a44920d3fc964188f)
+#59 pc 00000000000174a8 /system/lib64/chipset-sdk-sp/libbegetutil.z.so(ed4a2a880937610a44920d3fc964188f)
+#60 pc 0000000000014798 /system/lib64/chipset-sdk-sp/libbegetutil.z.so(ed4a2a880937610a44920d3fc964188f)
+#61 pc 0000000000014228 /system/lib64/chipset-sdk-sp/libbegetutil.z.so(ed4a2a880937610a44920d3fc964188f)
+#62 pc 00000000000118fc /system/bin/appspawn(d2a86de64bd8aa5709c415afe0910d27)
+#63 pc 000000000000f6b0 /system/bin/appspawn(d2a86de64bd8aa5709c415afe0910d27)
+#64 pc 00000000000a98f4 /system/lib/ld-musl-aarch64.so.1(6dfe4ecea22714b3e8fc8be36e2d9484)
+#65 pc 000000000000bc50 /system/bin/appspawn(d2a86de64bd8aa5709c415afe0910d27)
 
 HiLog:
-02-15 14:35:04.442 53745 53745 I C02C11/appspawn/APPSPAWN: AppSpawnChild id 819 flags:0xc
-02-15 14:35:04.442 53745 53745 I C02C02/PARAM: ResetParamSecurityLabel Fd:17
-02-15 14:35:04.444 53745 53745 I C02D33/com.xiaobingkj.shark/HitraceOption: FilterAppTrace com.xiaobingkj.shark 53745
-02-15 14:35:04.462 53745 53745 W C02C11/com.xiaobingkj.shark/APPSPAWN: errno:2 bind mount /system/data to /mnt/sandbox/100/com.xiaobingkj.shark/system/data
-02-15 14:35:04.462 53745 53745 I C02C11/com.xiaobingkj.shark/APPSPAWN: file /mnt/sandbox/100/com.xiaobingkj.shark/data/service/el1/public/hosts_user/hosts already exist
-02-15 14:35:04.462 53745 53745 W C02C11/com.xiaobingkj.shark/APPSPAWN: errno:2 bind mount /system/etc/hosts to /mnt/sandbox/100/com.xiaobingkj.shark/data/service/el1/public/hosts_user/hosts
-02-15 14:35:04.463 53745 53745 W C02C11/com.xiaobingkj.shark/APPSPAWN: errno:2 bind mount /vendor/lib to /mnt/sandbox/100/com.xiaobingkj.shark/vendor/lib
-02-15 14:35:04.465 53745 53745 W C02C11/com.xiaobingkj.shark/APPSPAWN: errno:2 bind mount /data/app/el1/public/aot_compiler/ark_cache/com.xiaobingkj.shark to /mnt/sandbox/100/com.xiaobingkj.shark/data/storage/ark-cache
-02-15 14:35:04.465 53745 53745 W C02C11/com.xiaobingkj.shark/APPSPAWN: check dir /data/app/el1/public/aot_compiler/ark_cache/com.xiaobingkj.shark failed,strerror:No such file or directory
-02-15 14:35:04.466 53745 53745 W C02C11/com.xiaobingkj.shark/APPSPAWN: errno:13 private mount to /mnt/sandbox/100/com.xiaobingkj.shark/data/service/el0/public/for-all-app '524288' failed
-02-15 14:35:04.479 53745 53745 W C02C11/com.xiaobingkj.shark/APPSPAWN: errno:2 bind mount /chip_prod/etc/passthrough to /mnt/sandbox/100/com.xiaobingkj.shark/chip_prod/etc/passthrough
-02-15 14:35:04.479 53745 53745 W C02C11/com.xiaobingkj.shark/APPSPAWN: errno:13 private mount to /mnt/sandbox/100/com.xiaobingkj.shark/vendor/etc/vulkan '524288' failed
-02-15 14:35:04.489 53745 53745 W C02C11/com.xiaobingkj.shark/APPSPAWN: mount /mnt/hmdfs/100/cloud/data/com.xiaobingkj.shark time 8004 us
-02-15 14:35:04.489 53745 53745 W C02C11/com.xiaobingkj.shark/APPSPAWN: errno:2 bind mount /vendor/etc/silk to /mnt/sandbox/100/com.xiaobingkj.shark/vendor/etc/silk
-02-15 14:35:04.490 53745 53745 W C02C11/com.xiaobingkj.shark/APPSPAWN: errno:2 bind mount /system/asan/lib64 to /mnt/sandbox/100/com.xiaobingkj.shark/system/asan/lib64
-02-15 14:35:04.490 53745 53745 W C02C11/com.xiaobingkj.shark/APPSPAWN: errno:2 bind mount /vendor/asan/lib64 to /mnt/sandbox/100/com.xiaobingkj.shark/vendor/asan/lib64
-02-15 14:35:04.490 53745 53745 W C02C11/com.xiaobingkj.shark/APPSPAWN: errno:13 private mount to /mnt/sandbox/100/com.xiaobingkj.shark/chip_prod/lib64/passthrough '524288' failed
-02-15 14:35:04.491 53745 53745 W C02C11/com.xiaobingkj.shark/APPSPAWN: errno:2 bind mount /system/app/ohos.global.systemres to /mnt/sandbox/100/com.xiaobingkj.shark/data/global/systemResources
-02-15 14:35:04.497 53745 53745 W C02C11/com.xiaobingkj.shark/APPSPAWN: errno:2 bind mount /data/preload/app to /mnt/sandbox/100/com.xiaobingkj.shark/data/preload/app
-02-15 14:35:04.511 53745 53745 I C02C11/com.xiaobingkj.shark/APPSPAWN: path /storage/Users/currentUser/Download/com.xiaobingkj.shark mode 0x3
-02-15 14:35:04.512 53745 53745 E C05A06/com.xiaobingkj.shark/CODE_SIGN: [XpmIoctl]:Ioctl cmd 40087803 failed: Invalid argument (ignore)
-02-15 14:35:04.518 53745 53745 I C05A05/com.xiaobingkj.shark/SecCompEnhanceClient: [RegisterCheckCallback]Register secComp: sessionId=2394277044, seqNum=******514.
-02-15 14:35:04.532 53745 53745 I C02D0B/com.xiaobingkj.shark/HICHECKER: hichecker param is empty.
-02-15 14:35:04.533 53745 53745 I C04500/com.xiaobingkj.shark/webview: SelectWebcoreBeforeProcessRun: SelectWebcoreBeforeProcessRun for app com.xiaobingkj.shark.
-02-15 14:35:04.533 53745 53745 I C02C11/com.xiaobingkj.shark/APPSPAWN: ClearEnvAndReturnSuccess 4
-02-15 14:35:04.534 53745 53745 I C01317/com.xiaobingkj.shark/AppKit: [MAINTHD3066]mainthread start, pid:53745
-02-15 14:35:04.544 53745 53745 I C01719/com.xiaobingkj.shark/ffrt: 2:QueueMonitor:46 timeout:30000000 us
-02-15 14:35:04.546 53745 53745 I C01317/com.xiaobingkj.shark/AppKit: [MAINTHD425]attach
-02-15 14:35:04.556 53745 53837 I C01317/com.xiaobingkj.shark/AppKit: [MAINTHD819]ScheduleLaunchAbility called, ability EntryAbility, type is 1.
-02-15 14:35:04.559 53745 53745 I C03900/com.xiaobingkj.shark/ACE_UIContent: [69]AceForwardCompatibility [com.xiaobingkj.shark] force:1 newpipe:1
-02-15 14:35:04.560 53745 53745 I C01317/com.xiaobingkj.shark/AppKit: [MAINTHD250]NativeLibPath empty
-02-15 14:35:04.561 53745 53745 I C01317/com.xiaobingkj.shark/AppKit: [MAINTHD1751]SmartGC: process is start. enable warm startup SmartGC: 0
-02-15 14:35:04.562 53745 53745 I C03F00/com.xiaobingkj.shark/ArkCompiler: [ecmascript] asmint: 1, aot: 0, jit: 1, baseline jit: 0, bundle name: com.xiaobingkj.shark
-02-15 14:35:04.563 53745 53745 I C03F00/com.xiaobingkj.shark/ArkCompiler: [ecmascript] multi-thread check enabled: 0
-02-15 14:35:04.563 53745 53745 I C03F00/com.xiaobingkj.shark/ArkCompiler: [pgo] reset pgo profiler, pgo profiler is disabled
-02-15 14:35:04.575 53745 53844 W C01719/com.xiaobingkj.shark/ffrt: 3:operator():110 [-388925048] set priority warn ret[1] eno[0]
-02-15 14:35:04.576 53745 53745 I C03301/com.xiaobingkj.shark/LIBUV: init:5664
-02-15 14:35:04.576 53745 53745 I C03301/com.xiaobingkj.shark/LIBUV: init:5664, backend_fd:24
-02-15 14:35:04.576 53745 53745 I C03301/com.xiaobingkj.shark/LIBUV: open:5664, pipefd[0]:28
-02-15 14:35:04.577 53745 53745 I C03F00/com.xiaobingkj.shark/ArkCompiler: [ecmascript] can not find aot file
-02-15 14:35:04.585 53745 53745 I C03F00/com.xiaobingkj.shark/ArkCompiler: StartServer, componentName = <private>
-02-15 14:35:04.585 53745 53745 W C01321/com.xiaobingkj.shark/JsRuntime: [CSM162]not Connected
-02-15 14:35:04.585 53745 53745 I C03F00/com.xiaobingkj.shark/ArkCompiler: [ecmascript] JSNApi::NotifyDebugMode, tid = 53745, debugApp = 1, isDebugMode = 0, instanceId = 0
-02-15 14:35:04.588 53745 53745 I C03F00/com.xiaobingkj.shark/ArkCompiler: [compiler] __jit_debug_register_code() is called.
-02-15 14:35:04.589 53745 53745 I C03F00/com.xiaobingkj.shark/ArkCompiler: [compiler] success to register stub.an to debugger.
-02-15 14:35:04.592 53745 53745 W C01E00/com.xiaobingkj.shark/ResourceManager: update userId, currentUserId_= 0, userId= 100
-02-15 14:35:04.595 53745 53843 I C01317/com.xiaobingkj.shark/AppKit: [DRH395]File existed. dir: /data/storage/el2/base/cache/rawheap
-02-15 14:35:04.596 53745 53855 W C01653/com.xiaobingkj.shark/NativePreferences: LoadFromDisk: The settingXml /***/el1/***/i18*** load failed.
-02-15 14:35:04.606 53745 53745 E C01301/com.xiaobingkj.shark/CompatiblePolicyDeviceType: [calculateResourceType:81]deviceType is empty.
-02-15 14:35:04.606 53745 53745 I C01317/com.xiaobingkj.shark/AppKit: [application_cleaner94]ClearTempData
-02-15 14:35:04.607 53745 53843 I C01317/com.xiaobingkj.shark/AppKit: [DRH375]success to AclSetAccess, path: /data/storage/el2/base/cache/rawheap
-02-15 14:35:04.607 53745 53852 I C02C03/PARAM_WATCHER: Add watcher keyPrefix persist.hdc.jdwp remoteWatcherId 906 success
-02-15 14:35:04.607 53745 53852 I C02D13/com.xiaobingkj.shark/HDC_LOG: AddWatchHdcdJdwp rc:0
-02-15 14:35:04.611 53745 53852 I C02D13/com.xiaobingkj.shark/HDC_LOG: connect success cfd:37
-02-15 14:35:04.611 53745 53852 I C02D13/com.xiaobingkj.shark/HDC_LOG: Send2Jdwp send pid:53745, pp:com.xiaobingkj.shark, isDebug:1, msglen:32
-02-15 14:35:04.613 53745 53745 I C01317/com.xiaobingkj.shark/AppKit: [js_ability_stage190]AbilityStage::LoadModule
-02-15 14:35:04.613 53745 53745 W C01317/com.xiaobingkj.shark/AppKit: [js_ability_stage935]null stage
-02-15 14:35:04.613 53745 53745 W C01317/com.xiaobingkj.shark/AppKit: [js_ability_stage233]Not found AbilityStage.js
-02-15 14:35:04.614 53745 53745 I C01332/com.xiaobingkj.shark/UIAbility: [JUA348]called
-02-15 14:35:04.614 53745 53745 I C03F00/com.xiaobingkj.shark/ArkCompiler: [ecmascript] start to execute module buffer with secure memory: /data/storage/el1/bundle/entry/ets/entryability/EntryAbility.abc
-02-15 14:35:04.615 53745 53847 I C03F00/com.xiaobingkj.shark/ArkCompiler: [pgo] will save profiler to file /data/storage/ark-profile/rt_entry.ap
-02-15 14:35:04.654 53745 53745 W C03F01/com.xiaobingkj.shark/NAPI: [NMM:1369]Module path conflict: collaboration.rcp
-02-15 14:35:04.657 53745 53854 I C02D07/com.xiaobingkj.shark/ObserverMgr: succ to register application state callback
-02-15 14:35:04.679 53745 53854 I C02D07/com.xiaobingkj.shark/ModuleLoader: succ to load module=/system/lib64/libha_app_event.z.so.
-02-15 14:35:04.680 53745 53745 I C01320/com.xiaobingkj.shark/JsEnv: [js_environment290]timing: 65
-02-15 14:35:04.680 53745 53745 I C01320/com.xiaobingkj.shark/JSENV: Callee constructor is OK string
-02-15 14:35:04.680 53745 53745 I C01320/com.xiaobingkj.shark/JSENV: Ability::constructor callee is object [object Object]
-02-15 14:35:04.681 53745 53745 I C01332/com.xiaobingkj.shark/UIAbility: [JUA393]End
-02-15 14:35:04.681 53745 53745 I C01332/com.xiaobingkj.shark/UIAbility: [ui_ability_thread169]Lifecycle:Attach
-02-15 14:35:04.685 53745 53745 I C01317/com.xiaobingkj.shark/AppKit: [MAINTHD2710]called
-02-15 14:35:04.685 53745 53745 I C03F00/com.xiaobingkj.shark/ArkCompiler: [gc] app is not inBackground
-02-15 14:35:04.690 53745 53862 W C01650/com.xiaobingkj.shark/Rdb: RdbStoreManager[IsConfigInvalidChanged]: no bundleName
-02-15 14:35:04.691 53745 53842 I C01332/com.xiaobingkj.shark/UIAbility: [ui_ability_thread317]name:EntryAbility,targeState:5,isNewWant:0
-02-15 14:35:04.691 53745 53745 I C01332/com.xiaobingkj.shark/UIAbility: [ui_ability_thread236]Lifecycle:name EntryAbility
-02-15 14:35:04.691 53745 53745 I C04201/com.xiaobingkj.shark/DMS: AddDisplayIdFromAms: abilityToken and display[0] has been added.
-02-15 14:35:04.692 53745 53862 E C01650/com.xiaobingkj.shark/Rdb: RdbStoreManager[IsSupportSilentFromService]: GetRdbService failed, err is 27394049.
-02-15 14:35:04.692 53745 53745 I C01332/com.xiaobingkj.shark/UIAbility: [JUA1854]JsUIAbility call js, name: onCreate
-02-15 14:35:04.692 53745 53745 I C01317/com.xiaobingkj.shark/AppKit: [ohos_application1111]current 2, pre 0
-02-15 14:35:04.692 53745 53745 W C01317/com.xiaobingkj.shark/AppKit: [ohos_application1140]fontSize empty
-02-15 14:35:04.692 53745 53745 I C01317/com.xiaobingkj.shark/AppKit: [ohos_application1171]current 2, pre 0
-02-15 14:35:04.692 53745 53745 W C01317/com.xiaobingkj.shark/AppKit: [ohos_application1175]language empty
-02-15 14:35:04.692 53745 53745 W C01317/com.xiaobingkj.shark/AppKit: [ohos_application1194]language and locale empty
-02-15 14:35:04.692 53745 53745 I C01317/com.xiaobingkj.shark/AppKit: [ohos_application287]configuration_: {"0#const.build.characteristics":"phone","0#input.pointer.device":"false","0#ohos.app.fontSizeScale":"nonFollowSystem","0#ohos.application.densitydpi":"xxxldpi","0#ohos.application.direction":"vertical","0#ohos.application.displayid":"0","0#ohos.system.colorMode":"light","0#ohos.system.colorMode.isSetByApp":"isSetByApp","0#ohos.system.fontSizeScale":"1.0","0#ohos.system.fontWeightScale":"1.0","0#ohos.system.hour":"true","0#ohos.system.language":"zh-Hans-CN","0#ohos.system.locale":"zh-Hans-CN","0#ohos.system.mcc":"460","0#ohos.system.mnc":"11"}, config: {"0#ohos.system.colorMode":"light","0#ohos.system.colorMode.isSetByApp":"isSetByApp"}
-02-15 14:35:04.693 53745 53745 E C04217/com.xiaobingkj.shark/WMSAttribute: UpdateConfigurationSyncForAll: root is null
-02-15 14:35:04.693 53745 53745 I C01332/com.xiaobingkj.shark/UIAbility: [JUA1854]JsUIAbility call js, name: onConfigurationUpdated
-02-15 14:35:04.693 53745 53745 I C01332/com.xiaobingkj.shark/UIAbility: [JUA1899]end, name: onConfigurationUpdated, time: 0
-02-15 14:35:04.693 53745 53745 I C01332/com.xiaobingkj.shark/UIAbility: [JUA1854]JsUIAbility call js, name: onConfigurationUpdate
-02-15 14:35:04.693 53745 53745 I C01332/com.xiaobingkj.shark/UIAbility: [JUA1899]end, name: onConfigurationUpdate, time: 0
-02-15 14:35:04.693 53745 53745 W C01317/com.xiaobingkj.shark/AppKit: [js_ability_stage822]Not found AbilityStage.js
-02-15 14:35:04.693 53745 53745 W C01317/com.xiaobingkj.shark/AppKit: [js_ability_stage822]Not found AbilityStage.js
-02-15 14:35:04.693 53745 53745 I C01317/com.xiaobingkj.shark/AppKit: [ohos_application311]ignoreWindowContext size 0
-02-15 14:35:04.693 53745 53745 E C04217/com.xiaobingkj.shark/WMSAttribute: UpdateConfigurationForAll: root is null
-02-15 14:35:04.693 53745 53745 I A00000/com.xiaobingkj.shark/testTag: Ability onCreate
-02-15 14:35:04.693 53745 53745 D A00000/com.xiaobingkj.shark/testTag: want.parameters:[object Object]
-02-15 14:35:04.693 53745 53745 I A03D00/com.xiaobingkj.shark/JSAPP: start newDistributed
-02-15 14:35:04.694 53745 53745 I A03D00/com.xiaobingkj.shark/JSAPP: constructor success 
-02-15 14:35:04.694 53745 53745 I A03D00/com.xiaobingkj.shark/JSAPP: not join a session, can not do save
-02-15 14:35:04.704 53745 53745 W C03F00/com.xiaobingkj.shark/ArkCompiler: [default] [CallForNapi] occur exception need return
-02-15 14:35:04.704 53745 53745 W C03F01/com.xiaobingkj.shark/NAPI: [napi_call_function] pending exception when js function called, print exception info: 
-02-15 14:35:04.704 53745 53745 E C03F00/com.xiaobingkj.shark/ArkCompiler: TypeError: undefined is not callable
-02-15 14:35:04.704 53745 53745 E C03F00/com.xiaobingkj.shark/ArkCompiler: SourceMap is not initialized yet 
-02-15 14:35:04.704 53745 53745 E C03F00/com.xiaobingkj.shark/ArkCompiler:     at appendHistoryMessage (entry|entry|1.0.0|src/main/ets/entryability/EntryAbility.ts:128:46)
-02-15 14:35:04.704 53745 53745 E C03F00/com.xiaobingkj.shark/ArkCompiler:     at handleWant (entry|entry|1.0.0|src/main/ets/entryability/EntryAbility.ts:47:14)
-02-15 14:35:04.704 53745 53745 E C03F00/com.xiaobingkj.shark/ArkCompiler:     at onCreate (entry|entry|1.0.0|src/main/ets/entryability/EntryAbility.ts:39:14)
-02-15 14:35:04.704 53745 53745 E C01332/com.xiaobingkj.shark/UIAbility: [JUA1892]napi err: 10
-02-15 14:35:04.706 53745 53862 I C01630/com.xiaobingkj.shark/DistributedDB: [TimeHelper] init
-02-15 14:35:04.706 53745 53862 I C01630/com.xiaobingkj.shark/DistributedDB: [TimeHelper] init
-02-15 14:35:04.707 53745 53745 I C03F00/com.xiaobingkj.shark/ArkCompiler: [ecmascript] Add reference, count: 1
-02-15 14:35:04.712 53745 53862 I C01650/com.xiaobingkj.shark/Rdb: Config[Log]: Error(283) recovered 35 frames from WAL file /dat***/sto***/e**/bas***/fil***/hia***ent/dat***ses/app***.db-wal 
-02-15 14:35:04.713 53745 53745 I C01356/com.xiaobingkj.shark/Recovery: [app_recovery255]scheduleRecoverApp  begin
-02-15 14:35:04.713 53745 53745 E C01317/com.xiaobingkj.shark/AppKit: [MAINTHD2051]
-02-15 14:35:04.713 53745 53745 E C01317/com.xiaobingkj.shark/AppKit: com.xiaobingkj.shark is about to exit due to RuntimeError
-02-15 14:35:04.713 53745 53745 E C01317/com.xiaobingkj.shark/AppKit: Error type:TypeError
-02-15 14:35:04.713 53745 53745 E C01317/com.xiaobingkj.shark/AppKit: Error name:TypeError
-02-15 14:35:04.713 53745 53745 E C01317/com.xiaobingkj.shark/AppKit: Error message:undefined is not callable
-02-15 14:35:04.713 53745 53745 E C01317/com.xiaobingkj.shark/AppKit: Stacktrace:
-02-15 14:35:04.713 53745 53745 E C01317/com.xiaobingkj.shark/AppKit: SourceMap is not initialized yet 
-02-15 14:35:04.713 53745 53745 E C01317/com.xiaobingkj.shark/AppKit:     at appendHistoryMessage (entry|entry|1.0.0|src/main/ets/entryability/EntryAbility.ts:128:46)
-02-15 14:35:04.713 53745 53745 E C01317/com.xiaobingkj.shark/AppKit:     at handleWant (entry|entry|1.0.0|src/main/ets/entryability/EntryAbility.ts:47:14)
-02-15 14:35:04.713 53745 53745 E C01317/com.xiaobingkj.shark/AppKit:     at onCreate (entry|entry|1.0.0|src/main/ets/entryability/EntryAbility.ts:39:14)
-02-15 14:35:04.713 53745 53745 E C01317/com.xiaobingkj.shark/AppKit: HybridStack:
-02-15 14:35:04.713 53745 53745 E C01317/com.xiaobingkj.shark/AppKit: #00 pc 00000000005659bc /system/lib64/platformsdk/libark_jsruntime.so(1fbc7781e52c91f8ef788e22d5b6bd0d)
-02-15 14:35:04.713 53745 53745 E C01317/com.xiaobingkj.shark/AppKit: #01 pc 0000000000563cbc /system/lib64/platformsdk/libark_jsruntime.so(1fbc7781e52c91f8ef788e22d5b6bd0d)
-02-15 14:35:04.713 53745 53745 E C01317/com.xiaobingkj.shark/AppKit: #02 pc 0000000000563698 /system/lib64/platformsdk/libark_jsruntime.so(1fbc7781e52c91f8ef788e22d5b6bd0d)
-02-15 14:35:04.713 53745 53745 E C01317/com.xiaobingkj.shark/AppKit: #03 pc 0000000000443b64 /system/lib64/platformsdk/libark_jsruntime.so(1fbc7781e52c91f8ef788e22d5b6bd0d)
-02-15 14:35:04.713 53745 53745 E C01317/com.xiaobingkj.shark/AppKit: #04 pc 000000000034cc90 /system/lib64/platformsdk/libark_jsruntime.so(panda::ecmascript::ObjectFactory::GetJSError(panda::ecmascript::base::ErrorType const&, char const*, panda::ecmascript::StackCheck)+292)(1fbc7781e52c91f8ef788e22d5b6bd0d)
-02-15 14:35:04.713 53745 53745 E C01317/com.xiaobingkj.shark/AppKit: #05 pc 000000000055567c /system/lib64/platformsdk/libark_jsruntime.so(1fbc7781e52c91f8ef788e22d5b6bd0d)
-02-15 14:35:04.713 53745 53745 E C01317/com.xiaobingkj.shark/AppKit: #06 pc 0000000000e2714c /system/lib64/module/arkcompiler/stub.an(RTStub_CallRuntime+44)
-02-15 14:35:04.713 53745 53745 E C01317/com.xiaobingkj.shark/AppKit: #07 pc 000000000045f378 /system/lib64/module/arkcompiler/stub.an(BCStub_HandleCallthis1Imm8V8V8StwCopy+176)
-02-15 14:35:04.713 53745 53745 E C01317/com.xiaobingkj.shark/AppKit: #08 at appendHistoryMessage (entry|entry|1.0.0|src/main/ets/entryability/EntryAbility.ts:128:46)
-02-15 14:35:04.713 53745 53745 E C01317/com.xiaobingkj.shark/AppKit: #09 at handleWant (entry|entry|1.0.0|src/main/ets/entryability/EntryAbility.ts:47:14)
-02-15 14:35:04.713 53745 53745 E C01317/com.xiaobingkj.shark/AppKit: #10 at onCreate (entry|entry|1.0.0|src/main/ets/entryability/EntryAbility.ts:39:14)
-02-15 14:35:04.713 53745 53745 E C01317/com.xiaobingkj.shark/AppKit: #11 pc 00000000004f2ebc /system/lib64/platformsdk/libark_jsruntime.so(1fbc7781e52c91f8ef788e22d5b6bd0d)
-02-15 14:35:04.713 53745 53745 E C01317/com.xiaobingkj.shark/AppKit: #12 pc 00000000004f23d0 /system/lib64/platformsdk/libark_jsruntime.so(panda::FunctionRef::CallForNapi(panda::ecmascript::EcmaVM const*, panda::JSValueRef*, panda::JSValueRef* const*, int)+564)(1fbc7781e52c91f8ef788e22d5b6bd0d)
-02-15 14:35:04.713 53745 53745 E C01317/com.xiaobingkj.shark/AppKit: #13 pc 000000000006fa34 /system/lib64/platformsdk/libace_napi.z.so(napi_call_function+212)(c9ea79c24f2d2830cec559f6b018bae9)
-02-15 14:35:04.713 53745 53745 E C01317/com.xiaobingkj.shark/AppKit: #14 pc 000000000003d920 /system/lib64/platformsdk/libuiabilitykit_native.z.so(OHOS::AbilityRuntime::JsUIAbility::CallObjectMethod(char const*, napi_value__* const*, unsigned long, bool, bool)+1244)(95cece518a3d399b71b610a75a8b9c88)
-02-15 14:35:04.713 53745 53745 E C01317/com.xiaobingkj.shark/AppKit: #15 pc 000000000003cecc /system/lib64/platformsdk/libuiabilitykit_native.z.so(OHOS::AbilityRuntime::JsUIAbility::OnStart(OHOS::AAFwk::Want const&, OHOS::sptr<OHOS::AAFwk::SessionInfo>)+1068)(95cece518a3d399b71b610a75a8b9c88)
-02-15 14:35:04.713 53745 53745 E C01317/com.xiaobingkj.shark/AppKit: #16 pc 000000000008f54c /system/lib64/platformsdk/libuiabilitykit_native.z.so(OHOS::AbilityRuntime::UIAbilityImpl::Start(OHOS::AAFwk::Want const&, OHOS::sptr<OHOS::AAFwk::SessionInfo>)+452)(95cece518a3d399b71b610a75a8b9c88)
-02-15 14:35:04.713 53745 53745 E C01317/com.xiaobingkj.shark/AppKit: #17 pc 0000000000090848 /system/lib64/platformsdk/libuiabilitykit_native.z.so(OHOS::AbilityRuntime::UIAbilityImpl::HandleAbilityTransaction(OHOS::AAFwk::Want const&, OHOS::AAFwk::LifeCycleStateInfo const&, OHOS::sptr<OHOS::AAFwk::SessionInfo>)+1084)(95cece518a3d399b71b610a75a8b9c88)
-02-15 14:35:04.713 53745 53745 E C01317/com.xiaobingkj.shark/AppKit: #18 pc 000000000004db4c /system/lib64/platformsdk/libability_thread.z.so(OHOS::AbilityRuntime::UIAbilityThread::HandleAbilityTransaction(OHOS::AAFwk::Want const&, OHOS::AAFwk::LifeCycleStateInfo const&, OHOS::sptr<OHOS::AAFwk::SessionInfo>)+648)(dce5ad978b805b66bad6a6e8b7eb6d74)
-02-15 14:35:04.713 53745 53745 E C01317/com.xiaobingkj.shark/AppKit: #19 pc 00000000000547c8 /system/lib64/platformsdk/libability_thread.z.so(dce5ad978b805b66bad6a6e8b7eb6d74)
-02-15 14:35:04.713 53745 53745 E C01317/com.xiaobingkj.shark/AppKit: #20 pc 000000000001feac /system/lib64/chipset-sdk-sp/libeventhandler.z.so(6715b33ca4843cf9aee5903eb88326a5)
-02-15 14:35:04.713 53745 53745 E C01317/com.xiaobingkj.shark/AppKit: #21 pc 000000000001ed94 /system/lib64/chipset-sdk-sp/libeventhandler.z.so(6715b33ca4843cf9aee5903eb88326a5)
-02-15 14:35:04.713 53745 53745 E C01317/com.xiaobingkj.shark/AppKit: #22 pc 000000000003cee8 /system/lib64/chipset-sdk-sp/libeventhandler.z.so(OHOS::AppExecFwk::EventRunner::Run()+400)(6715b33ca4843cf9aee5903eb88326a5)
-02-15 14:35:04.713 53745 53745 E C01317/com.xiaobingkj.shark/AppKit: #23 pc 00000000000d4978 /system/lib64/platformsdk/libappkit_native.z.so(OHOS::AppExecFwk::MainThread::Start()+420)(2578e681cf5af64ea74dfc93eaf591f0)
-02-15 14:35:04.713 53745 53745 E C01317/com.xiaobingkj.shark/AppKit: #24 pc 0000000000005ae0 /system/lib64/appspawn/appspawn/libappspawn_
-02-15 14:35:04.713 53745 53745 W C01317/com.xiaobingkj.shark/AppKit: [MAINTHD2063]hisysevent write result=0, send event [FRAMEWORK,PROCESS_KILL], pid=53745, processName=com.xiaobingkj.shark, msg=Kill Reason:Js Error, foreground=1, isUncatchable=0
+02-15 15:07:11.125 11998 11998 I C02C11/appspawn/APPSPAWN: AppSpawnChild id 906 flags:0xc
+02-15 15:07:11.126 11998 11998 I C02C02/PARAM: ResetParamSecurityLabel Fd:17
+02-15 15:07:11.127 11998 11998 I C02D33/com.xiaobingkj.shark/HitraceOption: FilterAppTrace com.xiaobingkj.shark 11998
+02-15 15:07:11.148 11998 11998 W C02C11/com.xiaobingkj.shark/APPSPAWN: errno:2 bind mount /system/data to /mnt/sandbox/100/com.xiaobingkj.shark/system/data
+02-15 15:07:11.149 11998 11998 I C02C11/com.xiaobingkj.shark/APPSPAWN: file /mnt/sandbox/100/com.xiaobingkj.shark/data/service/el1/public/hosts_user/hosts already exist
+02-15 15:07:11.149 11998 11998 W C02C11/com.xiaobingkj.shark/APPSPAWN: errno:2 bind mount /system/etc/hosts to /mnt/sandbox/100/com.xiaobingkj.shark/data/service/el1/public/hosts_user/hosts
+02-15 15:07:11.150 11998 11998 W C02C11/com.xiaobingkj.shark/APPSPAWN: errno:2 bind mount /vendor/lib to /mnt/sandbox/100/com.xiaobingkj.shark/vendor/lib
+02-15 15:07:11.152 11998 11998 W C02C11/com.xiaobingkj.shark/APPSPAWN: errno:2 bind mount /data/app/el1/public/aot_compiler/ark_cache/com.xiaobingkj.shark to /mnt/sandbox/100/com.xiaobingkj.shark/data/storage/ark-cache
+02-15 15:07:11.152 11998 11998 W C02C11/com.xiaobingkj.shark/APPSPAWN: check dir /data/app/el1/public/aot_compiler/ark_cache/com.xiaobingkj.shark failed,strerror:No such file or directory
+02-15 15:07:11.155 11998 11998 W C02C11/com.xiaobingkj.shark/APPSPAWN: errno:13 private mount to /mnt/sandbox/100/com.xiaobingkj.shark/data/service/el0/public/for-all-app '524288' failed
+02-15 15:07:11.157 11998 11998 W C02C11/com.xiaobingkj.shark/APPSPAWN: errno:2 bind mount /chip_prod/etc/passthrough to /mnt/sandbox/100/com.xiaobingkj.shark/chip_prod/etc/passthrough
+02-15 15:07:11.157 11998 11998 W C02C11/com.xiaobingkj.shark/APPSPAWN: errno:13 private mount to /mnt/sandbox/100/com.xiaobingkj.shark/vendor/etc/vulkan '524288' failed
+02-15 15:07:11.159 11998 11998 W C02C11/com.xiaobingkj.shark/APPSPAWN: errno:2 bind mount /vendor/etc/silk to /mnt/sandbox/100/com.xiaobingkj.shark/vendor/etc/silk
+02-15 15:07:11.159 11998 11998 W C02C11/com.xiaobingkj.shark/APPSPAWN: errno:2 bind mount /system/asan/lib64 to /mnt/sandbox/100/com.xiaobingkj.shark/system/asan/lib64
+02-15 15:07:11.160 11998 11998 W C02C11/com.xiaobingkj.shark/APPSPAWN: errno:2 bind mount /vendor/asan/lib64 to /mnt/sandbox/100/com.xiaobingkj.shark/vendor/asan/lib64
+02-15 15:07:11.160 11998 11998 W C02C11/com.xiaobingkj.shark/APPSPAWN: errno:13 private mount to /mnt/sandbox/100/com.xiaobingkj.shark/chip_prod/lib64/passthrough '524288' failed
+02-15 15:07:11.162 11998 11998 W C02C11/com.xiaobingkj.shark/APPSPAWN: errno:2 bind mount /system/app/ohos.global.systemres to /mnt/sandbox/100/com.xiaobingkj.shark/data/global/systemResources
+02-15 15:07:11.166 11998 11998 W C02C11/com.xiaobingkj.shark/APPSPAWN: errno:2 bind mount /data/preload/app to /mnt/sandbox/100/com.xiaobingkj.shark/data/preload/app
+02-15 15:07:11.177 11998 11998 I C02C11/com.xiaobingkj.shark/APPSPAWN: path /storage/Users/currentUser/Download/com.xiaobingkj.shark mode 0x3
+02-15 15:07:11.177 11998 11998 E C05A06/com.xiaobingkj.shark/CODE_SIGN: [XpmIoctl]:Ioctl cmd 40087803 failed: Invalid argument (ignore)
+02-15 15:07:11.197 11998 11998 I C05A05/com.xiaobingkj.shark/SecCompEnhanceClient: [RegisterCheckCallback]Register secComp: sessionId=1445228295, seqNum=******668.
+02-15 15:07:11.201 11998 11998 I C02D0B/com.xiaobingkj.shark/HICHECKER: hichecker param is empty.
+02-15 15:07:11.201 11998 11998 I C04500/com.xiaobingkj.shark/webview: SelectWebcoreBeforeProcessRun: SelectWebcoreBeforeProcessRun for app com.xiaobingkj.shark.
+02-15 15:07:11.202 11998 11998 I C02C11/com.xiaobingkj.shark/APPSPAWN: ClearEnvAndReturnSuccess 4
+02-15 15:07:11.202 11998 11998 I C01317/com.xiaobingkj.shark/AppKit: [MAINTHD3066]mainthread start, pid:11998
+02-15 15:07:11.208 11998 11998 I C01719/com.xiaobingkj.shark/ffrt: 2:QueueMonitor:46 timeout:30000000 us
+02-15 15:07:11.210 11998 11998 I C01317/com.xiaobingkj.shark/AppKit: [MAINTHD425]attach
+02-15 15:07:11.224 11998 11998 I C03900/com.xiaobingkj.shark/ACE_UIContent: [69]AceForwardCompatibility [com.xiaobingkj.shark] force:1 newpipe:1
+02-15 15:07:11.224 11998 12068 I C01317/com.xiaobingkj.shark/AppKit: [MAINTHD819]ScheduleLaunchAbility called, ability EntryAbility, type is 1.
+02-15 15:07:11.225 11998 11998 I C01317/com.xiaobingkj.shark/AppKit: [MAINTHD250]NativeLibPath empty
+02-15 15:07:11.229 11998 11998 I C01317/com.xiaobingkj.shark/AppKit: [MAINTHD1751]SmartGC: process is start. enable warm startup SmartGC: 0
+02-15 15:07:11.230 11998 11998 I C03F00/com.xiaobingkj.shark/ArkCompiler: [ecmascript] asmint: 1, aot: 0, jit: 1, baseline jit: 0, bundle name: com.xiaobingkj.shark
+02-15 15:07:11.233 11998 11998 I C03F00/com.xiaobingkj.shark/ArkCompiler: [ecmascript] multi-thread check enabled: 0
+02-15 15:07:11.233 11998 11998 I C03F00/com.xiaobingkj.shark/ArkCompiler: [pgo] reset pgo profiler, pgo profiler is disabled
+02-15 15:07:11.234 11998 12072 W C01719/com.xiaobingkj.shark/ffrt: 3:operator():110 [-388925048] set priority warn ret[1] eno[0]
+02-15 15:07:11.234 11998 11998 I C03301/com.xiaobingkj.shark/LIBUV: init:896
+02-15 15:07:11.234 11998 11998 I C03301/com.xiaobingkj.shark/LIBUV: init:896, backend_fd:24
+02-15 15:07:11.235 11998 11998 I C03301/com.xiaobingkj.shark/LIBUV: open:896, pipefd[0]:28
+02-15 15:07:11.237 11998 11998 I C03F00/com.xiaobingkj.shark/ArkCompiler: [ecmascript] can not find aot file
+02-15 15:07:11.255 11998 11998 I C03F00/com.xiaobingkj.shark/ArkCompiler: StartServer, componentName = <private>
+02-15 15:07:11.255 11998 11998 W C01321/com.xiaobingkj.shark/JsRuntime: [CSM162]not Connected
+02-15 15:07:11.255 11998 11998 I C03F00/com.xiaobingkj.shark/ArkCompiler: [ecmascript] JSNApi::NotifyDebugMode, tid = 11998, debugApp = 1, isDebugMode = 0, instanceId = 0
+02-15 15:07:11.258 11998 11998 I C03F00/com.xiaobingkj.shark/ArkCompiler: [compiler] __jit_debug_register_code() is called.
+02-15 15:07:11.258 11998 11998 I C03F00/com.xiaobingkj.shark/ArkCompiler: [compiler] success to register stub.an to debugger.
+02-15 15:07:11.262 11998 11998 W C01E00/com.xiaobingkj.shark/ResourceManager: update userId, currentUserId_= 0, userId= 100
+02-15 15:07:11.262 11998 12071 I C01317/com.xiaobingkj.shark/AppKit: [DRH395]File existed. dir: /data/storage/el2/base/cache/rawheap
+02-15 15:07:11.266 11998 12071 I C01317/com.xiaobingkj.shark/AppKit: [DRH375]success to AclSetAccess, path: /data/storage/el2/base/cache/rawheap
+02-15 15:07:11.266 11998 12080 W C01653/com.xiaobingkj.shark/NativePreferences: LoadFromDisk: The settingXml /***/el1/***/i18*** load failed.
+02-15 15:07:11.273 11998 11998 E C01301/com.xiaobingkj.shark/CompatiblePolicyDeviceType: [calculateResourceType:81]deviceType is empty.
+02-15 15:07:11.274 11998 11998 I C01317/com.xiaobingkj.shark/AppKit: [application_cleaner94]ClearTempData
+02-15 15:07:11.279 11998 11998 I C01317/com.xiaobingkj.shark/AppKit: [js_ability_stage190]AbilityStage::LoadModule
+02-15 15:07:11.279 11998 11998 W C01317/com.xiaobingkj.shark/AppKit: [js_ability_stage935]null stage
+02-15 15:07:11.279 11998 11998 W C01317/com.xiaobingkj.shark/AppKit: [js_ability_stage233]Not found AbilityStage.js
+02-15 15:07:11.279 11998 12078 I C02C03/PARAM_WATCHER: Add watcher keyPrefix persist.hdc.jdwp remoteWatcherId 995 success
+02-15 15:07:11.279 11998 12078 I C02D13/com.xiaobingkj.shark/HDC_LOG: AddWatchHdcdJdwp rc:0
+02-15 15:07:11.279 11998 12078 I C02D13/com.xiaobingkj.shark/HDC_LOG: connect success cfd:36
+02-15 15:07:11.279 11998 12078 I C02D13/com.xiaobingkj.shark/HDC_LOG: Send2Jdwp send pid:11998, pp:com.xiaobingkj.shark, isDebug:1, msglen:32
+02-15 15:07:11.280 11998 11998 I C01332/com.xiaobingkj.shark/UIAbility: [JUA348]called
+02-15 15:07:11.280 11998 11998 I C03F00/com.xiaobingkj.shark/ArkCompiler: [ecmascript] start to execute module buffer with secure memory: /data/storage/el1/bundle/entry/ets/entryability/EntryAbility.abc
+02-15 15:07:11.284 11998 12076 I C03F00/com.xiaobingkj.shark/ArkCompiler: [pgo] will save profiler to file /data/storage/ark-profile/rt_entry.ap
+02-15 15:07:11.299 11998 11998 W C03F01/com.xiaobingkj.shark/NAPI: [NMM:1369]Module path conflict: collaboration.rcp
+02-15 15:07:11.304 11998 12084 I C02D07/com.xiaobingkj.shark/ObserverMgr: succ to register application state callback
+02-15 15:07:11.313 11998 12084 I C02D07/com.xiaobingkj.shark/ModuleLoader: succ to load module=/system/lib64/libha_app_event.z.so.
+02-15 15:07:11.318 11998 11998 I C01320/com.xiaobingkj.shark/JsEnv: [js_environment290]timing: 38
+02-15 15:07:11.318 11998 11998 I C01320/com.xiaobingkj.shark/JSENV: Callee constructor is OK string
+02-15 15:07:11.318 11998 11998 I C01320/com.xiaobingkj.shark/JSENV: Ability::constructor callee is object [object Object]
+02-15 15:07:11.319 11998 11998 I C01332/com.xiaobingkj.shark/UIAbility: [JUA393]End
+02-15 15:07:11.319 11998 11998 I C01332/com.xiaobingkj.shark/UIAbility: [ui_ability_thread169]Lifecycle:Attach
+02-15 15:07:11.320 11998 12088 W C01650/com.xiaobingkj.shark/Rdb: RdbStoreManager[IsConfigInvalidChanged]: no bundleName
+02-15 15:07:11.322 11998 12088 E C01650/com.xiaobingkj.shark/Rdb: RdbStoreManager[IsSupportSilentFromService]: GetRdbService failed, err is 27394049.
+02-15 15:07:11.323 11998 11998 I C01317/com.xiaobingkj.shark/AppKit: [MAINTHD2710]called
+02-15 15:07:11.323 11998 11998 I C03F00/com.xiaobingkj.shark/ArkCompiler: [gc] app is not inBackground
+02-15 15:07:11.323 11998 12088 I C01630/com.xiaobingkj.shark/DistributedDB: [TimeHelper] init
+02-15 15:07:11.323 11998 12088 I C01630/com.xiaobingkj.shark/DistributedDB: [TimeHelper] init
+02-15 15:07:11.328 11998 12088 I C01650/com.xiaobingkj.shark/Rdb: Config[Log]: Error(283) recovered 46 frames from WAL file /dat***/sto***/e**/bas***/fil***/hia***ent/dat***ses/app***.db-wal 
+02-15 15:07:11.329 11998 12070 I C01332/com.xiaobingkj.shark/UIAbility: [ui_ability_thread317]name:EntryAbility,targeState:5,isNewWant:0
+02-15 15:07:11.330 11998 11998 I C01332/com.xiaobingkj.shark/UIAbility: [ui_ability_thread236]Lifecycle:name EntryAbility
+02-15 15:07:11.330 11998 11998 I C04201/com.xiaobingkj.shark/DMS: AddDisplayIdFromAms: abilityToken and display[0] has been added.
+02-15 15:07:11.331 11998 11998 I C01332/com.xiaobingkj.shark/UIAbility: [JUA1854]JsUIAbility call js, name: onCreate
+02-15 15:07:11.331 11998 11998 I C01317/com.xiaobingkj.shark/AppKit: [ohos_application1111]current 2, pre 0
+02-15 15:07:11.331 11998 11998 W C01317/com.xiaobingkj.shark/AppKit: [ohos_application1140]fontSize empty
+02-15 15:07:11.331 11998 11998 I C01317/com.xiaobingkj.shark/AppKit: [ohos_application1171]current 2, pre 0
+02-15 15:07:11.331 11998 11998 W C01317/com.xiaobingkj.shark/AppKit: [ohos_application1175]language empty
+02-15 15:07:11.331 11998 11998 W C01317/com.xiaobingkj.shark/AppKit: [ohos_application1194]language and locale empty
+02-15 15:07:11.331 11998 11998 I C01317/com.xiaobingkj.shark/AppKit: [ohos_application287]configuration_: {"0#const.build.characteristics":"phone","0#input.pointer.device":"false","0#ohos.app.fontSizeScale":"nonFollowSystem","0#ohos.application.densitydpi":"xxxldpi","0#ohos.application.direction":"vertical","0#ohos.application.displayid":"0","0#ohos.system.colorMode":"light","0#ohos.system.colorMode.isSetByApp":"isSetByApp","0#ohos.system.fontSizeScale":"1.0","0#ohos.system.fontWeightScale":"1.0","0#ohos.system.hour":"true","0#ohos.system.language":"zh-Hans-CN","0#ohos.system.locale":"zh-Hans-CN","0#ohos.system.mcc":"460","0#ohos.system.mnc":"11"}, config: {"0#ohos.system.colorMode":"light","0#ohos.system.colorMode.isSetByApp":"isSetByApp"}
+02-15 15:07:11.331 11998 11998 E C04217/com.xiaobingkj.shark/WMSAttribute: UpdateConfigurationSyncForAll: root is null
+02-15 15:07:11.332 11998 11998 I C01332/com.xiaobingkj.shark/UIAbility: [JUA1854]JsUIAbility call js, name: onConfigurationUpdated
+02-15 15:07:11.332 11998 11998 I C01332/com.xiaobingkj.shark/UIAbility: [JUA1899]end, name: onConfigurationUpdated, time: 0
+02-15 15:07:11.332 11998 11998 I C01332/com.xiaobingkj.shark/UIAbility: [JUA1854]JsUIAbility call js, name: onConfigurationUpdate
+02-15 15:07:11.332 11998 11998 I C01332/com.xiaobingkj.shark/UIAbility: [JUA1899]end, name: onConfigurationUpdate, time: 0
+02-15 15:07:11.332 11998 11998 W C01317/com.xiaobingkj.shark/AppKit: [js_ability_stage822]Not found AbilityStage.js
+02-15 15:07:11.332 11998 11998 W C01317/com.xiaobingkj.shark/AppKit: [js_ability_stage822]Not found AbilityStage.js
+02-15 15:07:11.332 11998 11998 I C01317/com.xiaobingkj.shark/AppKit: [ohos_application311]ignoreWindowContext size 0
+02-15 15:07:11.332 11998 11998 E C04217/com.xiaobingkj.shark/WMSAttribute: UpdateConfigurationForAll: root is null
+02-15 15:07:11.332 11998 11998 I A00000/com.xiaobingkj.shark/testTag: Ability onCreate
+02-15 15:07:11.332 11998 11998 D A00000/com.xiaobingkj.shark/testTag: want.parameters:[object Object]
+02-15 15:07:11.332 11998 12088 I C01650/com.xiaobingkj.shark/Rdb: ConnectionPool[Create]: code:0 app[:] area[el2] cfg[0,0,0,0,1,0,0]app***.db:<DB,0x11625,4096,100660><DWR,0x11639,12288,100660><SHM,0x1197d,32768,100660><WAL,0x11956,189552,100660>, pathSize:61
+02-15 15:07:11.332 11998 11998 I A03D00/com.xiaobingkj.shark/JSAPP: start newDistributed
+02-15 15:07:11.333 11998 11998 I A03D00/com.xiaobingkj.shark/JSAPP: constructor success 
+02-15 15:07:11.333 11998 11998 I A03D00/com.xiaobingkj.shark/JSAPP: not join a session, can not do save
+02-15 15:07:11.334 11998 11998 I C01332/com.xiaobingkj.shark/UIAbility: [JUA1899]end, name: onCreate, time: 3
+02-15 15:07:11.334 11998 11998 E C01332/com.xiaobingkj.shark/UIAbility: [ui_ability_impl305]hasSaveData_: false
+02-15 15:07:11.334 11998 11998 W C01332/com.xiaobingkj.shark/UIAbility: [JUA1088]formatRegex: []
+02-15 15:07:11.334 11998 11998 I C04202/com.xiaobingkj.shark/WMSMain: Init: WindowScene with window session!
+02-15 15:07:11.334 11998 11998 I C04202/com.xiaobingkj.shark/WMSMain: Init: set isModuleAbilityHookEnd
+02-15 15:07:11.334 11998 11998 I C04204/com.xiaobingkj.shark/WMSScb: RS multi-instance enabled: 1, deviceType phone
+02-15 15:07:11.334 11998 11998 I C01406/com.xiaobingkj.shark/OHOS::RS: multi-instance, create RSUIContextManager, isMultiInstanceOpen_ 1
+02-15 15:07:11.335 11998 11998 I C02C03/PARAM_WATCHER: Add watcher keyPrefix persist.sys.graphic.animationscale remoteWatcherId 995 success
+02-15 15:07:11.335 11998 11998 I C04204/com.xiaobingkj.shark/WMSScb: InitRSUIDirector: Create RSUIDirector: RSUIDirector's RSUIContext [token: 51531017617409, tid: 11998], rsUIContext: RSUIContext is null
+02-15 15:07:11.338 11998 11998 I C01406/com.xiaobingkj.shark/OHOS::RS: RSLogManager init log flag: 0x0(0)
+02-15 15:07:11.338 11998 11998 I C01406/com.xiaobingkj.shark/OHOS::RS: RSFrameRateLinker::Create id: 51531017617408
+02-15 15:07:11.338 11998 11998 I C04202/com.xiaobingkj.shark/WMSMain: VsyncStation: id 51531017617410 created
+02-15 15:07:11.338 11998 11998 I C04200/com.xiaobingkj.shark/WindowSceneSessionImpl: WindowSceneSessionImpl: [WMSCom] Constructor shark0
+02-15 15:07:11.339 11998 11998 E C04200/com.xiaobingkj.shark/WMS: SetWindowType: permission denied!
+02-15 15:07:11.339 11998 11998 I C0420A/com.xiaobingkj.shark/WMSLife: Create: Window Create name:shark0, state:0, mode:0
+02-15 15:07:11.339 11998 11998 I C0420A/com.xiaobingkj.shark/WMSLife: Create: SetIsAbilityHookOff 0
+02-15 15:07:11.339 11998 11998 W C0420A/com.xiaobingkj.shark/WMSLife: IsWindowSessionInvalid: already destroyed or not created! id: 0 state_: 0
+02-15 15:07:11.339 11998 11998 W C04200/com.xiaobingkj.shark/WindowSceneSessionImpl: AdjustWindowAnimationFlag: session invalid!
+02-15 15:07:11.339 11998 11998 I C04200/com.xiaobingkj.shark/WindowSceneSessionImpl: Remove window flag WINDOW_FLAG_SHOW_WHEN_LOCKED
+02-15 15:07:11.340 11998 11998 I C0420A/com.xiaobingkj.shark/WMSLife: Connect: in
+02-15 15:07:11.341 11998 12070 I C04208/com.xiaobingkj.shark/WMSLayout: NotifyAppHookWindowInfoUpdated: in
+02-15 15:07:11.343 11998 11998 I C04208/com.xiaobingkj.shark/WMSLayout: Connect: updateRect when connect.preRect:[0,0,0,0]rect:[0,0,1224,2776]
+02-15 15:07:11.343 11998 11998 I C0420A/com.xiaobingkj.shark/WMSLife: Connect: Window Connect [name:shark0, id:117, type:1], ret:0
+02-15 15:07:11.344 11998 11998 I C04208/com.xiaobingkj.shark/WMSLayout: NotifyWindowStatusChange: id:117, windowMode:1, windowStatus:1, lastWindowStatus:0, skipRedundantWindowStatusNotifications:0
+02-15 15:07:11.344 11998 11998 I C04208/com.xiaobingkj.shark/WMSLayout: SetConfigWindowLimitsVP: id:117, windowLimits:[0 0 0 0 0.000000 0.000000 1.000000 1]
+02-15 15:07:11.344 11998 11998 I C04208/com.xiaobingkj.shark/WMSLayout: GetSystemSizeLimits: px[6480,6480,1080,810], vp[1920,1920,320,240], configMax:1920, vpr:3.375000, winType:1
+02-15 15:07:11.345 11998 11998 I C0421A/com.xiaobingkj.shark/WMSLayoutPc: GetSupportedWindowModesConfiguration: winId: 117, windowModeSupportType: 15
+02-15 15:07:11.345 11998 11998 I C0420F/com.xiaobingkj.shark/WMSRecover: RegisterSessionRecoverCallbackFunc: persistentId=117
+02-15 15:07:11.345 11998 11998 I C04217/com.xiaobingkj.shark/WMSAttribute: UpdateDefaultStatusBarColor: win=117, appColor=light
+02-15 15:07:11.345 11998 11998 I C04209/com.xiaobingkj.shark/WMSImms: SetSpecificBarProperty: win [117 shark0] type 2108 1 ffffff ff000000 0 4
+02-15 15:07:11.346 11998 11998 I C04200/com.xiaobingkj.shark/WMS: IsMainHandlerAvailable: id:117, isAvailable:1
+02-15 15:07:11.346 11998 11998 I C04200/com.xiaobingkj.shark/WMS: IsMainHandlerAvailable: id:117, isAvailable:1
+02-15 15:07:11.346 11998 11998 I C02800/com.xiaobingkj.shark/InputManagerImpl: [][SetWindowInputEventConsumer:364] enter
+02-15 15:07:11.348 11998 12070 I C04208/com.xiaobingkj.shark/WMSLayout: SetAppHookWindowInfo: Id:117, preHookWindowInfo:[enableHookWindow: false, widthHookRatio: 1.000000], newHookWindowInfo:[enableHookWindow: false, widthHookRatio: 1.000000]
+02-15 15:07:11.349 11998 11998 I C02800/com.xiaobingkj.shark/MMIClient: [][OnConnected:267] Connection to server succeeded, fd:52
+02-15 15:07:11.349 11998 11998 I C02800/com.xiaobingkj.shark/MMIClient: [][AddFdListener:166] Server was listening
+02-15 15:07:11.349 11998 11998 I C02800/com.xiaobingkj.shark/MMIClient: [][StartEventRunner:127] reuse current event handler, thread name:
+02-15 15:07:11.349 11998 11998 I C02800/com.xiaobingkj.shark/MMIClient: [][StartEventRunner:130] File fd is in listening
+02-15 15:07:11.349 11998 11998 I C02800/com.xiaobingkj.shark/InputManagerImpl: [][SetWindowInputEventConsumer] leave
+02-15 15:07:11.349 11998 11998 I C0420C/com.xiaobingkj.shark/WMSEvent: AddInputWindow: SetWindowInputEventConsumer success, wid:117
+02-15 15:07:11.349 11998 11998 I C0420C/com.xiaobingkj.shark/WMSEvent: LoadGameController: in
+02-15 15:07:11.350 11998 12070 I C0421D/com.xiaobingkj.shark/WMSRotation: SetCurrentRotation: currentRotation: 0
+02-15 15:07:11.350 11998 12088 I C02D07/com.xiaobingkj.shark/Store: create db store successfully
+02-15 15:07:11.353 11998 11998 I C04732/com.xiaobingkj.shark/GameController: [(RegisterEntryModule:24)]begin load gamecontroller_event
+02-15 15:07:11.353 11998 11998 I C04732/com.xiaobingkj.shark/GameController: [(StartInputToTouch:57)]Begin StartInputToTouch
+02-15 15:07:11.354 11998 11998 I C0420C/com.xiaobingkj.shark/WMSEvent: LoadGameController: dlopen GameController success
+02-15 15:07:11.354 11998 11998 I C04217/com.xiaobingkj.shark/WMSAttribute: ConnectServer: start connect
+02-15 15:07:11.361 11998 12088 I C02D07/com.xiaobingkj.shark/ObserverDao: succ to query observer seq=1, name=ha_app_event, hash=-1070249184146722779
+02-15 15:07:11.365 11998 11998 I C04217/com.xiaobingkj.shark/WMSAttribute: ConnectServer: end connect
+02-15 15:07:11.365 11998 11998 W C04217/com.xiaobingkj.shark/WMSAttribute: RegisterGetWMSWindowListCallback: callback has registered
+02-15 15:07:11.365 11998 11998 I C04217/com.xiaobingkj.shark/WMSAttribute: RegisterGetWMSWindowListCallback: winId: 117
+02-15 15:07:11.365 11998 11998 I C04217/com.xiaobingkj.shark/WMSAttribute: UpdateColorMode: winId: 117, colorMode: light
+02-15 15:07:11.365 11998 12067 I C04208/com.xiaobingkj.shark/WMSLayout: UpdateRect: id:117 name:shark0 rect:[0 0 1224 2776]->[0 0 1224 2776] reason:0 displayId:0
+02-15 15:07:11.365 11998 11998 I C04217/com.xiaobingkj.shark/WMSAttribute: UpdateColorMode: winId: 117, colorMode: light, hasDarkRes: 1
+02-15 15:07:11.365 11998 12084 I C02D07/com.xiaobingkj.shark/ObserverMgr: register processor=1 successfully
+02-15 15:07:11.365 11998 11998 I C0421C/com.xiaobingkj.shark/WMSCompat: SetPcAppInpadSpecificSystemBarInvisible: isPcAppInpadSpecificSystemBarInvisible: 0
+02-15 15:07:11.365 11998 11998 I C0421C/com.xiaobingkj.shark/WMSCompat: SetPcAppInpadOrientationLandscape: isPcAppInpadOrientationLandscape: 0
+02-15 15:07:11.365 11998 11998 E C04200/com.xiaobingkj.shark/WMS: singleton_container.cpp GetSingleton: cant get OHOS::Rosen::WindowInfoReporter
+02-15 15:07:11.366 11998 11998 I C01332/com.xiaobingkj.shark/UIAbility: [JUA1854]JsUIAbility call js, name: onWindowStageCreate
+02-15 15:07:11.366 11998 11998 I A00000/com.xiaobingkj.shark/testTag: Ability onWindowStageCreate
+02-15 15:07:11.366 11998 12067 W C04208/com.xiaobingkj.shark/WMSLayout: NotifySingleHandTransformChange: id:117, uiContent is nullptr
+02-15 15:07:11.366 11998 11998 I A03D00/com.xiaobingkj.shark/JSAPP: [RCP]  session list: ["0"] after create: undefined
+02-15 15:07:11.367 11998 11998 I C01653/com.xiaobingkj.shark/PreferencesJsKit: GetContextMode: set gContextNode: 1, status: 0,
+02-15 15:07:11.368 11998 12093 I C04732/com.xiaobingkj.shark/GameController: [(GetSelfBundleName:49)]The current bundleName [com.xiaobingkj.shark]. version [1.0.0]
+02-15 15:07:11.368 11998 12093 I C04732/com.xiaobingkj.shark/GameController: [(IsCommonApp:88)]The [com.xiaobingkj.shark] is a common app.
+02-15 15:07:11.369 11998 12093 I C04732/com.xiaobingkj.shark/GameController: [(ReadJsonFromFile:214)]load game_support_key_mapping.json file success.
+02-15 15:07:11.370 11998 12093 I C04732/com.xiaobingkj.shark/GameController: [(DoAsyncTask:71)]The app does not support input-to-touch feature.
+02-15 15:07:11.371 11998 12080 I C01653/com.xiaobingkj.shark/NativePreferences: XmlReadFile: file:/***/el2/***/sha***, m:0.
+02-15 15:07:11.371 11998 11998 I C04200/com.xiaobingkj.shark/JsWindowStage: LoadContent: [NAPI]
+02-15 15:07:11.371 11998 11998 I C01332/com.xiaobingkj.shark/UIAbility: [JUA1899]end, name: onWindowStageCreate, time: 6
+02-15 15:07:11.371 11998 11998 I C01332/com.xiaobingkj.shark/UIAbility: [JUA1854]JsUIAbility call js, name: onWillForeground
+02-15 15:07:11.372 11998 11998 I C01332/com.xiaobingkj.shark/UIAbility: [JUA1899]end, name: onWillForeground, time: 0
+02-15 15:07:11.372 11998 11998 I C04202/com.xiaobingkj.shark/WMSMain: GoForeground: reason: 4
+02-15 15:07:11.372 11998 11998 I C0420A/com.xiaobingkj.shark/WMSLife: Show: Window show [name: shark0, id: 117, type: 1], reason: 4, state:1, requestState:1
+02-15 15:07:11.372 11998 11998 I C04208/com.xiaobingkj.shark/WMSLayout: GetSystemSizeLimits: px[6480,6480,1080,810], vp[1920,1920,320,240], configMax:1920, vpr:3.375000, winType:1
+02-15 15:07:11.372 11998 11998 I C04208/com.xiaobingkj.shark/WMSLayout: UpdateNewSize: fullscreen or compatible mode could not update new size, Id: 117
+02-15 15:07:11.372 11998 11998 I C04217/com.xiaobingkj.shark/WMSAttribute: IsSystemDensityChanged: windowId: 117, lastDensity: -1.000000, currDensity: 3.375000
+02-15 15:07:11.373 11998 11998 W C04200/com.xiaobingkj.shark/WindowSessionImpl: UpdateViewportConfig: uiContent is null!
+02-15 15:07:11.373 11998 11998 I C01332/com.xiaobingkj.shark/UIAbility: [ui_ability_impl430]wnd call, AfterForeground
+02-15 15:07:11.373 11998 11998 W C0420A/com.xiaobingkj.shark/WMSLife: GetAttachStateSyncResult: lifecycleCallback is null
+02-15 15:07:11.373 11998 11998 I C01406/com.xiaobingkj.shark/OHOS::RS: RSFrameRateLinker::Create id: 51531017617409
+02-15 15:07:11.376 11998 11998 I C01706/com.xiaobingkj.shark/RsFrameReportExt: RsFrameReportExt:[LoadLibrary] load library success!
+02-15 15:07:11.376 11998 11998 I C01706/com.xiaobingkj.shark/RsFrameReportExt: RsFrameReportExt:[Init] dlopen libframe_ui_intf.so success!
+02-15 15:07:11.378 11998 11998 I C01706/com.xiaobingkj.shark/ueaClient-FrameUiIntf: [Init]:ret:1, inited:1
+02-15 15:07:11.379 11998 11998 I C04217/com.xiaobingkj.shark/WMSAttribute: InitWaterfallMode: winId: 117
+02-15 15:07:11.379 11998 11998 I C04217/com.xiaobingkj.shark/WMSAttribute: NotifyWaterfallModeChange: winId: 117, waterfall: 0, stat: 2
+02-15 15:07:11.379 11998 11998 I C0420A/com.xiaobingkj.shark/WMSLife: NotifyAfterDidForeground: reason: 4
+02-15 15:07:11.379 11998 11998 I C04202/com.xiaobingkj.shark/WMSMain: NotifyFreeMultiWindowModeResume: IsPcMode 0, isColdStart 1
+02-15 15:07:11.379 11998 11998 I C0420A/com.xiaobingkj.shark/WMSLife: Show: Window show success [name:shark0, id:117, type:1]
+02-15 15:07:11.379 11998 11998 I C04208/com.xiaobingkj.shark/WMSLayout: NotifyWindowStatusChange: id:117, windowMode:1, windowStatus:1, lastWindowStatus:1, skipRedundantWindowStatusNotifications:0
+02-15 15:07:11.379 11998 11998 I C04208/com.xiaobingkj.shark/WMSLayout: NotifyWindowStatusDidChange: Id:117, WindowMode:1, windowStatus:1, lastWindowStatus:0, listenerSize:0, rect:[0 0 1224 2776]
+02-15 15:07:11.379 11998 11998 W C04201/com.xiaobingkj.shark/DMS: OnDisplayInfoChange: data is not changed.
+02-15 15:07:11.379 11998 11998 I C01332/com.xiaobingkj.shark/UIAbility: [JUA1854]JsUIAbility call js, name: onForeground
+02-15 15:07:11.379 11998 11998 I A00000/com.xiaobingkj.shark/testTag: Ability onForeground
+02-15 15:07:11.379 11998 11998 I C01332/com.xiaobingkj.shark/UIAbility: [JUA1899]end, name: onForeground, time: 0
+02-15 15:07:11.379 11998 12094 I C04207/com.xiaobingkj.shark/WMSFocus: UpdateFocusState: focus: 1, id: 117
+02-15 15:07:11.380 11998 11998 I C0420A/com.xiaobingkj.shark/WMSLife: NotifyAfterDidForeground execute
+02-15 15:07:11.380 11998 11998 I C01332/com.xiaobingkj.shark/UIAbility: [JUA1854]JsUIAbility call js, name: onDidForeground
+02-15 15:07:11.380 11998 11998 I C01332/com.xiaobingkj.shark/UIAbility: [JUA1899]end, name: onDidForeground, time: 0
+02-15 15:07:11.380 11998 11998 I C04202/com.xiaobingkj.shark/WMSMain: GoResume: in
+02-15 15:07:11.380 11998 11998 I C0420A/com.xiaobingkj.shark/WMSLife: Resume: in, isColdStart: 1, isDidForeground: 0
+02-15 15:07:11.380 11998 11998 I C0420A/com.xiaobingkj.shark/WMSLife: NotifyAfterLifecycleResumed: in
+02-15 15:07:11.380 11998 11998 I A03D00/com.xiaobingkj.shark/JSAPP: [RCP]  success to add processor, processorId=1
+02-15 15:07:11.380 11998 11998 I C0420A/com.xiaobingkj.shark/WMSLife: SetUIContentInner: pages/TabPage, state:2, persistentId: 117
+02-15 15:07:11.380 11998 11998 I C0420A/com.xiaobingkj.shark/WMSLife: SetUIContentComplete: persistentId=117
+02-15 15:07:11.381 11998 11998 I C03900/com.xiaobingkj.shark/Ace: [(-1:-1:undefined)] CreateUIContent.
+02-15 15:07:11.381 11998 11998 I C03934/com.xiaobingkj.shark/AceUIEvent: [(-1:-1:undefined)] report ace loaded
+02-15 15:07:11.381 11998 11998 I C04707/com.xiaobingkj.shark/HaAceEngine: OnAceLoaded end
+02-15 15:07:11.381 11998 11998 W C0391F/com.xiaobingkj.shark/AceImage: [(-2:-1:undefined)] mkdir cache file path failed.
+02-15 15:07:11.381 11998 11998 I C03900/com.xiaobingkj.shark/Ace: [(-2:-1:undefined)] Init RenderService UniRender Type:0
+02-15 15:07:11.381 11998 11998 I C03900/com.xiaobingkj.shark/Ace: [(-2:-1:undefined)] [com.xiaobingkj.shark][entry][-1]: UIContent: apiCompatibleVersion: 50000012, apiTargetVersion: 60002022, and apiReleaseType: Release, useNewPipe: 1
+02-15 15:07:11.382 11998 12069 I C02D06/com.xiaobingkj.shark/XCollie: Start init Async Stack.
+02-15 15:07:11.382 11998 12094 I C04207/com.xiaobingkj.shark/WMSFocus: NotifyHighlightChange: windowId: 117, isHighlight: 1,
+02-15 15:07:11.382 11998 11998 I C02C03/PARAM_WATCHER: Add watcher keyPrefix persist.sys.arkui.animationscale remoteWatcherId 995 success
+02-15 15:07:11.383 11998 11998 E C03900/com.xiaobingkj.shark/Ace: [(-2:-1:undefined)] ConfigXMLParserBase ParseInternalWithBundleName failed
+02-15 15:07:11.383 11998 11998 W C03900/com.xiaobingkj.shark/Ace: [(-2:-1:undefined)] ArkUiFeatureParamManager failed to parse xml file
+02-15 15:07:11.383 11998 11998 E C03900/com.xiaobingkj.shark/Ace: [(-2:-1:undefined)] ConfigXMLParserBase read system UI correction config file failed
+02-15 15:07:11.383 11998 11998 W C03900/com.xiaobingkj.shark/Ace: [(-2:-1:undefined)] ArkUiFeatureParamManager failed to load UI correction config file
+02-15 15:07:11.383 11998 11998 I C03900/com.xiaobingkj.shark/Ace: [(-2:-1:undefined)] SetLocale language tag: zh-CN, select language: zh-CN
+02-15 15:07:11.383 11998 11998 I C03900/com.xiaobingkj.shark/Ace: [(-2:-1:undefined)] [com.xiaobingkj.shark][entry][-1]: SetLanguage: zh, colorMode: light, deviceAccess: 0
+02-15 15:07:11.383 11998 11998 I C03900/com.xiaobingkj.shark/Ace: [(-2:-1:undefined)] [com.xiaobingkj.shark][entry][-1]: Initialize UIContent isModelJson:true
+02-15 15:07:11.385 11998 11998 I C03922/com.xiaobingkj.shark/AceNavigation: [(-2:-1:undefined)] subscribe hsp Update successfully
+02-15 15:07:11.385 11998 11998 I C03900/com.xiaobingkj.shark/Ace: [(100000:100000:scope)] SetHapPath, Use hap path to load resource
+02-15 15:07:11.386 11998 11998 I C04217/com.xiaobingkj.shark/WMSAttribute: RegisterWaterfallModeChangeListener: winId: 117
+02-15 15:07:11.387 11998 11998 I C04200/com.xiaobingkj.shark/WMS: GetSurfaceNode: name:shark0, id:117
+02-15 15:07:11.387 11998 11998 I C04200/com.xiaobingkj.shark/WMS: GetSurfaceNode: name:shark0, id:117
+02-15 15:07:11.387 11998 11998 I C03900/com.xiaobingkj.shark/Ace: [(100000:100000:scope)] SetRSSurfaceNode 51531017617410 with rs multi
+02-15 15:07:11.388 11998 11998 W C03900/com.xiaobingkj.shark/Ace: [(100000:100000:scope)] Invalid config:zh_CN-long-notround-vertical-light-phone-xxhdpi
+02-15 15:07:11.389 11998 11998 I C01406/com.xiaobingkj.shark/OHOS::RS: RSSurfaceNode::SetAbilityState, surfaceNodeId:[51531017617410], ability state: background
+02-15 15:07:11.390 11998 11998 I C03900/com.xiaobingkj.shark/Ace: [(100000:100000:scope)] set translateManager to pipeline, instanceId:100000
+02-15 15:07:11.390 11998 11998 I C0421D/com.xiaobingkj.shark/WMSRotation: RegisterOrientationChangeListener: in
+02-15 15:07:11.390 11998 11998 I C03900/com.xiaobingkj.shark/Ace: [(100000:100000:scope)] AddPersistAfterLayoutTask size: 1
+02-15 15:07:11.390 11998 11998 I C03919/com.xiaobingkj.shark/AceInputTracking: [(100000:100000:scope)] Debug touch pass mode 0
+02-15 15:07:11.397 11998 12094 W C04208/com.xiaobingkj.shark/WMSLayout: NotifySingleHandTransformChange: id:117, uiContent is nullptr
+02-15 15:07:11.397 11998 11998 W C03F00/MUSL-LDSO: load absolute_path /system/lib64/libtransform_interaction_ext.z.so: check ns accessible failed namespace=ndk.
+02-15 15:07:11.397 11998 11998 W C03F00/MUSL-LDSO: load /system/lib64/libtransform_interaction_ext.z.so failed, namespace=ndk no inherits, errno=2
+02-15 15:07:11.397 11998 11998 W C03F00/MUSL-LDSO: load /system/lib64/libtransform_interaction_ext.z.so failed, namespace=default, errno=2
+02-15 15:07:11.397 11998 11998 W C03F00/MUSL-LDSO: dlopen_impl load library header failed for /system/lib64/libtransform_interaction_ext.z.so
+02-15 15:07:11.397 11998 11998 E C03934/com.xiaobingkj.shark/AceUIEvent: [(100000:100000:scope)] AceTransform load failed: Error loading shared library /system/lib64/libtransform_interaction_ext.z.so: No such file or directory
+02-15 15:07:11.397 11998 11998 I C03937/com.xiaobingkj.shark/AceResource: [(100000:100000:scope)] ResourceAdapter UpdateResConfig with colorMode light
+02-15 15:07:11.397 11998 11998 W C03900/com.xiaobingkj.shark/Ace: [(100000:100000:scope)] not found systemTheme in HapModuleInfo, loading default OHOS_THEME
+02-15 15:07:11.397 11998 11998 I C03900/com.xiaobingkj.shark/Ace: [(100000:100000:scope)] Cannot Get File List from resources/styles/
+02-15 15:07:11.397 11998 11998 W C03900/com.xiaobingkj.shark/Ace: [(100000:100000:scope)] GetAsset failed: resources/styles/default.json
+02-15 15:07:11.406 11998 11998 I C01406/com.xiaobingkj.shark/OHOS::RS: RSTransactionHandler::Begin syncId:0, transactionHandler:10726713378775511549, remoteTransactionDataStack.size:0
+02-15 15:07:11.406 11998 11998 I C01406/com.xiaobingkj.shark/OHOS::RS: RSTransactionHandler::Commit transactionHandler:10726713378775511549
+02-15 15:07:11.406 11998 11998 I C03900/com.xiaobingkj.shark/Ace: [(100000:100000:scope)] root node OnAttachToFrameNode, id:0
+02-15 15:07:11.406 11998 11998 I C03900/com.xiaobingkj.shark/Ace: [(100000:100000:scope)] Rosenwindow set root, rsId:51531017617411
+02-15 15:07:11.406 11998 11998 I C01406/com.xiaobingkj.shark/OHOS::RS: RSTransactionHandler::Begin syncId:0, transactionHandler:10726713378775511549, remoteTransactionDataStack.size:0
+02-15 15:07:11.406 11998 11998 I C01406/com.xiaobingkj.shark/OHOS::RS: RSTransactionHandler::Commit transactionHandler:10726713378775511549
+02-15 15:07:11.406 11998 11998 I C02220/com.xiaobingkj.shark/IntentionClient: in Connect, enter
+02-15 15:07:11.407 11998 11998 I C02220/com.xiaobingkj.shark/IntentionClient: in Connect, Connecting IntentionService success
+02-15 15:07:11.407 11998 11998 I C02220/com.xiaobingkj.shark/IntentionClient: in Connect, leave
+02-15 15:07:11.407 11998 11998 E C01D02/com.xiaobingkj.shark/accessibility_asacfwk: [(AccessibilitySystemAbilityClientImpl:57)]accessibility service is ready.
+02-15 15:07:11.409 11998 11998 I C02C03/PARAM_WATCHER: Add watcher keyPrefix accessibility.config.ready remoteWatcherId 995 success
+02-15 15:07:11.409 11998 11998 I C03900/com.xiaobingkj.shark/Ace: [(100000:100000:scope)] focusWindowId: 0, realHostWindowId: 0
+02-15 15:07:11.409 11998 11998 I C03900/com.xiaobingkj.shark/Ace: [(100000:100000:scope)] [com.xiaobingkj.shark][entry][100000]: window focus
+02-15 15:07:11.409 11998 11998 I C02C03/PARAM_WATCHER: Add watcher keyPrefix debug.graphic.frame remoteWatcherId 995 success
+02-15 15:07:11.410 11998 11998 E C03D00/cpu_boost: dev/flo open failed.
+02-15 15:07:11.411 11998 11998 I C03900/com.xiaobingkj.shark/Ace: [(100000:100000:scope)] ArkUIInvisibleFreeze: 0
+02-15 15:07:11.411 11998 11998 I C03900/com.xiaobingkj.shark/Ace: [(100000:100000:scope)] [com.xiaobingkj.shark][entry][100000]: SetMinPlatformVersion is 50000012
+02-15 15:07:11.411 11998 11998 I C04209/com.xiaobingkj.shark/WMSImms: RegisterAvoidAreaChangeListener: win 117
+02-15 15:07:11.412 11998 11998 E C04201/com.xiaobingkj.shark/IMockSessionManager: [nodict]Read result failed, code is: 3.
+02-15 15:07:11.412 11998 11998 E C04201/com.xiaobingkj.shark/IMockSessionManager: [nodict]Read result failed, code is: 5.
+02-15 15:07:11.415 11998 12097 I C04208/com.xiaobingkj.shark/WMSLayout: UpdateRect: id:117 name:shark0 rect:[0 0 1224 2776]->[0 0 1224 2776] reason:23 displayId:0
+02-15 15:07:11.415 11998 11998 I C04209/com.xiaobingkj.shark/WMSImms: GetAvoidAreaByType: win [117 shark0] type 0 times 1 area top [0 0 1224 148] 
+02-15 15:07:11.416 11998 11998 I C04209/com.xiaobingkj.shark/WMSImms: GetAvoidAreaByType: win [117 shark0] type 1 times 2 area top [473 46 277 88] 
+02-15 15:07:11.416 11998 11998 I C04209/com.xiaobingkj.shark/WMSImms: GetAvoidAreaByType: win [117 shark0] type 4 times 3 area bottom [397 2682 430 94] 
+02-15 15:07:11.416 11998 11998 I C03917/com.xiaobingkj.shark/AceSafeArea: [(100000:100000:scope)] InitializeSafeArea systemInsets:SafeAreaInsets left_: [start: 0, end: 0], top_: [start: 0, end: 148], right_: [start: 0, end: 0], bottom_: [start: 0, end: 0], cutoutInsets:SafeAreaInsets left_: [start: 0, end: 0], top_: [start: 46, end: 134], right_: [start: 0, end: 0], bottom_: [start: 0, end: 0], navInsets:SafeAreaInsets left_: [start: 0, end: 0], top_: [start: 0, end: 0], right_: [start: 0, end: 0], bottom_: [start: 2682, end: 2776]
+02-15 15:07:11.417 11998 11998 I C0394E/com.xiaobingkj.shark/AceWindow: [(100000:100000:scope)] Initialize displayId: 0, availableRect: [0, 0, 1224, 2776]
+02-15 15:07:11.418 11998 11998 I C02504/com.xiaobingkj.shark/thp_extra: GetProcessName[68]name is: com.xiaobingkj.shark
+02-15 15:07:11.418 11998 11998 I C03900/com.xiaobingkj.shark/Ace: [(-2:100000:singleton)] [com.xiaobingkj.shark][entry][100000]: Initialize: pages/TabPage
+02-15 15:07:11.418 11998 11998 I C03900/com.xiaobingkj.shark/Ace: [(100000:100000:scope)] RunPage:pages/TabPage
+02-15 15:07:11.418 11998 11998 W C03900/com.xiaobingkj.shark/Ace: [(100000:100000:scope)] GetAsset failed: manifest.json
+02-15 15:07:11.420 11998 12096 I C03951/com.xiaobingkj.shark/InputKeyFlow: [(-1:100000:singleton)] Subscribe touch.events.pass.through Event
+02-15 15:07:11.421 11998 11998 I C0421C/com.xiaobingkj.shark/WMSCompat: RegisterNavigateCallbackForPageCompatibleModeIfNeed: content is nullptr or page is empty
+02-15 15:07:11.421 11998 11998 I C04200/com.xiaobingkj.shark/WMS: InitUIContent: [0, 0]
+02-15 15:07:11.421 11998 11998 I C04208/com.xiaobingkj.shark/WMSLayout: SetUIContentInner: single hand, id:117, posX:0, posY:0, scaleX:1.000000, scaleY:1.000000
+02-15 15:07:11.421 11998 11998 I C04219/com.xiaobingkj.shark/WMSDecor: UpdateDecorEnable: decorVisible:1, id: 117
+02-15 15:07:11.421 11998 11998 I C03900/com.xiaobingkj.shark/Ace: [(-2:100000:singleton)] [com.xiaobingkj.shark][entry][100000]: UpdateWindowVisible: 1, hasDecor: 0
+02-15 15:07:11.421 11998 11998 I C03900/com.xiaobingkj.shark/Ace: [(-2:100000:singleton)] [com.xiaobingkj.shark][entry][100000]: NotifyWindowMode mode = 1
+02-15 15:07:11.423 11998 11998 I C03900/com.xiaobingkj.shark/Ace: [(-2:100000:singleton)] [com.xiaobingkj.shark][entry][100000]: window foreground
+02-15 15:07:11.423 11998 11998 I C03900/com.xiaobingkj.shark/Ace: [(100000:100000:scope)] Update application state , state: ON_SHOW
+02-15 15:07:11.423 11998 11998 I C01406/com.xiaobingkj.shark/OHOS::RS: RSSurfaceNode::SetAbilityState, surfaceNodeId:[51531017617410], ability state: foreground
+02-15 15:07:11.423 11998 11998 I C03900/com.xiaobingkj.shark/Ace: [(100000:100000:scope)] ArkUI requests first Vsync.
+02-15 15:07:11.423 11998 11998 I C04202/com.xiaobingkj.shark/WMSMain: RequestVsync: First vsync has requested, nodeId: 51531017617410
+02-15 15:07:11.424 11998 11998 I C04208/com.xiaobingkj.shark/WMSLayout: UpdateViewportConfig: Id: 117, reason: 0, windowRect: [0 0 1224 2776], displayOrientation: 0, config[0, 0, 0, 3.375000]
+02-15 15:07:11.424 11998 11998 I C03900/com.xiaobingkj.shark/Ace: [(-2:100000:singleton)] [com.xiaobingkj.shark][entry][100000]: window focus
+02-15 15:07:11.424 11998 11998 I C03900/com.xiaobingkj.shark/Ace: [(-2:100000:singleton)] [com.xiaobingkj.shark][entry][100000]:window active
+02-15 15:07:11.424 11998 11998 I A00000/com.xiaobingkj.shark/testTag: Succeeded in loading the content.
+02-15 15:07:11.424 11998 11998 I C04200/com.xiaobingkj.shark/JsWindowStage: Window [117, shark0] load content end, ret=0
+02-15 15:07:11.425 11998 11998 I C04209/com.xiaobingkj.shark/WMSImms: NotifyAvoidAreaChange: win 117 api 22 type 0 area top [0 0 1224 148] 
+02-15 15:07:11.425 11998 11998 I C04209/com.xiaobingkj.shark/WMSImms: NotifyAvoidAreaChange: win 117 api 22 type 1 area top [473 46 277 88] 
+02-15 15:07:11.425 11998 11998 I C04209/com.xiaobingkj.shark/WMSImms: NotifyAvoidAreaChange: win 117 api 22 type 2 area empty
+02-15 15:07:11.425 11998 11998 I C04209/com.xiaobingkj.shark/WMSImms: NotifyAvoidAreaChange: win 117 api 22 type 3 area empty
+02-15 15:07:11.425 11998 11998 I C04209/com.xiaobingkj.shark/WMSImms: NotifyAvoidAreaChange: win 117 api 22 type 4 area bottom [397 2682 430 94] 
+02-15 15:07:11.425 11998 11998 I C04208/com.xiaobingkj.shark/WMSLayout: UpdateViewportConfig: Id: 117, reason: 0, windowRect: [0 0 1224 2776], displayOrientation: 0, config[0, 0, 0, 3.375000]
+02-15 15:07:11.425 11998 11998 I C03900/com.xiaobingkj.shark/Ace: [(100000:100000:scope)] Update application state , state: ON_ACTIVE
+02-15 15:07:11.425 11998 11998 I C01D02/com.xiaobingkj.shark/accessibility_asacfwk: [(SubscribeStateObserver:551)]Observer has subscribed!
+02-15 15:07:11.425 11998 11998 I C01D02/com.xiaobingkj.shark/accessibility_asacfwk: [(SubscribeStateObserver:551)]Observer has subscribed!
+02-15 15:07:11.425 11998 11998 I C01D02/com.xiaobingkj.shark/accessibility_asacfwk: [(SubscribeStateObserver:551)]Observer has subscribed!
+02-15 15:07:11.425 11998 11998 I C0391C/com.xiaobingkj.shark/AceFocus: [(100000:100000:scope)] Window: 117 get focus.
+02-15 15:07:11.425 11998 11998 W C0391C/com.xiaobingkj.shark/AceFocus: [(100000:100000:scope)] Current focus view can not found!
+02-15 15:07:11.425 11998 11998 I C0391C/com.xiaobingkj.shark/AceFocus: [(100000:100000:scope)] Request focus on rootFocusHub: root/0
+02-15 15:07:11.427 11998 11998 I C04208/com.xiaobingkj.shark/WMSLayout: UpdateViewportConfig: Id: 117, reason: 23, windowRect: [0 0 1224 2776], displayOrientation: 0, config[0, 0, 0, 3.375000]
+02-15 15:07:11.427 11998 11998 I C03925/com.xiaobingkj.shark/AceRouter: [(100000:100000:scope)] Page router manager is creating page[1]: url: pages/TabPage path: pages/TabPage.js, recoverable: yes, namedRouter: no
+02-15 15:07:11.428 11998 11998 I C03F01/com.xiaobingkj.shark/NAPI: [NMM:1282]Module:arkui.modifier
+02-15 15:07:11.429 11998 12069 I C02D06/com.xiaobingkj.shark/XCollie: Init async stack successfully.
+02-15 15:07:11.429 11998 12069 I C02D06/com.xiaobingkj.shark/XCollie: Finish init Async Stack.
+02-15 15:07:11.430 11998 12088 I C02C03/PARAM_WATCHER: Add watcher keyPrefix persist.ace.trace.layout.enabled remoteWatcherId 995 success
+02-15 15:07:11.431 11998 12088 I C02C03/PARAM_WATCHER: Add watcher keyPrefix persist.ace.trace.inputevent.enabled remoteWatcherId 995 success
+02-15 15:07:11.437 11998 12097 I C04200/com.xiaobingkj.shark/WindowSessionImpl: NotifyTransformChange: in
+02-15 15:07:11.439 11998 12097 I C04208/com.xiaobingkj.shark/WMSLayout: UpdateRect: id:117 name:shark0 rect:[0 0 1224 2776]->[0 0 1224 2776] reason:23 displayId:0
+02-15 15:07:11.441 11998 11998 I C05506/com.xiaobingkj.shark/ScanFrameworkUIServiceExtension: [Init:340] begin Init startScanForResult
+02-15 15:07:11.441 11998 11998 I C05506/com.xiaobingkj.shark/ScanFrameworkUIServiceExtension: [DefineErrorCodeEnumClass:256] begin defineErrorCodeEnumClass
+02-15 15:07:11.441 11998 11998 I C05506/com.xiaobingkj.shark/ScanFrameworkUIServiceExtension: [DefineErrorCodeEnumClass:276] end defineErrorCodeEnumClass
+02-15 15:07:11.441 11998 11998 I C05506/com.xiaobingkj.shark/ScanFrameworkUIServiceExtension: [Init:348] end Init startScanForResult
+02-15 15:07:11.446 11998 12088 I C02C03/PARAM_WATCHER: Add watcher keyPrefix const.security.developermode.state remoteWatcherId 995 success
+02-15 15:07:11.450 11998 11998 I C01405/com.xiaobingkj.shark/EffectKit: ColorPicker Napi CALL
+02-15 15:07:11.450 11998 11998 I C01405/com.xiaobingkj.shark/EffectKit: Init success
+02-15 15:07:11.451 11998 12088 I C02C03/PARAM_WATCHER: Add watcher keyPrefix persist.ace.debug.statemgr.enabled remoteWatcherId 995 success
+02-15 15:07:11.451 11998 11998 I C03F01/com.xiaobingkj.shark/NAPI: [NMM:1282]Module:arkui.node
+02-15 15:07:11.472 11998 11998 I C04500/com.xiaobingkj.shark/webview: Init: begin to init native media player napi properties
+02-15 15:07:11.472 11998 11998 I C04500/com.xiaobingkj.shark/webview: Init: [PROXYCONTROLLER] NapiProxyConfig::Init is called
+02-15 15:07:11.472 11998 11998 I C03F01/com.xiaobingkj.shark/NAPI: [NMM:1282]Module:file.photoAccessHelper
+02-15 15:07:11.472 11998 12088 I C02C03/PARAM_WATCHER: Add watcher keyPrefix persist.ace.debug.boundary.enabled remoteWatcherId 995 success
+02-15 15:07:11.475 11998 11998 W C03F01/com.xiaobingkj.shark/NAPI: [NMM:1199] Name mismatch: file.photoAccessHelperNative != file.photoAccessHelper
+02-15 15:07:11.476 11998 12088 I C02C03/PARAM_WATCHER: Add watcher keyPrefix persist.ace.performance.monitor.enabled remoteWatcherId 995 success
+02-15 15:07:11.479 11998 11998 I C02B01/com.xiaobingkj.shark/CAMERA: {Onload():63} CameraPickerNapi::OnLoad
+02-15 15:07:11.479 11998 11998 I C02B01/com.xiaobingkj.shark/CAMERA: {Init():463} CameraPickerNapi::Init is called
+02-15 15:07:11.480 11998 11998 W C03F01/com.xiaobingkj.shark/NAPI: [NMM:1199] Name mismatch: web.webnativemessagingextensionmanager_napi != web.webNativeMessagingExtensionManager
+02-15 15:07:11.484 11998 11998 I C015B0/com.xiaobingkj.shark/NetMgrSubSystem: newId = 1, id = 2
+02-15 15:07:11.490 11998 11998 W C02D07/com.xiaobingkj.shark/Verify: invalid configName=
+02-15 15:07:11.491 11998 11998 I C02D07/com.xiaobingkj.shark/ObserverDao: succ to query observer seq=2, name=ha_app_event, hash=1915457907267372477
+02-15 15:07:11.491 11998 11998 I C02D07/com.xiaobingkj.shark/ObserverMgr: register processor=2 successfully
+02-15 15:07:11.495 11998 11998 W C02D07/com.xiaobingkj.shark/Verify: invalid configName=
+02-15 15:07:11.495 11998 11998 I C02D07/com.xiaobingkj.shark/ObserverMgr: register processor=2 exit
+02-15 15:07:11.498 11998 11998 W C03926/com.xiaobingkj.shark/AceTheme: [(100000:100000:scope)] style 125829872 not contains tab_pattern!
+02-15 15:07:11.499 11998 11998 W C03926/com.xiaobingkj.shark/AceTheme: [(100000:100000:scope)] style tab_pattern not contains default_tab_bar_name!
+02-15 15:07:11.499 11998 11998 W C03926/com.xiaobingkj.shark/AceTheme: [(100000:100000:scope)] style tab_pattern get attr dialog_radius_level10 error!
+02-15 15:07:11.499 11998 11998 W C03926/com.xiaobingkj.shark/AceTheme: [(100000:100000:scope)] style tab_pattern get attr dialog_icon_primary error!
+02-15 15:07:11.499 11998 11998 W C03926/com.xiaobingkj.shark/AceTheme: [(100000:100000:scope)] style tab_pattern get attr dialog_font_primary error!
+02-15 15:07:11.499 11998 11998 W C03926/com.xiaobingkj.shark/AceTheme: [(100000:100000:scope)] style 125829872 not contains swiper_pattern!
+02-15 15:07:11.500 11998 11998 W C03926/com.xiaobingkj.shark/AceTheme: [(100000:100000:scope)] style swiper_pattern get attr swiper_focus_style_type error!
+02-15 15:07:11.500 11998 11998 W C03926/com.xiaobingkj.shark/AceTheme: [(100000:100000:scope)] style swiper_pattern not contains swiper_indicator_drag_min_angle!
+02-15 15:07:11.500 11998 11998 W C03926/com.xiaobingkj.shark/AceTheme: [(100000:100000:scope)] style swiper_pattern not contains swiper_indicator_drag_max_angle!
+02-15 15:07:11.502 11998 11998 W C03926/com.xiaobingkj.shark/AceTheme: [(100000:100000:scope)] style 125829872 not contains focus_animation_pattern!
+02-15 15:07:11.502 11998 11998 W C03926/com.xiaobingkj.shark/AceTheme: [(100000:100000:scope)] style 125829872 not contains aging_adapation_dialog_pattern!
+02-15 15:07:11.503 11998 11998 W C03926/com.xiaobingkj.shark/AceTheme: [(100000:100000:scope)] style text_pattern not contains linear_split_child_min_size!
+02-15 15:07:11.503 11998 11998 W C03926/com.xiaobingkj.shark/AceTheme: [(100000:100000:scope)] style text_pattern not contains menu_celia_ask_is_support!
+02-15 15:07:11.504 11998 11998 I C0391C/com.xiaobingkj.shark/AceFocus: [(100000:100000:scope)] view: page/2 show
+02-15 15:07:11.505 11998 11998 I C03922/com.xiaobingkj.shark/AceNavigation: [(100000:100000:scope)] can't find inner navigation
+02-15 15:07:11.505 11998 11998 I C03933/com.xiaobingkj.shark/AceKeyboard: [(100000:100000:scope)] StageManager FrameNode notNeedSoftKeyboard.
+02-15 15:07:11.505 11998 11998 I C03933/com.xiaobingkj.shark/AceKeyboard: [(100000:100000:scope)] Container not SceneBoardWindow.
+02-15 15:07:11.505 11998 11998 I C03925/com.xiaobingkj.shark/AceRouter: [(100000:100000:scope)] LoadPage Success
+02-15 15:07:11.505 11998 11998 I C0392A/com.xiaobingkj.shark/AceUiExtensionComponent: [(-2:100000:singleton)] NotifyWindowMode aliveUIExtensions = 0
+02-15 15:07:11.505 11998 11998 I C0394E/com.xiaobingkj.shark/AceWindow: [(100000:100000:scope)] Update displayWindowRect in UpdateViewportConfig to : Rect (0.00, 0.00) - [1224.00 x 2776.00]
+02-15 15:07:11.505 11998 11998 I C03917/com.xiaobingkj.shark/AceSafeArea: [(100000:100000:scope)] SetIsFullScreen 1
+02-15 15:07:11.506 11998 11998 I C03900/com.xiaobingkj.shark/Ace: [(100000:100000:scope)] Root node request first frame.
+02-15 15:07:11.506 11998 11998 I C03900/com.xiaobingkj.shark/Ace: [(100000:100000:scope)] Update application state , state: ON_ACTIVE
+02-15 15:07:11.506 11998 11998 I C01D02/com.xiaobingkj.shark/accessibility_asacfwk: [(SubscribeStateObserver:551)]Observer has subscribed!
+02-15 15:07:11.506 11998 11998 I C01D02/com.xiaobingkj.shark/accessibility_asacfwk: [(SubscribeStateObserver:551)]Observer has subscribed!
+02-15 15:07:11.506 11998 11998 I C01D02/com.xiaobingkj.shark/accessibility_asacfwk: [(SubscribeStateObserver:551)]Observer has subscribed!
+02-15 15:07:11.506 11998 11998 I C0391C/com.xiaobingkj.shark/AceFocus: [(100000:100000:scope)] Window: 117 get focus.
+02-15 15:07:11.506 11998 11998 I C03900/com.xiaobingkj.shark/Ace: [(100000:100000:scope)] Update application state , state: ON_ACTIVE
+02-15 15:07:11.506 11998 11998 I C01D02/com.xiaobingkj.shark/accessibility_asacfwk: [(SubscribeStateObserver:551)]Observer has subscribed!
+02-15 15:07:11.506 11998 11998 I C01D02/com.xiaobingkj.shark/accessibility_asacfwk: [(SubscribeStateObserver:551)]Observer has subscribed!
+02-15 15:07:11.506 11998 11998 I C01D02/com.xiaobingkj.shark/accessibility_asacfwk: [(SubscribeStateObserver:551)]Observer has subscribed!
+02-15 15:07:11.507 11998 11998 I C04208/com.xiaobingkj.shark/WMSLayout: UpdateViewportConfig: Id: 117, reason: 23, windowRect: [0 0 1224 2776], displayOrientation: 0, config[0, 0, 0, 3.375000]
+02-15 15:07:11.507 11998 11998 I C04202/com.xiaobingkj.shark/WMSMain: VsyncCallbackInner: First vsync has come back, nodeId: 51531017617410
+02-15 15:07:11.508 11998 11998 I C0391F/com.xiaobingkj.shark/AceImage: [(100000:100000:scope)] load image, <private>
+02-15 15:07:11.508 11998 11998 I C0391F/com.xiaobingkj.shark/AceImage: [(100000:100000:scope)] load image, <private>
+02-15 15:07:11.510 11998 11998 I C01408/com.xiaobingkj.shark/Text: InitTextBundleConfig: Adapter text height enabled 0
+02-15 15:07:11.516 11998 11998 W C03926/com.xiaobingkj.shark/AceTheme: [(100000:100000:scope)] style 125829872 not contains divider_pattern!
+02-15 15:07:11.519 11998 11998 W C03926/com.xiaobingkj.shark/AceTheme: [(100000:100000:scope)] style 125829872 not contains navigation_bar_pattern!
+02-15 15:07:11.520 11998 11998 W C03926/com.xiaobingkj.shark/AceTheme: [(100000:100000:scope)] style navigation_bar_pattern not contains title_sapce_vertical!
+02-15 15:07:11.521 11998 11998 E C03947/com.xiaobingkj.shark/AceStateMgmt: [(100000:100000:scope)] FIX THIS APPLICATION ERROR: @Component 'ServerView': State variable 'navPathStack' has changed during render! It's illegal to change @Component state while build (initial render or re-render) is on-going. Application error!
+02-15 15:07:11.521 11998 11998 I C03922/com.xiaobingkj.shark/AceNavigation: [(100000:100000:scope)] navigation necessary to immediately trigger a refresh
+02-15 15:07:11.523 11998 11998 W C03926/com.xiaobingkj.shark/AceTheme: [(100000:100000:scope)] style 125829872 not contains grid_pattern!
+02-15 15:07:11.532 11998 11998 I C03922/com.xiaobingkj.shark/AceNavigation: [(100000:100000:scope)] AvoidInfoManager register listener
+02-15 15:07:11.541 11998 11998 I C0390C/com.xiaobingkj.shark/AceFont: [(100000:100000:scope)] MeasureTextSize [maxW:inf, H:95.000000],[w:864.000000, h:95.000000]
+02-15 15:07:11.549 11998 11998 I C03900/com.xiaobingkj.shark/Ace: [(100000:100000:scope)] ArkUi flush first frame messages.
+02-15 15:07:11.550 11998 11998 I C0391C/com.xiaobingkj.shark/AceFocus: [(100000:100000:scope)] Request focus on focusView: page/2.
+02-15 15:07:11.550 11998 11998 I C0391C/com.xiaobingkj.shark/AceFocus: [(100000:100000:scope)] WinFocusMove end, root/secure_field onBlur, Tabs/secure_field onFocus, start: 2, end: 1, update: 2
+02-15 15:07:11.550 11998 11998 I C03933/com.xiaobingkj.shark/AceKeyboard: [(100000:100000:scope)] current focus node: (Tabs/5). isDynamic: 0
+02-15 15:07:11.550 11998 11998 I C03933/com.xiaobingkj.shark/AceKeyboard: [(100000:100000:scope)] Trigger Window Focus Callback
+02-15 15:07:11.550 11998 11998 I C03933/com.xiaobingkj.shark/AceKeyboard: [(100000:100000:scope)] need keyboard : 0.
+02-15 15:07:11.550 11998 11998 I C0420B/com.xiaobingkj.shark/WMSKeyboard: id: 117, isNeedKeyboard: 0, keepKeyboardFlag: 0
+02-15 15:07:11.550 11998 11998 I C0420B/com.xiaobingkj.shark/WMSKeyboard: RequestInputMethodCloseKeyboard: Notify InputMethod framework close keyboard start.
+02-15 15:07:11.555 11998 11998 I C03903/com.xiaobingkj.shark/AceSubWindow: [(100000:100000:scope)] hide menu ng exit, window not exist
+02-15 15:07:11.555 11998 11998 W C02D66/com.xiaobingkj.shark/Hiview-PerfMonitor: OnAnimatorStop: Animation has not started, sceneId: APP_TAB_SWITCH
+02-15 15:07:11.555 11998 11998 I C04216/com.xiaobingkj.shark/WMSPattern: FlushLayoutSize: NotifyFrameLayoutFinishFromApp, id: 117, rect: [0 0 1224 2776], notifyListener: 0
+02-15 15:07:11.556 11998 11998 I C02D66/com.xiaobingkj.shark/Hiview-PerfMonitor: ProcessJank: JankFrameMonitor::ProcessJank jank >= threshold
+02-15 15:07:11.559 11998 11998 I C03922/com.xiaobingkj.shark/AceNavigation: [(100000:100000:scope)] sync with js stack, id: , UINodeId: 27, preStackSize: 0, newStackSize: 0
+02-15 15:07:11.560 11998 11998 I C03922/com.xiaobingkj.shark/AceNavigation: [(100000:100000:scope)] last standard page index is -1
+02-15 15:07:11.560 11998 11998 I C03922/com.xiaobingkj.shark/AceNavigation: [(100000:100000:scope)] page is not change. don't transition
+02-15 15:07:11.563 11998 11998 W C03913/com.xiaobingkj.shark/AceText: [(100000:100000:scope)] destroy TxtParagraph with placeholderCnt_ 0, textAlign_ 0, count 0
+02-15 15:07:12.281 11998 11998 I C01356/com.xiaobingkj.shark/Recovery: [app_recovery468]fileDir: /data/storage/el2/base/files
+02-15 15:07:13.235 11998 12074 I C03F00/com.xiaobingkj.shark/ArkCompiler: [gc] SmartGC: app cold start just finished
+02-15 15:07:13.485 11998 11998 I C02805/com.xiaobingkj.shark/InputKeyFlow: [][OnPointerEvent:242] ac: down: 20781
+02-15 15:07:13.485 11998 11998 I C02805/com.xiaobingkj.shark/InputKeyFlow: [P:D:20781][OnPointerEvent:649] recv
+02-15 15:07:13.485 11998 11998 I C04213/com.xiaobingkj.shark/InputKeyFlow: HandleInputEvent: eid:0,InputId:20781,wid:117,ac:2
+02-15 15:07:13.486 11998 11998 I C03951/com.xiaobingkj.shark/InputKeyFlow: [(100000:100000:scope)] ITK Id:20781, fId:0, T:0, I=0, M=0
+02-15 15:07:13.486 11998 11998 I C03951/com.xiaobingkj.shark/InputKeyFlow: [(100000:100000:scope)] ITK Id:20781, TTHNI:fId: 0{ T: Column, D: 7 };
+02-15 15:07:13.486 11998 11998 I C03951/com.xiaobingkj.shark/InputKeyFlow: [(100000:100000:scope)] ITK Id:20781, TTHRTI: T ClickRecognizer info: { T: Column };
+02-15 15:07:13.490 11998 11998 I C03919/com.xiaobingkj.shark/AceInputTracking: [(100000:100000:scope)] Consumed id:20781, last id:-1
+02-15 15:07:13.490 11998 11998 I C04213/com.xiaobingkj.shark/InputKeyFlow: ConsumePointerEventInner: InputId:20781,wid:117,pointId:0,srcType:2,rect:[0,0,1224,2776],notify:1
+02-15 15:07:13.490 11998 11998 I C02805/com.xiaobingkj.shark/InputKeyFlow: [][OnPointerEvent:242] ac: move: 20782
+02-15 15:07:13.491 11998 12088 I C0390D/com.xiaobingkj.shark/AceOverlay: [(-1:100000:singleton)] RVS_ENABLE_CHECK Result: 0
+02-15 15:07:13.552 11998 11998 I C02805/com.xiaobingkj.shark/InputKeyFlow: [][OnPointerEvent:242] ac: move, first: 20783-(2026-02-15 15:07:13.491ms), 20793, count: 11, last: ac: up: 20794
+02-15 15:07:13.552 11998 11998 I C02805/com.xiaobingkj.shark/InputKeyFlow: [P:U:20794][OnPointerEvent:649] recv
+02-15 15:07:13.552 11998 11998 I C04213/com.xiaobingkj.shark/InputKeyFlow: HandleInputEvent: eid:1,InputId:20794,wid:117,ac:4
+02-15 15:07:13.553 11998 11998 I C03951/com.xiaobingkj.shark/InputKeyFlow: [(100000:100000:scope)] ITK Id:20794, fId:0, T:1, I=0, M=0
+02-15 15:07:13.553 11998 11998 I C0391E/com.xiaobingkj.shark/AceGesture: [(100000:100000:scope)] Click try accept
+02-15 15:07:13.553 11998 11998 I C03951/com.xiaobingkj.shark/InputKeyFlow: [(100000:100000:scope)] CLK RACC, T: Column
+02-15 15:07:13.553 11998 11998 I C03916/com.xiaobingkj.shark/AceTabs: [(100000:100000:scope)] Clicked tabBarIndex: 2
+02-15 15:07:13.553 11998 11998 I C03915/com.xiaobingkj.shark/AceSwiper: [(100000:100000:scope)] Swiper user finish animation id:6
+02-15 15:07:13.554 11998 11998 I C03919/com.xiaobingkj.shark/AceInputTracking: [(100000:100000:scope)] Consumed id:20794, last id:20793
+02-15 15:07:13.554 11998 11998 I C04213/com.xiaobingkj.shark/InputKeyFlow: ConsumePointerEventInner: InputId:20794,wid:117,pointId:0,srcType:2,rect:[0,0,1224,2776],notify:1
+02-15 15:07:13.560 11998 11998 I C03922/com.xiaobingkj.shark/AceNavigation: [(100000:100000:scope)] navigation necessary to immediately trigger a refresh
+02-15 15:07:13.564 11998 11998 W C03926/com.xiaobingkj.shark/AceTheme: [(100000:100000:scope)] style 125829872 not contains scrollable_pattern!
+02-15 15:07:13.566 11998 11998 W C03926/com.xiaobingkj.shark/AceTheme: [(100000:100000:scope)] style 125829872 not contains scroll_bar_pattern!
+02-15 15:07:13.566 11998 11998 W C03926/com.xiaobingkj.shark/AceTheme: [(100000:100000:scope)] style 125829872 not contains list_pattern!
+02-15 15:07:13.573 11998 11998 W C03926/com.xiaobingkj.shark/AceTheme: [(100000:100000:scope)] style 125829872 not contains switch_pattern!
+02-15 15:07:13.574 11998 11998 W C03926/com.xiaobingkj.shark/AceTheme: [(100000:100000:scope)] style switch_pattern not contains touch_animation_duration!
+02-15 15:07:13.574 11998 11998 W C03926/com.xiaobingkj.shark/AceTheme: [(100000:100000:scope)] style 125829872 not contains toggle_pattern!
+02-15 15:07:13.588 11998 11998 I C0390C/com.xiaobingkj.shark/AceFont: [(100000:100000:scope)] MeasureTextSize [maxW:inf, H:95.000000],[w:163.000000, h:95.000000]
+02-15 15:07:13.588 11998 11998 I C03916/com.xiaobingkj.shark/AceTabs: [(100000:100000:scope)] onChange preIndex:0, currentIndex:2
+02-15 15:07:13.589 11998 11998 I C03915/com.xiaobingkj.shark/AceSwiper: [(100000:100000:scope)] Swiper FireUnselectedEvent id:6, index:0
+02-15 15:07:13.597 11998 11998 W C02D66/com.xiaobingkj.shark/Hiview-PerfMonitor: OnAnimatorStop: Animation has not started, sceneId: APP_TAB_SWITCH
+02-15 15:07:13.598 11998 11998 I C03922/com.xiaobingkj.shark/AceNavigation: [(100000:100000:scope)] sync with js stack, id: , UINodeId: 140, preStackSize: 0, newStackSize: 0
+02-15 15:07:13.598 11998 11998 I C03922/com.xiaobingkj.shark/AceNavigation: [(100000:100000:scope)] last standard page index is -1
+02-15 15:07:13.598 11998 11998 I C03922/com.xiaobingkj.shark/AceNavigation: [(100000:100000:scope)] page is not change. don't transition
+02-15 15:07:13.600 11998 11998 E C02C03/com.xiaobingkj.shark/PARAM_WATCHER: [nodict]Read result failed, code is: 1.
+02-15 15:07:13.600 11998 11998 E C02C03/PARAM_WATCHER: Failed to add watcher for persist.rosen.animationtrace.enabled
+02-15 15:07:13.600 11998 11998 E C02C03/PARAM_WATCHER: SystemWatchParameter is failed!keyPrefix is:persist.rosen.animationtrace.enabled,errNum is:-1
+02-15 15:07:13.600 11998 11998 E C02C0B/BEGET: [service_watcher.c:83]WatchParameter failed! the errNum is -1
+02-15 15:07:13.601 11998 11998 I C02C03/PARAM_WATCHER: Add watcher keyPrefix sys.graphic.openTestModeTrace remoteWatcherId 995 success
+02-15 15:07:13.625 11998 11998 E C02C03/com.xiaobingkj.shark/PARAM_WATCHER: [nodict]Read result failed, code is: 1.
+02-15 15:07:13.625 11998 11998 E C02C03/PARAM_WATCHER: Failed to add watcher for persist.rosen.animationtrace.enabled
+02-15 15:07:13.625 11998 11998 E C02C03/PARAM_WATCHER: SystemWatchParameter is failed!keyPrefix is:persist.rosen.animationtrace.enabled,errNum is:-1
+02-15 15:07:13.625 11998 11998 E C02C0B/BEGET: [service_watcher.c:83]WatchParameter failed! the errNum is -1
+02-15 15:07:13.625 11998 11998 E C02C03/PARAM_WATCHER: Failed to add callback for sys.graphic.openTestModeTrace
+02-15 15:07:13.625 11998 11998 E C02C03/PARAM_WATCHER: SystemWatchParameter is failed!keyPrefix is:sys.graphic.openTestModeTrace,errNum is:110
+02-15 15:07:13.625 11998 11998 E C02C0B/BEGET: [service_watcher.c:83]WatchParameter failed! the errNum is 110
+02-15 15:07:15.588 11998 11998 I C02805/com.xiaobingkj.shark/InputKeyFlow: [][OnPointerEvent:242] ac: down: 20795
+02-15 15:07:15.588 11998 11998 I C02805/com.xiaobingkj.shark/InputKeyFlow: [P:D:20795][OnPointerEvent:649] recv
+02-15 15:07:15.588 11998 11998 I C04213/com.xiaobingkj.shark/InputKeyFlow: HandleInputEvent: eid:2,InputId:20795,wid:117,ac:2
+02-15 15:07:15.589 11998 11998 I C03951/com.xiaobingkj.shark/InputKeyFlow: [(100000:100000:scope)] ITK Id:20795, fId:0, T:0, I=0, M=0
+02-15 15:07:15.589 11998 11998 I C03951/com.xiaobingkj.shark/InputKeyFlow: [(100000:100000:scope)] ITK Id:20795, TTHNI:fId: 0{ T: Swiper, D: 6 };{ T: List, D: 13 };{ T: ListItem, D: 15 };
+02-15 15:07:15.589 11998 11998 I C03951/com.xiaobingkj.shark/InputKeyFlow: [(100000:100000:scope)] ITK Id:20795, TTHRTI: T ClickRecognizer info: { T: List }; { T: Row };T PanRecognizer info: { T: List };
+02-15 15:07:15.591 11998 11998 I C0394B/com.xiaobingkj.shark/AceScrollBar: [(100000:100000:scope)] inner scrollBar touch down, panDirection: 0
+02-15 15:07:15.591 11998 11998 I C03915/com.xiaobingkj.shark/AceSwiper: [(100000:100000:scope)] Swiper HandleTouchDown id: 6
+02-15 15:07:15.592 11998 11998 I C03919/com.xiaobingkj.shark/AceInputTracking: [(100000:100000:scope)] Consumed id:20795, last id:20793
+02-15 15:07:15.592 11998 11998 I C04213/com.xiaobingkj.shark/InputKeyFlow: ConsumePointerEventInner: InputId:20795,wid:117,pointId:0,srcType:2,rect:[0,0,1224,2776],notify:1
+02-15 15:07:15.593 11998 11998 I C01406/com.xiaobingkj.shark/OHOS::RS: [RenderAnimation] Id: 51531017617413 SetExpectedFrameRateRange{0, 90, 15}
+02-15 15:07:15.593 11998 11998 I C02805/com.xiaobingkj.shark/InputKeyFlow: [][OnPointerEvent:242] ac: move: 20796
+02-15 15:07:15.654 11998 11998 I C02805/com.xiaobingkj.shark/InputKeyFlow: [][OnPointerEvent:242] ac: move, first: 20797-(2026-02-15 15:07:15.597ms), 20804, count: 8, last: ac: up: 20805
+02-15 15:07:15.654 11998 11998 I C02805/com.xiaobingkj.shark/InputKeyFlow: [P:U:20805][OnPointerEvent:649] recv
+02-15 15:07:15.654 11998 11998 I C04213/com.xiaobingkj.shark/InputKeyFlow: HandleInputEvent: eid:3,InputId:20805,wid:117,ac:4
+02-15 15:07:15.655 11998 11998 I C03951/com.xiaobingkj.shark/InputKeyFlow: [(100000:100000:scope)] ITK Id:20805, fId:0, T:1, I=0, M=0
+02-15 15:07:15.655 11998 11998 I C03915/com.xiaobingkj.shark/AceSwiper: [(100000:100000:scope)] Swiper HandleTouchUp id: 6
+02-15 15:07:15.655 11998 11998 I C0391E/com.xiaobingkj.shark/AceGesture: [(100000:100000:scope)] Click try accept
+02-15 15:07:15.655 11998 11998 I C0390B/com.xiaobingkj.shark/AceScrollable: [(100000:100000:scope)] Scrollable GestureJudge:0, 0
+02-15 15:07:15.655 11998 11998 I C0391E/com.xiaobingkj.shark/AceGesture: [(100000:100000:scope)] Click gesture judge reject
+02-15 15:07:15.655 11998 11998 I C0391E/com.xiaobingkj.shark/AceGesture: [(100000:100000:scope)] Click try accept
+02-15 15:07:15.655 11998 11998 I C03951/com.xiaobingkj.shark/InputKeyFlow: [(100000:100000:scope)] CLK RACC, T: Row
+02-15 15:07:15.655 11998 11998 I C01C01/com.xiaobingkj.shark/PBC: GetPasteboardService# GetPasteboardService start.
+02-15 15:07:15.656 11998 11998 I C01C01/com.xiaobingkj.shark/PBC: GetPasteboardService# Get PasteboardServiceProxy succeed.
+02-15 15:07:15.657 11998 11998 I C02D07/com.xiaobingkj.shark/ObserverMgr: register processor=1 exit
+02-15 15:07:15.657 11998 12233 I C01C01/com.xiaobingkj.shark/PBC: SetPasteData# enter
+02-15 15:07:15.659 11998 12233 I C01C01/com.xiaobingkj.shark/PBC: WritePasteData# set: fd:67, size:476
+02-15 15:07:15.667 11998 12233 I C01C01/com.xiaobingkj.shark/PBC: SetPasteData# leave, ret=27787264
+02-15 15:07:15.667 11998 11998 W C03926/com.xiaobingkj.shark/AceTheme: [(100000:100000:scope)] style 125829872 not contains toast_pattern!
+02-15 15:07:15.668 11998 11998 W C03926/com.xiaobingkj.shark/AceTheme: [(100000:100000:scope)] style ohos_shadow_pattern not contains shadow_style_default_md_radius!
+02-15 15:07:15.669 11998 11998 I C03919/com.xiaobingkj.shark/AceInputTracking: [(100000:100000:scope)] Consumed id:20805, last id:20804
+02-15 15:07:15.669 11998 11998 I C04213/com.xiaobingkj.shark/InputKeyFlow: ConsumePointerEventInner: InputId:20805,wid:117,pointId:0,srcType:2,rect:[0,0,1224,2776],notify:1
+02-15 15:07:15.670 11998 11998 I C0390D/com.xiaobingkj.shark/AceOverlay: [(100000:100000:scope)] Toast node mount to root node
+02-15 15:07:15.670 11998 11998 I C03900/com.xiaobingkj.shark/Ace: [(100000:100000:scope)] Put node level order. nodeId: 237, levelOrder: 0.000000
+02-15 15:07:15.670 11998 11998 I C0390D/com.xiaobingkj.shark/AceOverlay: [(100000:100000:scope)] open toast animation enter, containerId:100000
+02-15 15:07:15.671 11998 11998 W C03926/com.xiaobingkj.shark/AceTheme: [(100000:100000:scope)] style 125829872 not contains dialog_pattern!
+02-15 15:07:15.672 11998 11998 W C03926/com.xiaobingkj.shark/AceTheme: [(100000:100000:scope)] style dialog_pattern not contains shadow_dialog!
+02-15 15:07:15.672 11998 11998 W C03926/com.xiaobingkj.shark/AceTheme: [(100000:100000:scope)] style dialog_pattern not contains button_bottom_top_margin!
+02-15 15:07:15.672 11998 11998 W C03926/com.xiaobingkj.shark/AceTheme: [(100000:100000:scope)] style dialog_pattern not contains title_padding_horizontal!
+02-15 15:07:15.672 11998 11998 W C03926/com.xiaobingkj.shark/AceTheme: [(100000:100000:scope)] style dialog_pattern not contains dialog_content_top_padding!
+02-15 15:07:15.672 11998 11998 W C03926/com.xiaobingkj.shark/AceTheme: [(100000:100000:scope)] style dialog_pattern get attr dialog_padding_actions_left error!
+02-15 15:07:15.672 11998 11998 W C03926/com.xiaobingkj.shark/AceTheme: [(100000:100000:scope)] style dialog_pattern get attr dialog_padding_actions_top error!
+02-15 15:07:15.672 11998 11998 W C03926/com.xiaobingkj.shark/AceTheme: [(100000:100000:scope)] style dialog_pattern get attr dialog_padding_actions_right error!
+02-15 15:07:15.672 11998 11998 W C03926/com.xiaobingkj.shark/AceTheme: [(100000:100000:scope)] style dialog_pattern get attr dialog_padding_actions_bottom error!
+02-15 15:07:15.674 11998 12086 I C02D07/com.xiaobingkj.shark/Config: get free size=406377861120
+02-15 15:07:15.674 11998 12086 I C02D07/com.xiaobingkj.shark/ObserverMgr: init watchers
+02-15 15:07:16.296 11998 11998 I C02805/com.xiaobingkj.shark/InputKeyFlow: [][OnPointerEvent:242] ac: down: 20806
+02-15 15:07:16.296 11998 11998 I C02805/com.xiaobingkj.shark/InputKeyFlow: [P:D:20806][OnPointerEvent:649] recv
+02-15 15:07:16.296 11998 11998 I C04213/com.xiaobingkj.shark/InputKeyFlow: HandleInputEvent: eid:4,InputId:20806,wid:117,ac:2
+02-15 15:07:16.296 11998 11998 I C03951/com.xiaobingkj.shark/InputKeyFlow: [(100000:100000:scope)] ITK Id:20806, fId:0, T:0, I=0, M=0
+02-15 15:07:16.297 11998 11998 I C03951/com.xiaobingkj.shark/InputKeyFlow: [(100000:100000:scope)] ITK Id:20806, TTHNI:fId: 0{ T: Swiper, D: 6 };{ T: List, D: 13 };{ T: ListItem, D: 15 };
+02-15 15:07:16.297 11998 11998 I C03951/com.xiaobingkj.shark/InputKeyFlow: [(100000:100000:scope)] ITK Id:20806, TTHRTI: T ClickRecognizer info: { T: List }; { T: Row };T PanRecognizer info: { T: List };
+02-15 15:07:16.298 11998 11998 I C0394B/com.xiaobingkj.shark/AceScrollBar: [(100000:100000:scope)] inner scrollBar touch down, panDirection: 0
+02-15 15:07:16.298 11998 11998 I C03915/com.xiaobingkj.shark/AceSwiper: [(100000:100000:scope)] Swiper HandleTouchDown id: 6
+02-15 15:07:16.298 11998 11998 I C03919/com.xiaobingkj.shark/AceInputTracking: [(100000:100000:scope)] Consumed id:20806, last id:20804
+02-15 15:07:16.298 11998 11998 I C04213/com.xiaobingkj.shark/InputKeyFlow: ConsumePointerEventInner: InputId:20806,wid:117,pointId:0,srcType:2,rect:[0,0,1224,2776],notify:1
+02-15 15:07:16.301 11998 11998 I C02805/com.xiaobingkj.shark/InputKeyFlow: [][OnPointerEvent:242] ac: move: 20807
+02-15 15:07:16.342 11998 11998 I C02805/com.xiaobingkj.shark/InputKeyFlow: [][OnPointerEvent:242] ac: move, first: 20808-(2026-02-15 15:07:16.303ms), 20813, count: 6, last: ac: up: 20814
+02-15 15:07:16.343 11998 11998 I C02805/com.xiaobingkj.shark/InputKeyFlow: [P:U:20814][OnPointerEvent:649] recv
+02-15 15:07:16.343 11998 11998 I C04213/com.xiaobingkj.shark/InputKeyFlow: HandleInputEvent: eid:5,InputId:20814,wid:117,ac:4
+02-15 15:07:16.343 11998 11998 I C03951/com.xiaobingkj.shark/InputKeyFlow: [(100000:100000:scope)] ITK Id:20814, fId:0, T:1, I=0, M=0
+02-15 15:07:16.343 11998 11998 I C03915/com.xiaobingkj.shark/AceSwiper: [(100000:100000:scope)] Swiper HandleTouchUp id: 6
+02-15 15:07:16.343 11998 11998 I C0391E/com.xiaobingkj.shark/AceGesture: [(100000:100000:scope)] Click try accept
+02-15 15:07:16.343 11998 11998 I C0390B/com.xiaobingkj.shark/AceScrollable: [(100000:100000:scope)] Scrollable GestureJudge:0, 0
+02-15 15:07:16.343 11998 11998 I C0391E/com.xiaobingkj.shark/AceGesture: [(100000:100000:scope)] Click gesture judge reject
+02-15 15:07:16.343 11998 11998 I C0391E/com.xiaobingkj.shark/AceGesture: [(100000:100000:scope)] Click try accept
+02-15 15:07:16.343 11998 11998 I C03951/com.xiaobingkj.shark/InputKeyFlow: [(100000:100000:scope)] CLK RACC, T: Row
+02-15 15:07:16.355 11998 11998 W C03F00/com.xiaobingkj.shark/ArkCompiler: [default] [Call] occur exception need return
+02-15 15:07:16.355 11998 11998 E C03F00/com.xiaobingkj.shark/ArkCompiler: [ecmascript] Pending exception before ExecutePendingJob called, in line:5942, exception details as follows:
+02-15 15:07:16.356 11998 11998 E C03F00/com.xiaobingkj.shark/ArkCompiler: TypeError: Cannot read property getHostContext of undefined
+02-15 15:07:16.356 11998 11998 E C03F00/com.xiaobingkj.shark/ArkCompiler:     at openGithubRun entry (entry/src/main/ets/pages/SettingView.ets:54:54)
+02-15 15:07:16.356 11998 11998 E C03F00/com.xiaobingkj.shark/ArkCompiler:     at onclick entry (entry/src/main/ets/pages/SettingView.ets:161:24)
+02-15 15:07:16.356 11998 11998 E C03F00/com.xiaobingkj.shark/ArkCompiler:     at anonymous entry (entry/src/main/ets/common/CardRightItem.ets:55:12)
+02-15 15:07:16.356 11998 11998 W C03900/com.xiaobingkj.shark/Ace: [(100000:100000:scope)] after call jsFunction hasError, empty: 0, caught: 1
+02-15 15:07:16.359 11998 11998 I C03F00/com.xiaobingkj.shark/ArkCompiler: [ecmascript] Add reference, count: 1
+02-15 15:07:16.374 11998 11998 I C01356/com.xiaobingkj.shark/Recovery: [app_recovery255]scheduleRecoverApp  begin
+02-15 15:07:16.374 11998 11998 E C01317/com.xiaobingkj.shark/AppKit: [MAINTHD2051]
+02-15 15:07:16.374 11998 11998 E C01317/com.xiaobingkj.shark/AppKit: com.xiaobingkj.shark is about to exit due to RuntimeError
+02-15 15:07:16.374 11998 11998 E C01317/com.xiaobingkj.shark/AppKit: Error type:TypeError
+02-15 15:07:16.374 11998 11998 E C01317/com.xiaobingkj.shark/AppKit: Error name:TypeError
+02-15 15:07:16.374 11998 11998 E C01317/com.xiaobingkj.shark/AppKit: Error message:Cannot read property getHostContext of undefined
+02-15 15:07:16.374 11998 11998 E C01317/com.xiaobingkj.shark/AppKit: Stacktrace:
+02-15 15:07:16.374 11998 11998 E C01317/com.xiaobingkj.shark/AppKit:     at openGithubRun entry (entry/src/main/ets/pages/SettingView.ets:54:54)
+02-15 15:07:16.374 11998 11998 E C01317/com.xiaobingkj.shark/AppKit:     at onclick entry (entry/src/main/ets/pages/SettingView.ets:161:24)
+02-15 15:07:16.374 11998 11998 E C01317/com.xiaobingkj.shark/AppKit:     at anonymous entry (entry/src/main/ets/common/CardRightItem.ets:55:12)
+02-15 15:07:16.374 11998 11998 E C01317/com.xiaobingkj.shark/AppKit: HybridStack:
+02-15 15:07:16.374 11998 11998 E C01317/com.xiaobingkj.shark/AppKit: #00 pc 00000000005659bc /system/lib64/platformsdk/libark_jsruntime.so(1fbc7781e52c91f8ef788e22d5b6bd0d)
+02-15 15:07:16.374 11998 11998 E C01317/com.xiaobingkj.shark/AppKit: #01 pc 0000000000563cbc /system/lib64/platformsdk/libark_jsruntime.so(1fbc7781e52c91f8ef788e22d5b6bd0d)
+02-15 15:07:16.374 11998 11998 E C01317/com.xiaobingkj.shark/AppKit: #02 pc 0000000000563698 /system/lib64/platformsdk/libark_jsruntime.so(1fbc7781e52c91f8ef788e22d5b6bd0d)
+02-15 15:07:16.374 11998 11998 E C01317/com.xiaobingkj.shark/AppKit: #03 pc 0000000000443b64 /system/lib64/platformsdk/libark_jsruntime.so(1fbc7781e52c91f8ef788e22d5b6bd0d)
+02-15 15:07:16.374 11998 11998 E C01317/com.xiaobingkj.shark/AppKit: #04 pc 000000000034cc90 /system/lib64/platformsdk/libark_jsruntime.so(panda::ecmascript::ObjectFactory::GetJSError(panda::ecmascript::base::ErrorType const&, char const*, panda::ecmascript::StackCheck)+292)(1fbc7781e52c91f8ef788e22d5b6bd0d)
+02-15 15:07:16.374 11998 11998 E C01317/com.xiaobingkj.shark/AppKit: #05 pc 0000000000312ed8 /system/lib64/platformsdk/libark_jsruntime.so(1fbc7781e52c91f8ef788e22d5b6bd0d)
+02-15 15:07:16.374 11998 11998 E C01317/com.xiaobingkj.shark/AppKit: #06 pc 00000000003103bc /system/lib64/platformsdk/libark_jsruntime.so(1fbc7781e52c91f8ef788e22d5b6bd0d)
+02-15 15:07:16.374 11998 11998 E C01317/com.xiaobingkj.shark/AppKit: #07 pc 0000000000e2714c /system/lib64/module/arkcompiler/stub.an(RTStub_CallRuntime+44)
+02-15 15:07:16.374 11998 11998 E C01317/com.xiaobingkj.shark/AppKit: #08 pc 0000000000479ac8 /system/lib64/module/arkcompiler/stub.an(BCStub_HandleLdobjbynameImm8Id16StwCopy+5408)
+02-15 15:07:16.374 11998 11998 E C01317/com.xiaobingkj.shark/AppKit: #09 at openGithubRun entry (entry/src/main/ets/pages/SettingView.ets:54:54)
+02-15 15:07:16.374 11998 11998 E C01317/com.xiaobingkj.shark/AppKit: #10 at onclick entry (entry/src/main/ets/pages/SettingView.ets:161:24)
+02-15 15:07:16.374 11998 11998 E C01317/com.xiaobingkj.shark/AppKit: #11 at anonymous entry (entry/src/main/ets/common/CardRightItem.ets:55:12)
+02-15 15:07:16.374 11998 11998 E C01317/com.xiaobingkj.shark/AppKit: #12 pc 00000000002b3848 /system/lib64/platformsdk/libark_jsruntime.so(1fbc7781e52c91f8ef788e22d5b6bd0d)
+02-15 15:07:16.374 11998 11998 E C01317/com.xiaobingkj.shark/AppKit: #13 pc 00000000006d8e98 /system/lib64/platformsdk/libark_jsruntime.so(panda::FunctionRef::Call(panda::ecmascript::EcmaVM const*, panda::Local<panda::JSValueRef>, panda::Local<panda::JSValueRef> const*, int)+520)(1fbc7781e52c91f8ef788e22d5b6bd0d)
+02-15 15:07:16.374 11998 11998 E C01317/com.xiaobingkj.shark/AppKit: #14 pc 0000000000a402c8 /system/lib64/platformsdk/libace_compatible.z.so(e396829cf06b76ec87ccc92d7e45e3ed)
+02-15 15:07:16.374 11998 11998 E C01317/com.xiaobingkj.shark/AppKit: #15 pc 0000000000ac59a8 /system/lib64/platformsdk/libace_compatible.z.so(e396829cf06b76ec87ccc92d7e45e3ed)
+02-15 15:07:16.374 11998 11998 E C01317/com.xiaobingkj.shark/AppKit: #16 pc 00000000010a1544 /system/lib64/platformsdk/libace_compatible.z.so(e396829cf06b76ec87ccc92d7e45e3ed)
+02-15 15:07:16.374 11998 11998 E C01317/com.xiaobingkj.shark/AppKit: #17 pc 00000000010a01f0 /system/lib64/platformsdk/libace_compatible.z.so(e396829cf06b76ec87ccc92d7e45e3ed)
+02-15 15:07:16.374 11998 11998 E C01317/com.xiaobingkj.shark/AppKit: #18 pc 000000000136e0e0 /system/lib64/platformsdk/libace_compatible.z.so(e396829cf06b76ec87ccc92d7e45e3ed)
+02-15 15:07:16.374 11998 11998 E C01317/com.xiaobingkj.shark/AppKit: #19 pc 000000000111ff40 /system/lib64/platformsdk/libace_compatible.z.so(e396829cf06b76ec87ccc92d7e45e3ed)
+02-15 15:07:16.374 11998 11998 E C01317/com.xiaobingkj.shark/AppKit: #20 pc 0000000000ee8254 /system/lib64/platformsdk/libace_compatible.z.so(e396829cf06b76ec87ccc92d7e45e3ed)
+02-15 15:07:16.374 11998 11998 E C01317/com.xiaobingkj.shark/AppKit: #21 pc 0000000000ce8770 /system/lib64/platformsdk/libace_compatible.z.so(e396829cf06b76ec87ccc92d7e45e3ed)
+02-15 15:07:16.374 11998 11998 E C01317/com.xiaobingkj.shark/AppKit: #22 pc 0000000000ee813c /system/lib64/platformsdk/libace_compatible.z.so(e396829cf06b76ec87ccc92d7e45e3ed)
+02-15 15:07:16.374 11998 11998 E C01317/com.xiaobingkj.shark/AppKit: #23 pc 0000000000c17dd4 /system/lib64/platformsdk/libace_compatible.z.so(e396829cf06b76ec87ccc92d7e45e3ed)
+02-15 15:07:16.374 11998 11998 E C01317/com.xiaobingkj.shark/AppKit: #24 pc 0000000000c17bf0 /system/lib64/platformsdk/libace_compatible.z.so(e396829cf06b76ec87ccc92d7e45e3ed)
+02-15 15:07:16.374 11998 11998 E C01317/com.xiaobingkj.shark/AppKit: #25 pc 0000000000c178d8 /system/lib64/platformsdk/libace_compatible.z.so(e396829cf06b76ec87ccc92d7e45e3ed)
+02-15 15:07:16.374 11998 11998 E C01317/com.xiaobingkj.shark/AppKit: #26 pc 0000000000c17ad8 /system/lib64/platformsdk/libace_compatible.z.so(e396829cf06b76ec87ccc92d7e45e3ed)
+02-15 15:07:16.374 11998 11998 E C01317/com.xiaobingkj.shark/AppKit: #27 pc 0000000001373e78 /system/lib64/platformsdk/libace_compatible.z.so(e396829cf06b76ec87ccc92d7e45e3ed)
+02-15 15:07:16.374 11998 11998 E C01317/com.xiaobingkj.shark/AppKit: #28 pc 0000000000acbe80 /system/lib64/platformsdk/libace_compatible.z.so(e396829cf06b76ec87ccc92d7e45e3ed)
+02-15 15:07:16.374 11998 11998 E C01317/com.xiaobingkj.shark/AppKit: #29 pc 0000000000acb644 /system/lib64/platformsdk/libace_compatible.z.so(e396829cf06b76ec87ccc92d7e45e3ed)
+02-15 15:07:16.374 11998 11998 E C01317/com.xiaobingkj.shark/AppKit: #30 pc 0000000000bce330 /system/lib64/platformsdk/libace_compatible.z.so(e396829cf06b76ec87ccc92d7e45e3ed)
+02-15 15:07:16.374 11998 11998 E C01317/com.xiaobingkj.shark/AppKit: #31 pc 0000000000afa144 /system/lib64/platformsdk/libace_compatible.z.so(e396829cf06b76ec87ccc92d7e45e3ed)
+02-15 15:07:16.374 11998 11998 E C01317/com.xiaobingkj.shark/AppKit: #32 pc 0000000000af6730 /system/lib64/platformsdk/libace_compatible.z.so(e396829cf06b76ec87ccc92d7e45e3ed)
+02-15 15:07:16.374 11998 11998 E C01317/com.xiaobingkj.shark/AppKit: #3
+02-15 15:07:16.374 11998 11998 W C01317/com.xiaobingkj.shark/AppKit: [MAINTHD2063]hisysevent write result=0, send event [FRAMEWORK,PROCESS_KILL], pid=11998, processName=com.xiaobingkj.shark, msg=Kill Reason:Js Error, foreground=1, isUncatchable=0
