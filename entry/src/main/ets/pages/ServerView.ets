@@ -36,6 +36,7 @@ export struct ServerView {
   @StorageLink(DEVICE_TOKEN_READY_KEY) hasDeviceToken: boolean = false
   @StorageLink(DEVICE_KEY) deviceKey: string = ''
   @State pushTitle: string = '推送标题'
+  @State pushSoundTitle: string = '推送铃声'
   @State pushBody: string = '这里改成你自己的推送内容'
 
   @Builder
@@ -149,8 +150,11 @@ export struct ServerView {
   private buildSoundUrlDisplay(): string {
     let key = this.deviceKey.length > 0 ? this.deviceKey : 'Your Key'
     let url = `${SERVER_BASE_URL}/${key}`
-    if (this.pushTitle.length > 0) {
-      url = `${url}/${this.pushTitle}`
+    if (this.pushSoundTitle.length > 0) {
+      url = `${url}/${this.pushSoundTitle}`
+    }
+    if (this.pushBody.length > 0) {
+      url = `${url}/${this.pushBody}`
     }
     url = `${url}?sound=minuet`
     return url
@@ -159,8 +163,11 @@ export struct ServerView {
   private buildSoundUrlEncoded(): string {
     let key = this.deviceKey.length > 0 ? this.deviceKey : 'Your Key'
     let url = `${SERVER_BASE_URL}/${key}`
-    if (this.pushTitle.length > 0) {
-      url = `${url}/${encodeURIComponent(this.pushTitle)}`
+    if (this.pushSoundTitle.length > 0) {
+      url = `${url}/${encodeURIComponent(this.pushSoundTitle)}`
+    }
+    if (this.pushBody.length > 0) {
+      url = `${url}/${encodeURIComponent(this.pushBody)}`
     }
     url = `${url}?sound=minuet`
     return url
@@ -316,7 +323,7 @@ export struct ServerView {
           .clip(true)
         }
         .columnsTemplate('1fr')
-        .rowsTemplate('1fr 1fr')
+        .rowsGap($r('sys.float.padding_level8'))
         .padding($r('sys.float.padding_level8'))
         .width('100%')
         .height('100%')

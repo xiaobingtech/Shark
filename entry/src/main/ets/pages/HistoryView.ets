@@ -26,6 +26,8 @@ class HistoryMessage {
 @Component
 export struct HistoryView {
   @State messages: Array<HistoryMessage> = []
+  @Watch('onRefreshTickChange')
+  @StorageLink('historyRefreshTick') refreshTick: number = 0
   private historyDataObject: distributedDataObject.DataObject | null = null
   private historyStoreData: HistoryStoreData | null = null
   private dataChangeCallback: distributedDataObject.DataObserver =
@@ -57,6 +59,11 @@ export struct HistoryView {
   }
 
   private loadMessages(): void {
+    let latestData: HistoryStoreData | undefined =
+      AppStorage.get<HistoryStoreData>(HISTORY_DATA_VALUE_KEY)
+    if (latestData != undefined) {
+      this.historyStoreData = latestData
+    }
     if (this.historyStoreData == null) {
       this.messages = []
       return
@@ -83,6 +90,9 @@ export struct HistoryView {
     this.messages = list
   }
 
+  private onRefreshTickChange(): void {
+    this.loadMessages()
+  }
   private formatNumber(value: number): string {
     if (value < 10) {
       return `0${value}`
@@ -133,6 +143,7 @@ export struct HistoryView {
         }, (item: HistoryMessage) => item.id)
       }
       .columnsTemplate('1fr')
+      .rowsGap($r('sys.float.padding_level8'))
       .padding($r('sys.float.padding_level8'))
       .width('100%')
       .height('100%')

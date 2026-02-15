@@ -45,6 +45,9 @@ struct TabPage {
     .tabIndex(this.tabSelectIndex)
     .onChange((index: number) => {
       this.tabSelectIndex = index
+      if (index == 1 || index == 2) {
+        AppStorage.setOrCreate('historyRefreshTick', Date.now())
+      }
     })
     .width('100%')
     .height('100%')

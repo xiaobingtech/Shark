@@ -12,7 +12,7 @@ const HISTORY_DATA_VALUE_KEY: string = 'historyStoreData'
 class HistoryStoreData {
   titles: string[] = []
   bodies: string[] = []
-  times: string[] = []
+  times: number[] = []
 }
 
 @Builder
@@ -24,6 +24,8 @@ export function SettingViewBuilder(name: string, param: Object) {
 @Component
 export struct SettingView {
   @State defaultSave: boolean = true;
+  @Watch('onRefreshTickChange')
+  @StorageLink('historyRefreshTick') refreshTick: number = 0
   @StorageLink(DEVICE_TOKEN_KEY) deviceToken: string = ''
   @StorageLink(HISTORY_DATA_VALUE_KEY) historyStoreData: HistoryStoreData = new HistoryStoreData()
 
@@ -60,6 +62,14 @@ export struct SettingView {
       }
     }
     ProcessUtil.startAbility(context, want)
+  }
+
+  private onRefreshTickChange(): void {
+    let latestData: HistoryStoreData | undefined =
+      AppStorage.get<HistoryStoreData>(HISTORY_DATA_VALUE_KEY)
+    if (latestData != undefined) {
+      this.historyStoreData = latestData
+    }
   }
 
   build() {
