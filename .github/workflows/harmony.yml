@@ -553,13 +553,23 @@ jobs:
           if [ -n "$HUAWEI_CHINA_MAINLAND_FLAG" ]; then
             QUERY_ARGS+=(--data-urlencode "chineseMainlandFlag=${HUAWEI_CHINA_MAINLAND_FLAG}")
           fi
-          UPLOAD_URL_RESP=$(curl -sS -G "https://connect-api.cloud.huawei.com/api/publish/v2/upload-url/for-obs" \
+          UPLOAD_HTTP_CODE=$(curl -sS -o /tmp/huawei_upload_url_resp.txt -w "%{http_code}" -G "https://connect-api.cloud.huawei.com/api/publish/v2/upload-url/for-obs" \
             -H "Authorization: Bearer ${ACCESS_TOKEN}" \
             -H "client_id: ${HUAWEI_CLIENT_ID}" \
             "${QUERY_ARGS[@]}")
-          python3 -c "import json,sys;d=json.loads(sys.stdin.read());u=d.get('urlInfo') or {};print(u.get('url',''));print(u.get('method','PUT'));h=u.get('headers') or {};print('\n'.join(['%s: %s'%(k,v) for k,v in h.items()]))" <<< "$UPLOAD_URL_RESP" > /tmp/huawei_upload_info.txt
+          if [ "$UPLOAD_HTTP_CODE" -lt 200 ] || [ "$UPLOAD_HTTP_CODE" -ge 300 ]; then
+            echo "获取上传地址失败，HTTP 状态码: $UPLOAD_HTTP_CODE"
+            cat /tmp/huawei_upload_url_resp.txt
+            exit 1
+          fi
+          if [ ! -s /tmp/huawei_upload_url_resp.txt ]; then
+            echo "获取上传地址失败，响应为空"
+            exit 1
+          fi
+          python3 -c "import json,sys;d=json.loads(sys.stdin.read());u=d.get('urlInfo') or {};print(u.get('url',''));print(u.get('method','PUT'));h=u.get('headers') or {};print('\n'.join(['%s: %s'%(k,v) for k,v in h.items()]))" < /tmp/huawei_upload_url_resp.txt > /tmp/huawei_upload_info.txt
           if [ -z "$(head -n 1 /tmp/huawei_upload_info.txt)" ]; then
-            echo "获取上传地址失败"
+            echo "获取上传地址失败，响应内容:"
+            cat /tmp/huawei_upload_url_resp.txt
             exit 1
           fi
           UPLOAD_URL=$(sed -n '1p' /tmp/huawei_upload_info.txt)
