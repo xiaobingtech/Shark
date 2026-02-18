@@ -556,10 +556,7 @@ jobs:
             -H "Authorization: Bearer ${ACCESS_TOKEN}" \
             -H "client_id: ${HUAWEI_CLIENT_ID}" \
             "${QUERY_ARGS[@]}")
-          python -c "import json,sys;data=json.loads(sys.stdin.read());url_info=data.get('urlInfo') or {};url=url_info.get('url') or '';method=url_info.get('method') or 'PUT';headers=url_info.get('headers') or {};import sys as _s; 
-if not url: print('NO_URL'); _s.exit(0); 
-print(url); print(method); 
-for k,v in headers.items(): print(f'{k}: {v}')" <<< "$UPLOAD_URL_RESP" > /tmp/huawei_upload_info.txt
+          python -c "import json,sys;data=json.loads(sys.stdin.read());url_info=data.get('urlInfo') or {};url=url_info.get('url') or '';method=url_info.get('method') or 'PUT';headers=url_info.get('headers') or {};import sys as _s;if not url: print('NO_URL'); _s.exit(0);print(url); print(method); [print(f'{k}: {v}') for k,v in headers.items()]" <<< "$UPLOAD_URL_RESP" > /tmp/huawei_upload_info.txt
           if [ "$(head -n 1 /tmp/huawei_upload_info.txt)" = "NO_URL" ]; then
             echo "获取上传地址失败"
             exit 1
