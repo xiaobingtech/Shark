@@ -535,12 +535,7 @@ jobs:
           FILE_SIZE=$(stat -c%s "$FILE_PATH")
           SHA256=$(sha256sum "$FILE_PATH" | cut -d' ' -f1)
           TOKEN_RESP=$(curl -sS -X POST -H "Content-Type: application/x-www-form-urlencoded" -d "grant_type=client_credentials&client_id=${HUAWEI_CLIENT_ID}&client_secret=${HUAWEI_CLIENT_SECRET}" https://oauth-login.cloud.huawei.com/oauth2/v3/token)
-          ACCESS_TOKEN=$(python - <<'PY'
-import json,sys
-data=json.loads(sys.stdin.read())
-print(data.get("access_token",""))
-PY
-<<< "$TOKEN_RESP")
+          ACCESS_TOKEN=$(python -c "import json,sys;data=json.loads(sys.stdin.read());print(data.get('access_token',''))" <<< "$TOKEN_RESP")
           if [ -z "$ACCESS_TOKEN" ]; then
             echo "获取 access_token 失败"
             exit 1
@@ -561,22 +556,10 @@ PY
             -H "Authorization: Bearer ${ACCESS_TOKEN}" \
             -H "client_id: ${HUAWEI_CLIENT_ID}" \
             "${QUERY_ARGS[@]}")
-          python - <<'PY'
-import json,sys
-data=json.loads(sys.stdin.read())
-url_info=data.get("urlInfo") or {}
-url=url_info.get("url") or ""
-method=url_info.get("method") or "PUT"
-headers=url_info.get("headers") or {}
-if not url:
-    print("NO_URL")
-    sys.exit(0)
-print(url)
-print(method)
-for k,v in headers.items():
-    print(f"{k}: {v}")
-PY
-<<< "$UPLOAD_URL_RESP" > /tmp/huawei_upload_info.txt
+          python -c "import json,sys;data=json.loads(sys.stdin.read());url_info=data.get('urlInfo') or {};url=url_info.get('url') or '';method=url_info.get('method') or 'PUT';headers=url_info.get('headers') or {};import sys as _s; 
+if not url: print('NO_URL'); _s.exit(0); 
+print(url); print(method); 
+for k,v in headers.items(): print(f'{k}: {v}')" <<< "$UPLOAD_URL_RESP" > /tmp/huawei_upload_info.txt
           if [ "$(head -n 1 /tmp/huawei_upload_info.txt)" = "NO_URL" ]; then
             echo "获取上传地址失败"
             exit 1
