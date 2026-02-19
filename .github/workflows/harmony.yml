@@ -461,7 +461,12 @@ jobs:
           # 获取原始文件名（不带路径）
           ORIGINAL_FILENAME=$(basename "$PRIMARY_FILE")
           
-          # 创建新的文件名用于上传（将 .app 改为 .zip，.hap 保持不变）
+          # 华为 AppGallery 上传使用原始文件（.app 或 .hap）
+          HUAWEI_UPLOAD_FILE="./$ORIGINAL_FILENAME"
+          cp "$PRIMARY_FILE" "$HUAWEI_UPLOAD_FILE"
+          echo "华为上传文件: $HUAWEI_UPLOAD_FILE"
+          
+          # 创建新的文件名用于 GitHub Release（将 .app 改为 .zip，.hap 保持不变）
           if [[ "$ORIGINAL_EXTENSION" == ".app" ]]; then
             # 对于 .app 文件，改为 .zip 扩展名以便 GitHub 接受
             UPLOAD_FILENAME="${ORIGINAL_FILENAME%.app}.zip"
@@ -477,7 +482,7 @@ jobs:
           # 复制文件到根目录，并根据需要重命名
           if [[ "$ORIGINAL_EXTENSION" == ".app" ]]; then
             # 对于 .app 文件，创建 zip 文件
-            echo "创建 ZIP 文件以便上传..."
+            echo "创建 ZIP 文件以便上传到 GitHub Release..."
             zip -j "./$UPLOAD_FILENAME" "$PRIMARY_FILE"
             FINAL_FILE_PATH="./$UPLOAD_FILENAME"
           else
@@ -497,6 +502,8 @@ jobs:
           echo "ORIGINAL_FILENAME=$ORIGINAL_FILENAME" >> $GITHUB_ENV
           echo "FILE_TYPE=$FILE_TYPE" >> $GITHUB_ENV
           echo "ORIGINAL_EXTENSION=$ORIGINAL_EXTENSION" >> $GITHUB_ENV
+          # 华为上传使用原始格式的文件
+          echo "HUAWEI_UPLOAD_FILE=$HUAWEI_UPLOAD_FILE" >> $GITHUB_ENV
           
           # 验证文件存在
           if [ -f "$FINAL_FILE_PATH" ]; then
@@ -522,8 +529,9 @@ jobs:
           HUAWEI_CHINA_MAINLAND_FLAG: ${{ secrets.HUAWEI_CHINA_MAINLAND_FLAG || '1' }}
         run: |
           set -e
-          FILE_PATH="${{ env.ARTIFACT_FILE }}"
-          FILE_NAME="${{ env.ARTIFACT_FILENAME }}"
+          # 华为上传使用原始格式的文件（.app 或 .hap）
+          FILE_PATH="${{ env.HUAWEI_UPLOAD_FILE }}"
+          FILE_NAME="${{ env.ORIGINAL_FILENAME }}"
           
           # 检查必要参数
           if [ -z "$HUAWEI_CLIENT_ID" ] || [ -z "$HUAWEI_CLIENT_SECRET" ] || [ -z "$HUAWEI_APP_ID" ]; then
