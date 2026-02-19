@@ -36,7 +36,7 @@ export struct AddServerView {
           .fontColor($r('sys.color.font_secondary'))
           .margin({ bottom: $r('sys.float.padding_level2') })
         Row() {
-          TextInput({ text: this.serverUrl, placeholder: '输入服务器地址，例如：https://api.shark.app' })
+          TextInput({ text: this.serverUrl, placeholder: '输入服务器地址，例如：https://shark.xiaobingkj.com' })
             .layoutWeight(1)
             .height(40)
             .backgroundColor($r('sys.color.comp_background_primary'))

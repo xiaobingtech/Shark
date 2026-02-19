@@ -14,7 +14,7 @@ const PREFERENCES_NAME: string = 'shark.db'
 const DEVICE_TOKEN_KEY: string = 'deviceToken'
 const DEVICE_TOKEN_READY_KEY: string = 'hasDeviceToken'
 const DEVICE_KEY: string = 'deviceKey'
-const SERVER_BASE_URL: string = 'http://192.168.6.7:8080'
+const SERVER_BASE_URL: string = 'https://shark.xiaobingkj.com'
 
 interface RegisterResponseData {
   key: string
@@ -589,7 +589,7 @@ export struct ServerView {
         .backgroundColor($r('sys.color.background_secondary'))
       }
     }
-    .title('http://192.168.6.7:8080')
+    .title('shark.xiaobingkj.com')
     .menus(this.buildMenuItems())
     .navDestination(this.pageMap)
   }

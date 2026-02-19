@@ -103,7 +103,7 @@ export default class EntryAbility extends UIAbility {
     // Main window is created, set main page for this ability
     hilog.info(DOMAIN, 'testTag', '%{public}s', 'Ability onWindowStageCreate');
 
-    efRcp.setBaseURL('http://192.168.6.7:8080')
+    efRcp.setBaseURL('https://shark.xiaobingkj.com')
       .disableLoading()
       .enableLogInterceptor()
       .create()
