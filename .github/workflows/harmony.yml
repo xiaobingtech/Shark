@@ -514,146 +514,142 @@ jobs:
           fi
 
       - name: Upload to Huawei AppGallery
-  env:
-    HUAWEI_CLIENT_ID: ${{ secrets.HUAWEI_CLIENT_ID }}
-    HUAWEI_CLIENT_SECRET: ${{ secrets.HUAWEI_CLIENT_SECRET }}
-    HUAWEI_APP_ID: ${{ secrets.HUAWEI_APP_ID }}
-    HUAWEI_RELEASE_TYPE: ${{ secrets.HUAWEI_RELEASE_TYPE || '1' }}
-    HUAWEI_CHINA_MAINLAND_FLAG: ${{ secrets.HUAWEI_CHINA_MAINLAND_FLAG || '1' }}
-  run: |
-    set -e
-    FILE_PATH="${{ env.ARTIFACT_FILE }}"
-    FILE_NAME="${{ env.ARTIFACT_FILENAME }}"
-    
-    # 检查必要参数
-    if [ -z "$HUAWEI_CLIENT_ID" ] || [ -z "$HUAWEI_CLIENT_SECRET" ] || [ -z "$HUAWEI_APP_ID" ]; then
-      echo "❌ 缺少华为上传所需密钥"
-      exit 1
-    fi
-    
-    if [ ! -f "$FILE_PATH" ]; then
-      echo "❌ 上传文件不存在: $FILE_PATH"
-      exit 1
-    fi
-    
-    FILE_SIZE=$(stat -c%s "$FILE_PATH")
-    SHA256=$(sha256sum "$FILE_PATH" | cut -d' ' -f1)
-    
-    echo "📤 获取 Access Token..."
-    # 获取 Access Token (OAuth 2.0 client credentials)
-    TOKEN_RESP=$(curl -sS -X POST \
-      -H "Content-Type: application/json" \
-      -d "{
-        \"grant_type\": \"client_credentials\",
-        \"client_id\": \"${HUAWEI_CLIENT_ID}\",
-        \"client_secret\": \"${HUAWEI_CLIENT_SECRET}\"
-      }" \
-      https://connect-api.cloud.huawei.com/api/oauth2/v1/token)
-    
-    ACCESS_TOKEN=$(python3 -c "import json,sys;data=json.loads(sys.stdin.read());print(data.get('access_token',''))" <<< "$TOKEN_RESP")
-    
-    if [ -z "$ACCESS_TOKEN" ]; then
-      echo "❌ 获取 access_token 失败"
-      echo "$TOKEN_RESP"
-      exit 1
-    fi
-    echo "✅ Access Token 获取成功"
-    
-    echo "📤 获取上传地址..."
-    # 构建查询参数
-    QUERY_STRING="appId=${HUAWEI_APP_ID}&fileName=${FILE_NAME}&contentLength=${FILE_SIZE}&sha256=${SHA256}&releaseType=${HUAWEI_RELEASE_TYPE}&chineseMainlandFlag=${HUAWEI_CHINA_MAINLAND_FLAG}"
-    
-    # 获取上传地址 - 使用 GET 方法，参数放在 URL 中
-    UPLOAD_URL_RESP=$(curl -sS -w "\n%{http_code}" -G \
-      "https://connect-api.cloud.huawei.com/api/publish/v2/upload-url/for-obs" \
-      -H "Authorization: Bearer ${ACCESS_TOKEN}" \
-      -H "client_id: ${HUAWEI_CLIENT_ID}" \
-      -H "Accept: application/json" \
-      --data-urlencode "appId=${HUAWEI_APP_ID}" \
-      --data-urlencode "fileName=${FILE_NAME}" \
-      --data-urlencode "contentLength=${FILE_SIZE}" \
-      --data-urlencode "sha256=${SHA256}" \
-      --data-urlencode "releaseType=${HUAWEI_RELEASE_TYPE}" \
-      --data-urlencode "chineseMainlandFlag=${HUAWEI_CHINA_MAINLAND_FLAG}")
-    
-    # 分离 HTTP 状态码和响应内容
-    HTTP_CODE=$(echo "$UPLOAD_URL_RESP" | tail -n1)
-    RESP_BODY=$(echo "$UPLOAD_URL_RESP" | sed '$d')
-    
-    if [ "$HTTP_CODE" -ne 200 ]; then
-      echo "❌ 获取上传地址失败，HTTP 状态码: $HTTP_CODE"
-      echo "响应内容: $RESP_BODY"
-      exit 1
-    fi
-    
-    # 解析响应
-    UPLOAD_URL=$(python3 -c "
-import json,sys
-try:
-    data = json.loads(sys.stdin.read())
-    if data.get('ret', {}).get('code') != 0:
-        print(f"Error: {data.get('ret', {}).get('message', 'Unknown error')}")
-        sys.exit(1)
-    url_info = data.get('urlInfo', {})
-    print(url_info.get('url', ''))
-    print(url_info.get('method', 'PUT'))
-    headers = url_info.get('headers', {})
-    for k, v in headers.items():
-        print(f'{k}: {v}')
-except Exception as e:
-    print(f'Parse error: {e}')
-    sys.exit(1)
-" <<< "$RESP_BODY")
-    
-    if [ $? -ne 0 ]; then
-      echo "❌ 解析上传地址响应失败"
-      echo "$RESP_BODY"
-      exit 1
-    fi
-    
-    # 提取 URL、方法和 headers
-    UPLOAD_URL=$(echo "$UPLOAD_URL" | sed -n '1p')
-    UPLOAD_METHOD=$(echo "$UPLOAD_URL" | sed -n '2p')
-    
-    if [ -z "$UPLOAD_URL" ]; then
-      echo "❌ 获取上传地址失败：URL 为空"
-      echo "响应内容: $RESP_BODY"
-      exit 1
-    fi
-    
-    echo "✅ 上传地址获取成功"
-    echo "上传 URL: $UPLOAD_URL"
-    echo "上传方法: $UPLOAD_METHOD"
-    
-    echo "📤 开始上传文件..."
-    # 上传文件
-    if [ "$UPLOAD_METHOD" = "PUT" ]; then
-      UPLOAD_RESP=$(curl -sS -w "\n%{http_code}" -X PUT \
-        -H "Authorization: Bearer ${ACCESS_TOKEN}" \
-        -H "Content-Type: application/octet-stream" \
-        --upload-file "$FILE_PATH" \
-        "$UPLOAD_URL")
-    else
-      UPLOAD_RESP=$(curl -sS -w "\n%{http_code}" -X POST \
-        -H "Authorization: Bearer ${ACCESS_TOKEN}" \
-        -H "Content-Type: application/octet-stream" \
-        --data-binary @"$FILE_PATH" \
-        "$UPLOAD_URL")
-    fi
-    
-    UPLOAD_HTTP_CODE=$(echo "$UPLOAD_RESP" | tail -n1)
-    UPLOAD_RESP_BODY=$(echo "$UPLOAD_RESP" | sed '$d')
-    
-    if [ "$UPLOAD_HTTP_CODE" -eq 200 ]; then
-      echo "✅ 文件上传成功！"
-      echo "文件: $FILE_NAME"
-      echo "大小: $(du -h "$FILE_PATH" | cut -f1)"
-      echo "SHA256: $SHA256"
-    else
-      echo "❌ 上传失败，HTTP 状态码: $UPLOAD_HTTP_CODE"
-      echo "响应内容: $UPLOAD_RESP_BODY"
-      exit 1
-    fi
+        env:
+          HUAWEI_CLIENT_ID: ${{ secrets.HUAWEI_CLIENT_ID }}
+          HUAWEI_CLIENT_SECRET: ${{ secrets.HUAWEI_CLIENT_SECRET }}
+          HUAWEI_APP_ID: ${{ secrets.HUAWEI_APP_ID }}
+          HUAWEI_RELEASE_TYPE: ${{ secrets.HUAWEI_RELEASE_TYPE || '1' }}
+          HUAWEI_CHINA_MAINLAND_FLAG: ${{ secrets.HUAWEI_CHINA_MAINLAND_FLAG || '1' }}
+        run: |
+          set -e
+          FILE_PATH="${{ env.ARTIFACT_FILE }}"
+          FILE_NAME="${{ env.ARTIFACT_FILENAME }}"
+          
+          # 检查必要参数
+          if [ -z "$HUAWEI_CLIENT_ID" ] || [ -z "$HUAWEI_CLIENT_SECRET" ] || [ -z "$HUAWEI_APP_ID" ]; then
+            echo "❌ 缺少华为上传所需密钥"
+            exit 1
+          fi
+          
+          if [ ! -f "$FILE_PATH" ]; then
+            echo "❌ 上传文件不存在: $FILE_PATH"
+            exit 1
+          fi
+          
+          FILE_SIZE=$(stat -c%s "$FILE_PATH")
+          SHA256=$(sha256sum "$FILE_PATH" | cut -d' ' -f1)
+          
+          echo "📤 获取 Access Token..."
+          # 获取 Access Token (OAuth 2.0 client credentials)
+          TOKEN_RESP=$(curl -sS -X POST \
+            -H "Content-Type: application/json" \
+            -d "{\n            \"grant_type\": \"client_credentials\",\n            \"client_id\": \"${HUAWEI_CLIENT_ID}\",\n            \"client_secret\": \"${HUAWEI_CLIENT_SECRET}\"\n          }" \
+            https://connect-api.cloud.huawei.com/api/oauth2/v1/token)
+          
+          ACCESS_TOKEN=$(python3 -c "import json,sys;data=json.loads(sys.stdin.read());print(data.get('access_token',''))" <<< "$TOKEN_RESP")
+          
+          if [ -z "$ACCESS_TOKEN" ]; then
+            echo "❌ 获取 access_token 失败"
+            echo "$TOKEN_RESP"
+            exit 1
+          fi
+          echo "✅ Access Token 获取成功"
+          
+          echo "📤 获取上传地址..."
+          # 构建查询参数
+          QUERY_STRING="appId=${HUAWEI_APP_ID}&fileName=${FILE_NAME}&contentLength=${FILE_SIZE}&sha256=${SHA256}&releaseType=${HUAWEI_RELEASE_TYPE}&chineseMainlandFlag=${HUAWEI_CHINA_MAINLAND_FLAG}"
+          
+          # 获取上传地址 - 使用 GET 方法，参数放在 URL 中
+          UPLOAD_URL_RESP=$(curl -sS -w "\n%{http_code}" -G \
+            "https://connect-api.cloud.huawei.com/api/publish/v2/upload-url/for-obs" \
+            -H "Authorization: Bearer ${ACCESS_TOKEN}" \
+            -H "client_id: ${HUAWEI_CLIENT_ID}" \
+            -H "Accept: application/json" \
+            --data-urlencode "appId=${HUAWEI_APP_ID}" \
+            --data-urlencode "fileName=${FILE_NAME}" \
+            --data-urlencode "contentLength=${FILE_SIZE}" \
+            --data-urlencode "sha256=${SHA256}" \
+            --data-urlencode "releaseType=${HUAWEI_RELEASE_TYPE}" \
+            --data-urlencode "chineseMainlandFlag=${HUAWEI_CHINA_MAINLAND_FLAG}")
+          
+          # 分离 HTTP 状态码和响应内容
+          HTTP_CODE=$(echo "$UPLOAD_URL_RESP" | tail -n1)
+          RESP_BODY=$(echo "$UPLOAD_URL_RESP" | sed '$d')
+          
+          if [ "$HTTP_CODE" -ne 200 ]; then
+            echo "❌ 获取上传地址失败，HTTP 状态码: $HTTP_CODE"
+            echo "响应内容: $RESP_BODY"
+            exit 1
+          fi
+          
+          # 解析响应
+          UPLOAD_URL=$(python3 -c "
+        import json,sys
+        try:
+            data = json.loads(sys.stdin.read())
+            if data.get('ret', {}).get('code') != 0:
+                print(f\"Error: {data.get('ret', {}).get('message', 'Unknown error')}\")
+                sys.exit(1)
+            url_info = data.get('urlInfo', {})
+            print(url_info.get('url', ''))
+            print(url_info.get('method', 'PUT'))
+            headers = url_info.get('headers', {})
+            for k, v in headers.items():
+                print(f'{k}: {v}')
+        except Exception as e:
+            print(f'Parse error: {e}')
+            sys.exit(1)
+        " <<< "$RESP_BODY")
+          
+          if [ $? -ne 0 ]; then
+            echo "❌ 解析上传地址响应失败"
+            echo "$RESP_BODY"
+            exit 1
+          fi
+          
+          # 提取 URL、方法和 headers
+          UPLOAD_URL=$(echo "$UPLOAD_URL" | sed -n '1p')
+          UPLOAD_METHOD=$(echo "$UPLOAD_URL" | sed -n '2p')
+          
+          if [ -z "$UPLOAD_URL" ]; then
+            echo "❌ 获取上传地址失败：URL 为空"
+            echo "响应内容: $RESP_BODY"
+            exit 1
+          fi
+          
+          echo "✅ 上传地址获取成功"
+          echo "上传 URL: $UPLOAD_URL"
+          echo "上传方法: $UPLOAD_METHOD"
+          
+          echo "📤 开始上传文件..."
+          # 上传文件
+          if [ "$UPLOAD_METHOD" = "PUT" ]; then
+            UPLOAD_RESP=$(curl -sS -w "\n%{http_code}" -X PUT \
+              -H "Authorization: Bearer ${ACCESS_TOKEN}" \
+              -H "Content-Type: application/octet-stream" \
+              --upload-file "$FILE_PATH" \
+              "$UPLOAD_URL")
+          else
+            UPLOAD_RESP=$(curl -sS -w "\n%{http_code}" -X POST \
+              -H "Authorization: Bearer ${ACCESS_TOKEN}" \
+              -H "Content-Type: application/octet-stream" \
+              --data-binary @"$FILE_PATH" \
+              "$UPLOAD_URL")
+          fi
+          
+          UPLOAD_HTTP_CODE=$(echo "$UPLOAD_RESP" | tail -n1)
+          UPLOAD_RESP_BODY=$(echo "$UPLOAD_RESP" | sed '$d')
+          
+          if [ "$UPLOAD_HTTP_CODE" -eq 200 ]; then
+            echo "✅ 文件上传成功！"
+            echo "文件: $FILE_NAME"
+            echo "大小: $(du -h "$FILE_PATH" | cut -f1)"
+            echo "SHA256: $SHA256"
+          else
+            echo "❌ 上传失败，HTTP 状态码: $UPLOAD_HTTP_CODE"
+            echo "响应内容: $UPLOAD_RESP_BODY"
+            exit 1
+          fi
 
       # 14. 创建 GitHub Release
       - name: Create GitHub Release
