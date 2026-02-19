@@ -581,9 +581,11 @@ jobs:
           echo "  releaseType: ${HUAWEI_RELEASE_TYPE}"
           echo "  chineseMainlandFlag: ${HUAWEI_CHINA_MAINLAND_FLAG}"
           echo "  client_id: ${HUAWEI_CLIENT_ID}"
+          echo "  access_token 前缀: ${ACCESS_TOKEN:0:20}..."
           
-          # 获取上传地址 - 使用 GET 方法
-          UPLOAD_URL_RESP=$(curl -sS -w "\n%{http_code}" -G \
+          # 获取上传地址 - 使用 GET 方法（添加 -v 查看详细信息）
+          echo "发送请求..."
+          UPLOAD_URL_RESP=$(curl -v -sS -w "\n%{http_code}" -G \
             "https://connect-api.cloud.huawei.com/api/publish/v2/upload-url/for-obs" \
             -H "Authorization: Bearer ${ACCESS_TOKEN}" \
             -H "client_id: ${HUAWEI_CLIENT_ID}" \
@@ -593,14 +595,22 @@ jobs:
             --data-urlencode "contentLength=${FILE_SIZE}" \
             --data-urlencode "sha256=${SHA256}" \
             --data-urlencode "releaseType=${HUAWEI_RELEASE_TYPE}" \
-            --data-urlencode "chineseMainlandFlag=${HUAWEI_CHINA_MAINLAND_FLAG}")
+            --data-urlencode "chineseMainlandFlag=${HUAWEI_CHINA_MAINLAND_FLAG}" 2>&1)
           
           # 分离 HTTP 状态码和响应内容
+          # 因为加了 -v，输出中包含很多调试信息，最后两行是 HTTP 状态码和响应体
           HTTP_CODE=$(echo "$UPLOAD_URL_RESP" | tail -n1)
           RESP_BODY=$(echo "$UPLOAD_URL_RESP" | sed '$d')
           
+          # 从 verbose 输出中提取实际的响应体（通常在 < 符号后）
+          # 尝试找到 JSON 响应
+          ACTUAL_BODY=$(echo "$UPLOAD_URL_RESP" | grep -oE '\{.*\}' | head -1 || echo "")
+          
           echo "API 响应状态码: $HTTP_CODE"
-          if [ -n "$RESP_BODY" ]; then
+          if [ -n "$ACTUAL_BODY" ]; then
+            echo "API 响应内容: $ACTUAL_BODY"
+            RESP_BODY="$ACTUAL_BODY"
+          elif [ -n "$RESP_BODY" ]; then
             echo "API 响应内容: $RESP_BODY"
           else
             echo "API 响应内容: (空)"
