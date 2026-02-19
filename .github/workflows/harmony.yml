@@ -565,9 +565,6 @@ jobs:
           echo "✅ Access Token 获取成功"
           
           echo "📤 获取上传地址..."
-          # 构建查询参数
-          QUERY_STRING="appId=${HUAWEI_APP_ID}&fileName=${FILE_NAME}&contentLength=${FILE_SIZE}&sha256=${SHA256}&releaseType=${HUAWEI_RELEASE_TYPE}&chineseMainlandFlag=${HUAWEI_CHINA_MAINLAND_FLAG}"
-          
           # 获取上传地址 - 使用 GET 方法，参数放在 URL 中
           UPLOAD_URL_RESP=$(curl -sS -w "\n%{http_code}" -G \
             "https://connect-api.cloud.huawei.com/api/publish/v2/upload-url/for-obs" \
@@ -585,15 +582,31 @@ jobs:
           HTTP_CODE=$(echo "$UPLOAD_URL_RESP" | tail -n1)
           RESP_BODY=$(echo "$UPLOAD_URL_RESP" | sed '$d')
           
+          echo "API 响应状态码: $HTTP_CODE"
+          echo "API 响应内容: $RESP_BODY"
+          
           if [ "$HTTP_CODE" -ne 200 ]; then
             echo "❌ 获取上传地址失败，HTTP 状态码: $HTTP_CODE"
-            echo "响应内容: $RESP_BODY"
+            # 尝试解析错误信息
+            ERROR_CODE=$(echo "$RESP_BODY" | python3 -c "import json,sys; data=json.loads(sys.stdin.read()); print(data.get('ret',{}).get('code','') or '')" 2>/dev/null || echo "")
+            ERROR_MSG=$(echo "$RESP_BODY" | python3 -c "import json,sys; data=json.loads(sys.stdin.read()); print(data.get('ret',{}).get('msg','') or '')" 2>/dev/null || echo "")
+            if [ -n "$ERROR_CODE" ]; then
+              echo "错误码: $ERROR_CODE"
+              echo "错误信息: $ERROR_MSG"
+            fi
             exit 1
           fi
           
-          # 解析响应
-          echo "上传地址响应: $RESP_BODY"
+          # 解析响应获取上传 URL 和必要的 headers
           UPLOAD_URL=$(echo "$RESP_BODY" | python3 -c "import json,sys; data=json.loads(sys.stdin.read()); print(data.get('urlInfo',{}).get('url','') or '')")
+          
+          # 提取上传所需的 headers
+          UPLOAD_AUTH=$(echo "$RESP_BODY" | python3 -c "import json,sys; data=json.loads(sys.stdin.read()); headers=data.get('urlInfo',{}).get('headers',{}); print(headers.get('Authorization','') or '')")
+          UPLOAD_SHA256_HEADER=$(echo "$RESP_BODY" | python3 -c "import json,sys; data=json.loads(sys.stdin.read()); headers=data.get('urlInfo',{}).get('headers',{}); print(headers.get('x-amz-content-sha256','') or '')")
+          UPLOAD_DATE=$(echo "$RESP_BODY" | python3 -c "import json,sys; data=json.loads(sys.stdin.read()); headers=data.get('urlInfo',{}).get('headers',{}); print(headers.get('x-amz-date','') or '')")
+          UPLOAD_HOST=$(echo "$RESP_BODY" | python3 -c "import json,sys; data=json.loads(sys.stdin.read()); headers=data.get('urlInfo',{}).get('headers',{}); print(headers.get('Host','') or '')")
+          UPLOAD_USER_AGENT=$(echo "$RESP_BODY" | python3 -c "import json,sys; data=json.loads(sys.stdin.read()); headers=data.get('urlInfo',{}).get('headers',{}); print(headers.get('user-agent','') or '')")
+          UPLOAD_CONTENT_TYPE=$(echo "$RESP_BODY" | python3 -c "import json,sys; data=json.loads(sys.stdin.read()); headers=data.get('urlInfo',{}).get('headers',{}); print(headers.get('Content-Type','') or 'application/octet-stream')")
           
           if [ -z "$UPLOAD_URL" ]; then
             echo "❌ 获取上传地址失败：URL 为空"
@@ -605,9 +618,30 @@ jobs:
           echo "上传 URL: $UPLOAD_URL"
           
           echo "📤 开始上传文件..."
-          # 上传文件 - 使用 PUT 方法
-          UPLOAD_RESP=$(curl -sS -w "\n%{http_code}" -X PUT \
-            -H "Content-Type: application/octet-stream" \
+          # 构建上传请求的 headers
+          CURL_HEADERS=""
+          if [ -n "$UPLOAD_AUTH" ]; then
+            CURL_HEADERS="$CURL_HEADERS -H \"Authorization: $UPLOAD_AUTH\""
+          fi
+          if [ -n "$UPLOAD_SHA256_HEADER" ]; then
+            CURL_HEADERS="$CURL_HEADERS -H \"x-amz-content-sha256: $UPLOAD_SHA256_HEADER\""
+          fi
+          if [ -n "$UPLOAD_DATE" ]; then
+            CURL_HEADERS="$CURL_HEADERS -H \"x-amz-date: $UPLOAD_DATE\""
+          fi
+          if [ -n "$UPLOAD_HOST" ]; then
+            CURL_HEADERS="$CURL_HEADERS -H \"Host: $UPLOAD_HOST\""
+          fi
+          if [ -n "$UPLOAD_USER_AGENT" ]; then
+            CURL_HEADERS="$CURL_HEADERS -H \"user-agent: $UPLOAD_USER_AGENT\""
+          fi
+          CURL_HEADERS="$CURL_HEADERS -H \"Content-Type: ${UPLOAD_CONTENT_TYPE}\""
+          
+          echo "上传请求 headers: $CURL_HEADERS"
+          
+          # 上传文件 - 使用 PUT 方法和从响应中获取的 headers
+          UPLOAD_RESP=$(eval curl -sS -w "\\n%{http_code}" -X PUT \
+            $CURL_HEADERS \
             --upload-file "$FILE_PATH" \
             "$UPLOAD_URL")
           
