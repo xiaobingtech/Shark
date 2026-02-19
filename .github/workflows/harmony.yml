@@ -565,7 +565,16 @@ jobs:
           echo "✅ Access Token 获取成功"
           
           echo "📤 获取上传地址..."
-          # 获取上传地址 - 使用 GET 方法，参数放在 URL 中
+          echo "请求参数:"
+          echo "  appId: ${HUAWEI_APP_ID}"
+          echo "  fileName: ${FILE_NAME}"
+          echo "  contentLength: ${FILE_SIZE}"
+          echo "  sha256: ${SHA256}"
+          echo "  releaseType: ${HUAWEI_RELEASE_TYPE}"
+          echo "  chineseMainlandFlag: ${HUAWEI_CHINA_MAINLAND_FLAG}"
+          echo "  client_id: ${HUAWEI_CLIENT_ID}"
+          
+          # 获取上传地址 - 使用 GET 方法
           UPLOAD_URL_RESP=$(curl -sS -w "\n%{http_code}" -G \
             "https://connect-api.cloud.huawei.com/api/publish/v2/upload-url/for-obs" \
             -H "Authorization: Bearer ${ACCESS_TOKEN}" \
@@ -583,16 +592,27 @@ jobs:
           RESP_BODY=$(echo "$UPLOAD_URL_RESP" | sed '$d')
           
           echo "API 响应状态码: $HTTP_CODE"
-          echo "API 响应内容: $RESP_BODY"
+          if [ -n "$RESP_BODY" ]; then
+            echo "API 响应内容: $RESP_BODY"
+          else
+            echo "API 响应内容: (空)"
+          fi
           
           if [ "$HTTP_CODE" -ne 200 ]; then
             echo "❌ 获取上传地址失败，HTTP 状态码: $HTTP_CODE"
             # 尝试解析错误信息
-            ERROR_CODE=$(echo "$RESP_BODY" | python3 -c "import json,sys; data=json.loads(sys.stdin.read()); print(data.get('ret',{}).get('code','') or '')" 2>/dev/null || echo "")
-            ERROR_MSG=$(echo "$RESP_BODY" | python3 -c "import json,sys; data=json.loads(sys.stdin.read()); print(data.get('ret',{}).get('msg','') or '')" 2>/dev/null || echo "")
-            if [ -n "$ERROR_CODE" ]; then
-              echo "错误码: $ERROR_CODE"
-              echo "错误信息: $ERROR_MSG"
+            if [ -n "$RESP_BODY" ]; then
+              ERROR_CODE=$(echo "$RESP_BODY" | python3 -c "import json,sys; data=json.loads(sys.stdin.read()); print(data.get('ret',{}).get('code','') or '')" 2>/dev/null || echo "")
+              ERROR_MSG=$(echo "$RESP_BODY" | python3 -c "import json,sys; data=json.loads(sys.stdin.read()); print(data.get('ret',{}).get('msg','') or '')" 2>/dev/null || echo "")
+              if [ -n "$ERROR_CODE" ]; then
+                echo "错误码: $ERROR_CODE"
+                echo "错误信息: $ERROR_MSG"
+              fi
+            else
+              echo "⚠️ 响应体为空，可能原因:"
+              echo "  1. client_id 与获取 token 时使用的 client_id 不匹配"
+              echo "  2. API 客户端未配置发布权限"
+              echo "  3. appId 不属于该 API 客户端关联的项目"
             fi
             exit 1
           fi
