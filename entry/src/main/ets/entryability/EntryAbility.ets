@@ -10,6 +10,9 @@ const PREFERENCES_NAME: string = 'shark.db';
 const DEVICE_TOKEN_KEY: string = 'deviceToken';
 const DEVICE_TOKEN_READY_KEY: string = 'hasDeviceToken';
 const DEVICE_KEY: string = 'deviceKey';
+const SERVER_BASE_URL_KEY: string = 'serverBaseUrl';
+const SERVER_LIST_KEY: string = 'serverList';
+const SERVER_BASE_URL_DEFAULT: string = 'https://shark.xiaobingkj.com';
 const HISTORY_DATA_KEY: string = 'historyDataObject';
 const HISTORY_DATA_VALUE_KEY: string = 'historyStoreData';
 const HISTORY_TAB_INDEX_KEY: string = 'tabIndex';
@@ -21,6 +24,11 @@ class HistoryStoreData {
   titles: Array<string> = [];
   bodies: Array<string> = [];
   times: Array<number> = [];
+}
+
+interface ServerInfo {
+  url: string;
+  key: string;
 }
 
 interface PushMessageBody {
@@ -118,9 +126,14 @@ export default class EntryAbility extends UIAbility {
     let savedToken = data.getSync(DEVICE_TOKEN_KEY, '') as string
     let savedReady = data.getSync(DEVICE_TOKEN_READY_KEY, false) as boolean
     let savedDeviceKey = data.getSync(DEVICE_KEY, '') as string
+    let savedServerBaseUrl = data.getSync(SERVER_BASE_URL_KEY, SERVER_BASE_URL_DEFAULT) as string
+    let savedServerListJson = data.getSync(SERVER_LIST_KEY, '[]') as string
+    let savedServerList: Array<ServerInfo> = this.parseServerList(savedServerListJson)
     AppStorage.setOrCreate(DEVICE_TOKEN_KEY, savedToken)
     AppStorage.setOrCreate(DEVICE_TOKEN_READY_KEY, savedReady)
     AppStorage.setOrCreate(DEVICE_KEY, savedDeviceKey)
+    AppStorage.setOrCreate(SERVER_BASE_URL_KEY, savedServerBaseUrl)
+    AppStorage.setOrCreate(SERVER_LIST_KEY, savedServerList)
     this.ensureHistoryDataObject()
     this.applyHistoryTabSelection()
 
@@ -295,6 +308,18 @@ export default class EntryAbility extends UIAbility {
       }
     } catch (err) {
       hilog.error(DOMAIN, 'HistoryStore', 'Failed to parse number array: %{public}s', JSON.stringify(err))
+    }
+    return []
+  }
+
+  private parseServerList(value: string): Array<ServerInfo> {
+    try {
+      let parsed: object = JSON.parse(value) as object
+      if (Array.isArray(parsed)) {
+        return parsed as Array<ServerInfo>
+      }
+    } catch (err) {
+      hilog.error(DOMAIN, 'ServerStore', 'Failed to parse server list: %{public}s', JSON.stringify(err))
     }
     return []
   }

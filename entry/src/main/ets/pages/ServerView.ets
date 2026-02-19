@@ -7,6 +7,7 @@ import { hilog } from '@kit.PerformanceAnalysisKit'
 import { efRcpClientApi } from '@yunkss/ef_rcp'
 import { AddServerView } from './AddServerView'
 import { SoundView } from './SoundView'
+import { ServerListView, ServerListViewBuilder } from './ServerListView'
 import { notificationManager } from '@kit.NotificationKit'
 
 const DOMAIN: number = 0x0000
@@ -14,7 +15,8 @@ const PREFERENCES_NAME: string = 'shark.db'
 const DEVICE_TOKEN_KEY: string = 'deviceToken'
 const DEVICE_TOKEN_READY_KEY: string = 'hasDeviceToken'
 const DEVICE_KEY: string = 'deviceKey'
-const SERVER_BASE_URL: string = 'https://shark.xiaobingkj.com'
+const SERVER_LIST_KEY: string = 'serverList'
+const SERVER_BASE_URL_DEFAULT: string = 'https://shark.xiaobingkj.com'
 
 interface RegisterResponseData {
   key: string
@@ -28,6 +30,11 @@ interface RegisterResponse {
   data: RegisterResponseData
 }
 
+interface ServerInfo {
+  url: string
+  key: string
+}
+
 @Component
 export struct ServerView {
   @StorageLink('navPathStack') navPathStack: NavPathStack = new NavPathStack()
@@ -35,6 +42,10 @@ export struct ServerView {
   @StorageLink(DEVICE_TOKEN_KEY) deviceToken: string = ''
   @StorageLink(DEVICE_TOKEN_READY_KEY) hasDeviceToken: boolean = false
   @StorageLink(DEVICE_KEY) deviceKey: string = ''
+  @StorageLink('serverBaseUrl') serverBaseUrl: string = SERVER_BASE_URL_DEFAULT
+  @StorageProp('currentBreakpoint') currentBreakpoint: string = ''
+  @StorageLink('isServerListVisible') isServerListVisible: boolean = false
+  @StorageLink(SERVER_LIST_KEY) serverList: Array<ServerInfo> = []
   @State pushTitle: string = '推送标题'
   @State pushSoundTitle: string = '推送铃声'
   @State pushBody: string = '这里改成你自己的推送内容'
@@ -59,6 +70,7 @@ export struct ServerView {
         value: 'server',
         symbolIcon: new SymbolGlyphModifier($r('sys.symbol.cloud')),
         action: () => {
+          this.isServerListVisible = true
         }
       },
       {
@@ -77,6 +89,37 @@ export struct ServerView {
     data.putSync(DEVICE_TOKEN_KEY, token)
     data.putSync(DEVICE_TOKEN_READY_KEY, hasToken)
     data.putSync(DEVICE_KEY, deviceKey)
+    data.flush()
+  }
+
+  private addToServerList(url: string, key: string): void {
+    // 检查是否已存在
+    let existingIndex = -1
+    for (let i = 0; i < this.serverList.length; i++) {
+      if (this.serverList[i].url === url) {
+        existingIndex = i
+        break
+      }
+    }
+
+    // 创建新的服务器信息
+    let serverInfo: ServerInfo = { url: url, key: key }
+
+    if (existingIndex >= 0) {
+      // 更新已存在的服务器
+      this.serverList[existingIndex] = serverInfo
+    } else {
+      // 添加新服务器
+      this.serverList = [...this.serverList, serverInfo]
+    }
+
+    // 持久化
+    this.persistServerList()
+  }
+
+  private persistServerList(): void {
+    let data = preferences.getPreferencesSync(getContext(this), { name: PREFERENCES_NAME })
+    data.putSync(SERVER_LIST_KEY, JSON.stringify(this.serverList))
     data.flush()
   }
 
@@ -124,12 +167,14 @@ export struct ServerView {
     if (newKey.length > 0) {
       this.deviceKey = newKey
       this.persistDeviceInfo(this.deviceToken, this.hasDeviceToken, newKey)
+      // 将当前服务器信息添加到列表
+      this.addToServerList(this.serverBaseUrl, newKey)
     }
   }
 
   private buildPushUrlDisplay(): string {
     let key = this.deviceKey.length > 0 ? this.deviceKey : 'Your Key'
-    let url = `${SERVER_BASE_URL}/${key}`
+    let url = `${this.serverBaseUrl}/${key}`
     if (this.pushTitle.length > 0) {
       url = `${url}/${this.pushTitle}`
     }
@@ -141,7 +186,7 @@ export struct ServerView {
 
   private buildPushUrlEncoded(): string {
     let key = this.deviceKey.length > 0 ? this.deviceKey : 'Your Key'
-    let url = `${SERVER_BASE_URL}/${key}`
+    let url = `${this.serverBaseUrl}/${key}`
     if (this.pushTitle.length > 0) {
       url = `${url}/${encodeURIComponent(this.pushTitle)}`
     }
@@ -153,7 +198,7 @@ export struct ServerView {
 
   private buildSoundUrlDisplay(): string {
     let key = this.deviceKey.length > 0 ? this.deviceKey : 'Your Key'
-    let url = `${SERVER_BASE_URL}/${key}`
+    let url = `${this.serverBaseUrl}/${key}`
     if (this.pushSoundTitle.length > 0) {
       url = `${url}/${this.pushSoundTitle}`
     }
@@ -166,7 +211,7 @@ export struct ServerView {
 
   private buildSoundUrlEncoded(): string {
     let key = this.deviceKey.length > 0 ? this.deviceKey : 'Your Key'
-    let url = `${SERVER_BASE_URL}/${key}`
+    let url = `${this.serverBaseUrl}/${key}`
     if (this.pushSoundTitle.length > 0) {
       url = `${url}/${encodeURIComponent(this.pushSoundTitle)}`
     }
@@ -191,7 +236,7 @@ export struct ServerView {
 
   private buildMultilineUrlDisplay(): string {
     let key = this.deviceKey.length > 0 ? this.deviceKey : 'Your Key'
-    let url = `${SERVER_BASE_URL}/${key}`
+    let url = `${this.serverBaseUrl}/${key}`
     if (this.pushTitle.length > 0) {
       url = `${url}/${this.pushTitle}`
     }
@@ -204,7 +249,7 @@ export struct ServerView {
 
   private buildMultilineUrlEncoded(): string {
     let key = this.deviceKey.length > 0 ? this.deviceKey : 'Your Key'
-    let url = `${SERVER_BASE_URL}/${key}`
+    let url = `${this.serverBaseUrl}/${key}`
     if (this.pushTitle.length > 0) {
       url = `${url}/${encodeURIComponent(this.pushTitle)}`
     }
@@ -229,7 +274,7 @@ export struct ServerView {
 
   private buildBadgeUrlDisplay(): string {
     let key = this.deviceKey.length > 0 ? this.deviceKey : 'Your Key'
-    let url = `${SERVER_BASE_URL}/${key}`
+    let url = `${this.serverBaseUrl}/${key}`
     if (this.pushTitle.length > 0) {
       url = `${url}/${this.pushTitle}`
     }
@@ -245,7 +290,7 @@ export struct ServerView {
 
   private buildBadgeUrlEncoded(): string {
     let key = this.deviceKey.length > 0 ? this.deviceKey : 'Your Key'
-    let url = `${SERVER_BASE_URL}/${key}`
+    let url = `${this.serverBaseUrl}/${key}`
     if (this.pushTitle.length > 0) {
       url = `${url}/${encodeURIComponent(this.pushTitle)}`
     }
@@ -261,7 +306,7 @@ export struct ServerView {
 
   private buildImageUrlDisplay(): string {
     let key = this.deviceKey.length > 0 ? this.deviceKey : 'Your Key'
-    let url = `${SERVER_BASE_URL}/${key}`
+    let url = `${this.serverBaseUrl}/${key}`
     if (this.pushTitle.length > 0) {
       url = `${url}/${this.pushTitle}`
     }
@@ -276,7 +321,7 @@ export struct ServerView {
 
   private buildImageUrlEncoded(): string {
     let key = this.deviceKey.length > 0 ? this.deviceKey : 'Your Key'
-    let url = `${SERVER_BASE_URL}/${key}`
+    let url = `${this.serverBaseUrl}/${key}`
     if (this.pushTitle.length > 0) {
       url = `${url}/${encodeURIComponent(this.pushTitle)}`
     }
@@ -589,8 +634,17 @@ export struct ServerView {
         .backgroundColor($r('sys.color.background_secondary'))
       }
     }
-    .title('shark.xiaobingkj.com')
+    .title(this.serverBaseUrl.replace(/^https?:\/\//, ''))
     .menus(this.buildMenuItems())
     .navDestination(this.pageMap)
+    .bindSheet(this.isServerListVisible, ServerListViewBuilder(), {
+      preferType: this.currentBreakpoint === 'lg' ? SheetType.CENTER : SheetType.BOTTOM,
+      title: { title: '服务器列表' },
+      height: SheetSize.LARGE,
+      width: undefined,
+      onWillDisappear: () => {
+        this.isServerListVisible = false
+      }
+    })
   }
 }
