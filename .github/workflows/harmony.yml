@@ -543,14 +543,23 @@ jobs:
           # 获取 Access Token (OAuth 2.0 client credentials)
           TOKEN_RESP=$(curl -sS -X POST \
             -H "Content-Type: application/json" \
-            -d "{\n            \"grant_type\": \"client_credentials\",\n            \"client_id\": \"${HUAWEI_CLIENT_ID}\",\n            \"client_secret\": \"${HUAWEI_CLIENT_SECRET}\"\n          }" \
+            -d "{\"grant_type\":\"client_credentials\",\"client_id\":\"${HUAWEI_CLIENT_ID}\",\"client_secret\":\"${HUAWEI_CLIENT_SECRET}\"}" \
             https://connect-api.cloud.huawei.com/api/oauth2/v1/token)
           
-          ACCESS_TOKEN=$(python3 -c "import json,sys;data=json.loads(sys.stdin.read());print(data.get('access_token',''))" <<< "$TOKEN_RESP")
+          echo "API 响应: $TOKEN_RESP"
+          
+          # 检查响应是否为有效 JSON
+          if ! echo "$TOKEN_RESP" | python3 -c "import json,sys; json.loads(sys.stdin.read())" 2>/dev/null; then
+            echo "❌ API 返回非 JSON 格式响应"
+            echo "响应内容: $TOKEN_RESP"
+            exit 1
+          fi
+          
+          ACCESS_TOKEN=$(echo "$TOKEN_RESP" | python3 -c "import json,sys;data=json.loads(sys.stdin.read());print(data.get('access_token',''))")
           
           if [ -z "$ACCESS_TOKEN" ]; then
             echo "❌ 获取 access_token 失败"
-            echo "$TOKEN_RESP"
+            echo "响应内容: $TOKEN_RESP"
             exit 1
           fi
           echo "✅ Access Token 获取成功"
@@ -583,7 +592,8 @@ jobs:
           fi
           
           # 解析响应
-          UPLOAD_URL=$(python3 -c "import json,sys; data=json.loads(sys.stdin.read()); print(data.get('urlInfo',{}).get('url','') or '')" <<< "$RESP_BODY")
+          echo "上传地址响应: $RESP_BODY"
+          UPLOAD_URL=$(echo "$RESP_BODY" | python3 -c "import json,sys; data=json.loads(sys.stdin.read()); print(data.get('urlInfo',{}).get('url','') or '')")
           
           if [ -z "$UPLOAD_URL" ]; then
             echo "❌ 获取上传地址失败：URL 为空"
