@@ -583,33 +583,7 @@ jobs:
           fi
           
           # 解析响应
-          UPLOAD_URL=$(python3 -c "
-        import json,sys
-        try:
-            data = json.loads(sys.stdin.read())
-            if data.get('ret', {}).get('code') != 0:
-                print(f\"Error: {data.get('ret', {}).get('message', 'Unknown error')}\")
-                sys.exit(1)
-            url_info = data.get('urlInfo', {})
-            print(url_info.get('url', ''))
-            print(url_info.get('method', 'PUT'))
-            headers = url_info.get('headers', {})
-            for k, v in headers.items():
-                print(f'{k}: {v}')
-        except Exception as e:
-            print(f'Parse error: {e}')
-            sys.exit(1)
-        " <<< "$RESP_BODY")
-          
-          if [ $? -ne 0 ]; then
-            echo "❌ 解析上传地址响应失败"
-            echo "$RESP_BODY"
-            exit 1
-          fi
-          
-          # 提取 URL、方法和 headers
-          UPLOAD_URL=$(echo "$UPLOAD_URL" | sed -n '1p')
-          UPLOAD_METHOD=$(echo "$UPLOAD_URL" | sed -n '2p')
+          UPLOAD_URL=$(python3 -c "import json,sys; data=json.loads(sys.stdin.read()); print(data.get('urlInfo',{}).get('url','') or '')" <<< "$RESP_BODY")
           
           if [ -z "$UPLOAD_URL" ]; then
             echo "❌ 获取上传地址失败：URL 为空"
@@ -619,23 +593,13 @@ jobs:
           
           echo "✅ 上传地址获取成功"
           echo "上传 URL: $UPLOAD_URL"
-          echo "上传方法: $UPLOAD_METHOD"
           
           echo "📤 开始上传文件..."
-          # 上传文件
-          if [ "$UPLOAD_METHOD" = "PUT" ]; then
-            UPLOAD_RESP=$(curl -sS -w "\n%{http_code}" -X PUT \
-              -H "Authorization: Bearer ${ACCESS_TOKEN}" \
-              -H "Content-Type: application/octet-stream" \
-              --upload-file "$FILE_PATH" \
-              "$UPLOAD_URL")
-          else
-            UPLOAD_RESP=$(curl -sS -w "\n%{http_code}" -X POST \
-              -H "Authorization: Bearer ${ACCESS_TOKEN}" \
-              -H "Content-Type: application/octet-stream" \
-              --data-binary @"$FILE_PATH" \
-              "$UPLOAD_URL")
-          fi
+          # 上传文件 - 使用 PUT 方法
+          UPLOAD_RESP=$(curl -sS -w "\n%{http_code}" -X PUT \
+            -H "Content-Type: application/octet-stream" \
+            --upload-file "$FILE_PATH" \
+            "$UPLOAD_URL")
           
           UPLOAD_HTTP_CODE=$(echo "$UPLOAD_RESP" | tail -n1)
           UPLOAD_RESP_BODY=$(echo "$UPLOAD_RESP" | sed '$d')
