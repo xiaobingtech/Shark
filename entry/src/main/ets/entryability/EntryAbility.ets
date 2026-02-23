@@ -281,11 +281,14 @@ export default class EntryAbility extends UIAbility {
     if (this.historyStoreData == null || this.historyDataObject == null) {
       return
     }
-    let data = this.historyStoreData
-    data.titles = [...data.titles, title]
-    data.bodies = [...data.bodies, body]
-    data.times = [...data.times, timestamp]
-    AppStorage.setOrCreate(HISTORY_DATA_VALUE_KEY, data)
+    let oldData = this.historyStoreData
+    let newData = new HistoryStoreData()
+    newData.titles = [...oldData.titles, title]
+    newData.bodies = [...oldData.bodies, body]
+    newData.times = [...oldData.times, timestamp]
+    this.historyStoreData = newData
+    AppStorage.setOrCreate(HISTORY_DATA_VALUE_KEY, newData)
+    AppStorage.setOrCreate('historyRefreshTick', Date.now())
     this.historyDataObject.save('local', (err: BusinessError, result: distributedDataObject.SaveSuccessResponse) => {
       if (err != undefined && err.code != 0) {
         hilog.error(DOMAIN, 'HistoryStore', 'Failed to save history: %{public}s', JSON.stringify(err))

@@ -18,7 +18,7 @@
 export struct CardRightItem {
   @Prop isShow: boolean;
   textContent?: Resource | string;
-  rightText?: Resource | string;
+  @Prop rightText?: Resource | string;
   symbolSrc?: Resource;
   onclick: Function = () => {
   };

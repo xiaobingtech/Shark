@@ -32,21 +32,23 @@ export struct SettingView {
   @Watch('onRefreshTickChange')
   @StorageLink('historyRefreshTick') refreshTick: number = 0
   @StorageLink(DEVICE_TOKEN_KEY) deviceToken: string = ''
-  @StorageLink(HISTORY_DATA_VALUE_KEY) historyStoreData: HistoryStoreData = new HistoryStoreData()
   @StorageLink('tabBarHidden') tabBarHidden: boolean = false
+  @State historyCount: number = 0
 
-  private getHistoryCount(): number {
-    let titleCount: number = this.historyStoreData.titles.length
-    let bodyCount: number = this.historyStoreData.bodies.length
-    let timeCount: number = this.historyStoreData.times.length
-    let minCount: number = titleCount
-    if (bodyCount < minCount) {
-      minCount = bodyCount
+  private computeHistoryCount(): number {
+    let data: HistoryStoreData | undefined =
+      AppStorage.get<HistoryStoreData>(HISTORY_DATA_VALUE_KEY)
+    if (data == undefined) {
+      return 0
     }
-    if (timeCount < minCount) {
-      minCount = timeCount
+    let count: number = data.titles.length
+    if (data.bodies.length < count) {
+      count = data.bodies.length
     }
-    return minCount
+    if (data.times.length < count) {
+      count = data.times.length
+    }
+    return count
   }
 
   private copyDeviceToken(): void {
@@ -74,12 +76,12 @@ export struct SettingView {
     ProcessUtil.startAbility(context, want)
   }
 
+  aboutToAppear(): void {
+    this.historyCount = this.computeHistoryCount()
+  }
+
   private onRefreshTickChange(): void {
-    let latestData: HistoryStoreData | undefined =
-      AppStorage.get<HistoryStoreData>(HISTORY_DATA_VALUE_KEY)
-    if (latestData != undefined) {
-      this.historyStoreData = latestData
-    }
+    this.historyCount = this.computeHistoryCount()
   }
 
   build() {
@@ -101,7 +103,7 @@ export struct SettingView {
               CardRightItem({
                 isShow: false,
                 textContent: '导出/导入',
-                rightText: this.getHistoryCount() + ' 条消息',
+                rightText: this.historyCount + ' 条消息',
                 symbolSrc: $r('sys.symbol.arrow_right_to_line')
               })
             }
