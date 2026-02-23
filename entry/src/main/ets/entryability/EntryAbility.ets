@@ -1,11 +1,14 @@
-import { AbilityConstant, ConfigurationConstant, UIAbility, Want } from '@kit.AbilityKit';
+import { AbilityConstant, common, ConfigurationConstant, UIAbility, Want } from '@kit.AbilityKit';
 import { distributedDataObject, preferences } from '@kit.ArkData';
-import { window } from '@kit.ArkUI';
+import { display, window } from '@kit.ArkUI';
 import { BusinessError } from '@kit.BasicServicesKit';
 import { hilog } from '@kit.PerformanceAnalysisKit';
 import { efRcp } from '@yunkss/ef_rcp';
+import { updateManager } from '@kit.StoreKit';
+import { DynamicInstallManager, Logger, StorageKey, WebUtil, WindowUtil } from '@ohos/common';
 
 const DOMAIN = 0x0000;
+const TAG = '[EntryAbility]';
 const PREFERENCES_NAME: string = 'shark.db';
 const DEVICE_TOKEN_KEY: string = 'deviceToken';
 const DEVICE_TOKEN_READY_KEY: string = 'hasDeviceToken';
@@ -79,14 +82,58 @@ export default class EntryAbility extends UIAbility {
   private historyStoreData: HistoryStoreData | null = null;
   private pendingHistoryTab: boolean = false;
 
-  onCreate(want: Want, launchParam: AbilityConstant.LaunchParam): void {
+  private windowObj?: window.Window
+  private curBp: string = ''
+
+  // 根据当前窗口尺寸更新断点
+  private updateBreakpoint(windowWidth: number) :void {
+    // 拿到当前窗口对象获取当前所在displayId
+    let displayId = this.windowObj?.getWindowProperties().displayId
     try {
-      this.context.getApplicationContext().setColorMode(ConfigurationConstant.ColorMode.COLOR_MODE_NOT_SET);
+      // 将长度的单位由px换算为vp
+      let windowWidthVp = windowWidth / display.getDisplayByIdSync(displayId).densityPixels
+      let newBp: string = ''
+      if (windowWidthVp < 320) {
+        newBp = 'xs'
+      } else if (windowWidthVp < 600) {
+        newBp = 'sm'
+      } else if (windowWidthVp < 840) {
+        newBp = 'md'
+      } else {
+        newBp = 'lg'
+      }
+      if (this.curBp !== newBp) {
+        this.curBp = newBp
+        // 使用状态变量记录当前断点值
+        AppStorage.setOrCreate('currentBreakpoint', this.curBp)
+      }
     } catch (err) {
-      hilog.error(DOMAIN, 'testTag', 'Failed to set colorMode. Cause: %{public}s', JSON.stringify(err));
+      console.log("getDisplayByIdSync failed err" + err.code)
     }
+  }
+
+  onCreate(want: Want, launchParam: AbilityConstant.LaunchParam): void {
     hilog.info(DOMAIN, 'testTag', '%{public}s', 'Ability onCreate');
     this.handleWant(want)
+
+    this.checkAndHandleParams(want);
+    AppStorage.setOrCreate(StorageKey.COLOR_MODE, this.context.config.colorMode);
+    try {
+      this.context.getApplicationContext().setColorMode(ConfigurationConstant.ColorMode.COLOR_MODE_NOT_SET);
+    } catch {
+      Logger.error(TAG, `onCreate setColorMode failed`);
+    }
+  }
+
+  checkAndHandleParams(want: Want): void {
+    Logger.info(TAG, `checkAndHandleParams`);
+    try {
+      if (want === null || want.parameters === null || want === undefined || want.parameters === undefined) {
+        return;
+      }
+    } catch (err) {
+      Logger.error(TAG, `checkAndHandleParams failed: ${err}`);
+    }
   }
 
   onNewWant(want: Want, launchParam: AbilityConstant.LaunchParam): void {
@@ -105,6 +152,7 @@ export default class EntryAbility extends UIAbility {
 
   onDestroy(): void {
     hilog.info(DOMAIN, 'testTag', '%{public}s', 'Ability onDestroy');
+    DynamicInstallManager.unsubscribeDownloadProgress();
   }
 
   onWindowStageCreate(windowStage: window.WindowStage): void {
@@ -115,6 +163,8 @@ export default class EntryAbility extends UIAbility {
       .disableLoading()
       .enableLogInterceptor()
       .create()
+
+    AppStorage.setOrCreate('windowStage', windowStage);
 
     AppStorage.setOrCreate('navPathStack', new NavPathStack())
     AppStorage.setOrCreate('tabBarHidden', false)
@@ -136,6 +186,7 @@ export default class EntryAbility extends UIAbility {
     AppStorage.setOrCreate(SERVER_LIST_KEY, savedServerList)
     this.ensureHistoryDataObject()
     this.applyHistoryTabSelection()
+    this.checkAppUpdate()
 
     windowStage.loadContent('pages/TabPage', (err) => {
       if (err.code) {
@@ -143,6 +194,18 @@ export default class EntryAbility extends UIAbility {
         return;
       }
       hilog.info(DOMAIN, 'testTag', 'Succeeded in loading the content.');
+    });
+
+    windowStage.getMainWindow().then((windowObj) => {
+      this.windowObj = windowObj
+      WebUtil.initialize(windowStage);
+      WindowUtil.initialize(windowStage);
+      // 获取应用启动时的窗口尺寸
+      this.updateBreakpoint(windowObj.getWindowProperties().windowRect.width)
+      // 注册回调函数，监听窗口尺寸变化
+      windowObj.on('windowSizeChange', (windowSize)=>{
+        this.updateBreakpoint(windowSize.width)
+      })
     });
   }
 
@@ -322,6 +385,31 @@ export default class EntryAbility extends UIAbility {
       hilog.error(DOMAIN, 'ServerStore', 'Failed to parse server list: %{public}s', JSON.stringify(err))
     }
     return []
+  }
+
+  private checkAppUpdate(): void {
+    const uiContext = this.context as common.UIAbilityContext;
+    try {
+      updateManager.checkAppUpdate(uiContext)
+        .then((checkResult: updateManager.CheckUpdateResult) => {
+          hilog.info(DOMAIN, TAG, 'checkAppUpdate result: updateAvailable=%{public}s',
+            String(checkResult.updateAvailable));
+          if (checkResult.updateAvailable) {
+            updateManager.showUpdateDialog(uiContext)
+              .then((resultCode: updateManager.ShowUpdateResultCode) => {
+                hilog.info(DOMAIN, TAG, 'showUpdateDialog resultCode: %{public}s', String(resultCode));
+              })
+              .catch((error: BusinessError) => {
+                hilog.error(DOMAIN, TAG, 'showUpdateDialog failed: %{public}s', error.message);
+              });
+          }
+        })
+        .catch((error: BusinessError) => {
+          hilog.error(DOMAIN, TAG, 'checkAppUpdate failed: %{public}s', error.message);
+        });
+    } catch (e) {
+      hilog.error(DOMAIN, TAG, 'checkAppUpdate exception: %{public}s', (e as Error).message);
+    }
   }
 
 

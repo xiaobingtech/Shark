@@ -1,535 +1,193 @@
-Device info:emulator
-Build info:emulator 6.0.0.112(SP3DEVC00E112R4P11)
-Fingerprint:2d7e6fd3e09b7646a4ba9f44861a17e7221f61f1b0145f68ebb9960e552e496c
-Timestamp:2026-02-19 12:46:31.556
-Module name:com.xiaobingkj.shark
-Version:1.0.0
-VersionCode:1000000
-PreInstalled:No
-Foreground:Yes
-Pid:9709
-Uid:20020070
-Process Memory(kB): 176660(Rss)
-Device Memory(kB): Total 6053520, Free 3749276, Available 4444172
-Page switch history:
-  12:46:28.089 :enters foreground
-Reason:TypeError
-Error name:TypeError
-Error message:undefined is not callable
-Stacktrace:
-    at SynchedPropertyTwoWayPU (/usr1/hmos_for_system/src/increment/sourcecode/out/generic_generic_arm_64only/all_all_phone_standard_emulator/obj/foundation/arkui/ace_engine/frameworks/bridge/declarative_frontend/stateMgmt.js:7285:1)
-    at SynchedPropertySimpleTwoWayPU (/usr1/hmos_for_system/src/increment/sourcecode/out/generic_generic_arm_64only/all_all_phone_standard_emulator/obj/foundation/arkui/ace_engine/frameworks/bridge/declarative_frontend/stateMgmt.js:7505:1)
-    at ServerListView entry (entry/src/main/ets/pages/ServerListView.ets:13:64)
-    at anonymous entry (entry/src/main/ets/pages/ServerListView.ets:106:3)
-    at updateFunc (/usr1/hmos_for_system/src/increment/sourcecode/out/generic_generic_arm_64only/all_all_phone_standard_emulator/obj/foundation/arkui/ace_engine/frameworks/bridge/declarative_frontend/stateMgmt.js:8626:1)
-    at observeComponentCreation2 (/usr1/hmos_for_system/src/increment/sourcecode/out/generic_generic_arm_64only/all_all_phone_standard_emulator/obj/foundation/arkui/ace_engine/frameworks/bridge/declarative_frontend/stateMgmt.js:8653:1)
-    at ServerListViewBuilder entry (entry/src/main/ets/pages/ServerListView.ets:105:39)
-    at builder entry (entry/src/main/ets/pages/ServerView.ets:600:63)
+Run cd /home/runner/work/Shark/Shark
 
-HiLog:
-02-19 12:46:27.684  9709  9709 E C02c11/APPSPAWN: [sandbox_dec.c:179]open dec file fail.
-02-19 12:46:27.745  9709  9709 I C05a05/SecCompEnhanceClient: [RegisterCheckCallback]Register secComp: sessionId=2765818639, seqNum=******971.
-02-19 12:46:27.754  9709  9709 I C02d0b/HICHECKER: hichecker param is empty.
-02-19 12:46:27.755  9709  9709 I C04500/webview: SelectWebcoreBeforeProcessRun: SelectWebcoreBeforeProcessRun for app com.xiaobingkj.shark.
-02-19 12:46:27.756  9709  9709 I C04500/webview: CalculateActiveWebEngineVersion: CalculateActiveWebEngineVersion, enforce EVERGREEN
-02-19 12:46:27.778  9709  9709 I C02c11/APPSPAWN: ClearEnvAndReturnSuccess 4
-02-19 12:46:27.778  9709  9709 I C01317/AppKit: [MAINTHD3026]mainthread start, pid:9709
-02-19 12:46:27.784  9709  9709 I C01719/ffrt: 2:QueueMonitor:46 timeout:30000000 us
-02-19 12:46:27.792  9709  9709 I C01317/AppKit: [MAINTHD420]attach
-02-19 12:46:27.795  9709  9797 I C01317/AppKit: [MAINTHD814]ScheduleLaunchAbility called, ability EntryAbility, type is 1.
-02-19 12:46:27.803  9709  9709 I C03900/ACE_UIContent: [69]AceForwardCompatibility [com.xiaobingkj.shark] force:1 newpipe:1
-02-19 12:46:27.806  9709  9709 I C01317/AppKit: [MAINTHD245]NativeLibPath empty
-02-19 12:46:27.822  9709  9709 I C01317/AppKit: [MAINTHD1735]SmartGC: process is start. enable warm startup SmartGC: 0
-02-19 12:46:27.822  9709  9709 I C03f00/ArkCompiler: [ecmascript] asmint: 1, aot: 0, jit: 1, baseline jit: 0, bundle name: com.xiaobingkj.shark
-02-19 12:46:27.823  9709  9709 I C03f00/ArkCompiler: [ecmascript] multi-thread check enabled: 0
-02-19 12:46:27.823  9709  9709 I C03f00/ArkCompiler: [pgo] reset pgo profiler, pgo profiler is disabled
-02-19 12:46:27.824  9709  9709 I C03f00/ArkCompiler: [gc] SmartGC: startup GC restrain, phase 1 threshold: local 448MB, shared 355MB; phase 2 threshold: local 112MB, shared 145MB
-02-19 12:46:27.824  9709  9807 W C01719/ffrt: 3:operator():110 [1405602184] set priority warn ret[1] eno[0]
-02-19 12:46:27.828  9709  9709 E C01707/CONCUR: [Interface] task 9808 apply qos failed, errno = 4
-02-19 12:46:27.828  9709  9709 I C03301/LIBUV: init:4256
-02-19 12:46:27.828  9709  9709 I C03301/LIBUV: init:4256, backend_fd:24
-02-19 12:46:27.828  9709  9709 I C03301/LIBUV: open:4256, pipefd[0]:27
-02-19 12:46:27.828  9709  9709 I C03f00/ArkCompiler: [ecmascript] can not find aot file
-02-19 12:46:27.829  9709  9709 I C03f00/ArkCompiler: [ecmascript] ModuleSnapshotInterface::Deserialize: /data/storage/system_optimize/ark_startup_cache/ is not exists
-02-19 12:46:27.829  9709  9709 I C01e00/GLOBAL_I18N: RegisterIntl: Replace buildin Intl Success.
-02-19 12:46:27.831  9709  9709 I C03f00/ArkCompiler: StartServer, componentName = <private>
-02-19 12:46:27.831  9709  9709 W C01321/JsRuntime: [CSM162]not Connected
-02-19 12:46:27.831  9709  9709 I C03f00/ArkCompiler: [ecmascript] JSNApi::NotifyDebugMode, tid = 9709, debugApp = 1, isDebugMode = 0, instanceId = 0
-02-19 12:46:27.833  9709  9709 I C03f00/ArkCompiler: [compiler] __jit_debug_register_code() is called.
-02-19 12:46:27.833  9709  9709 I C03f00/ArkCompiler: [compiler] success to register stub.an to debugger.
-02-19 12:46:27.842  9709  9813 I C02c03/PARAM_WATCHER: [watcher_manager_kits.cpp:176]Add watcher keyPrefix persist.hdc.jdwp remoteWatcherId 58 success
-02-19 12:46:27.854  9709  9806 I C01317/AppKit: [DRH395]File existed. dir: /data/storage/el2/base/cache/rawheap
-02-19 12:46:27.854  9709  9709 W C01e00/ResourceManager: update userId, currentUserId_= 0, userId= 100
-02-19 12:46:27.854  9709  9709 E C01e00/ResourceManager: LoadThemesRes failed, userId = 100, bundleName = com.xiaobingkj.shark
-02-19 12:46:27.854  9709  9806 I C01317/AppKit: [DRH375]success to AclSetAccess, path: /data/storage/el2/base/cache/rawheap
-02-19 12:46:27.855  9709  9818 W C01653/NativePreferences: LoadFromDisk: The settingXml /***/el1/***/i18*** load failed.
-02-19 12:46:27.855  9709  9709 W C01317/AppKit: [MAINTHD4072]reason Error loading shared library /system/lib64/liblayered_parameters_manager.z.so: No such file or directoryn
-02-19 12:46:27.856  9709  9709 W C01301/Ability: [resource_config_helper183]invalid source:
-02-19 12:46:27.856  9709  9709 W C01301/Ability: [resource_config_helper183]invalid source:
-02-19 12:46:27.856  9709  9709 I C01317/AppKit: [application_cleaner94]ClearTempData
-02-19 12:46:27.862  9709  9709 I C01317/AppKit: [js_ability_stage189]AbilityStage::LoadModule
-02-19 12:46:27.862  9709  9709 W C01317/AppKit: [js_ability_stage932]null stage
-02-19 12:46:27.862  9709  9709 W C01317/AppKit: [js_ability_stage232]Not found AbilityStage.js
-02-19 12:46:27.863  9709  9709 I C01332/UIAbility: [JUA348]called
-02-19 12:46:27.863  9709  9810 W C03f00/ArkCompiler: [ecmascript] set label failed! level: s1, file: /data/storage/ark-profile/rt_entry.ap
-02-19 12:46:27.863  9709  9810 I C03f00/ArkCompiler: [pgo] will save profiler to file /data/storage/ark-profile/rt_entry.ap
-02-19 12:46:27.863  9709  9709 I C03f00/ArkCompiler: [ecmascript] start to execute module buffer with secure memory: /data/storage/el1/bundle/entry/ets/entryability/EntryAbility.abc
-02-19 12:46:27.863  9709  9709 E C03f00/ArkCompiler: [TID 0025ed] E/pandafile: Can not open xpm proc file, do not check secure memory anymore.
-02-19 12:46:27.863  9709  9709 E C03f00/ArkCompiler: [common] Can not open xpm proc file, do not check secure memory anymore.
-02-19 12:46:27.863  9709  9709 E C01707/CONCUR: [Interface] task 9810 apply qos failed, errno = 4
-02-19 12:46:27.863  9709  9709 E C01707/CONCUR: [Interface] task 9811 apply qos failed, errno = 4
-02-19 12:46:27.863  9709  9709 E C01707/CONCUR: [Interface] task 9809 apply qos failed, errno = 4
-02-19 12:46:27.863  9709  9709 E C01707/CONCUR: [Interface] task 9810 apply qos failed, errno = 4
-02-19 12:46:27.863  9709  9709 E C01707/CONCUR: [Interface] task 9811 apply qos failed, errno = 4
-02-19 12:46:27.863  9709  9709 E C01707/CONCUR: [Interface] task 9809 apply qos failed, errno = 4
-02-19 12:46:27.875  9709  9709 E C01707/CONCUR: [Interface] task 9810 apply qos failed, errno = 4
-02-19 12:46:27.875  9709  9709 E C01707/CONCUR: [Interface] task 9811 apply qos failed, errno = 4
-02-19 12:46:27.875  9709  9709 E C01707/CONCUR: [Interface] task 9809 apply qos failed, errno = 4
-02-19 12:46:27.875  9709  9709 E C01707/CONCUR: [Interface] task 9810 apply qos failed, errno = 4
-02-19 12:46:27.875  9709  9709 E C01707/CONCUR: [Interface] task 9811 apply qos failed, errno = 4
-02-19 12:46:27.875  9709  9709 E C01707/CONCUR: [Interface] task 9809 apply qos failed, errno = 4
-02-19 12:46:27.886  9709  9709 E C01707/CONCUR: [Interface] task 9810 apply qos failed, errno = 4
-02-19 12:46:27.888  9709  9709 E C01707/CONCUR: [Interface] task 9811 apply qos failed, errno = 4
-02-19 12:46:27.889  9709  9709 E C01707/CONCUR: [Interface] task 9809 apply qos failed, errno = 4
-02-19 12:46:27.902  9709  9709 E C01707/CONCUR: [Interface] task 9810 apply qos failed, errno = 4
-02-19 12:46:27.907  9709  9709 E C01707/CONCUR: [Interface] task 9811 apply qos failed, errno = 4
-02-19 12:46:27.911  9709  9709 E C01707/CONCUR: [Interface] task 9809 apply qos failed, errno = 4
-02-19 12:46:27.911  9709  9709 W C03f01/NAPI: [FindNativeModuleByCache] moduleName 'collaboration.rcp' is in different path
-02-19 12:46:27.912  9709  9709 W C02d07/NapiProcessor: Parameter error. The configName parameter is invalid.
-02-19 12:46:27.912  9709  9709 I C02d07/ObserverMgr: succ to register application state callback
-02-19 12:46:27.913  9709  9709 I C04707/HaAppEvent: ==============HaAppEventInit====================
-02-19 12:46:27.913  9709  9709 I C02d07/ModuleLoader: succ to load module=/system/lib64/libha_app_event.z.so.
-02-19 12:46:27.914  9709  9812 W C01650/Rdb: RdbStoreManager[IsConfigInvalidChanged]: no bundleName
-02-19 12:46:27.914  9709  9812 E C01650/Rdb: RdbStoreManager[IsSupportSilentFromService]: GetRdbService failed, err is 27394049.
-02-19 12:46:27.914  9709  9812 I C01630/DistributedDB: [TimeHelper] init
-02-19 12:46:27.914  9709  9812 I C01630/DistributedDB: [TimeHelper] init
-02-19 12:46:27.915  9709  9812 I C01650/Rdb: Config[Log]: Error(283) recovered 46 frames from WAL file /dat***/sto***/e**/bas***/fil***/hia***ent/dat***ses/app***.db-wal 
-02-19 12:46:27.915  9709  9812 I C01650/Rdb: ConnectionPool[Create]: code:0 app[:] area[el2] cfg[0,0,0,0,1,0,0]app***.db:<DB,0x41178,4096,100660><DWR,0x41179,12288,100660><SHM,0x4117b,32768,100660><WAL,0x4117a,189552,100660>
-02-19 12:46:27.915  9709  9812 I C02d07/Store: create db store successfully
-02-19 12:46:27.915  9709  9812 I C02d07/ObserverDao: succ to query observer seq=1, name=ha_app_event, hash=1915457907267372477
-02-19 12:46:27.916  9709  9709 I C02d07/ObserverMgr: register processor=1 successfully
-02-19 12:46:27.934  9709  9709 I C01320/JsEnv: [js_environment290]timing: 71
-02-19 12:46:27.935  9709  9709 I C01320/JSENV: Callee constructor is OK string
-02-19 12:46:27.935  9709  9709 I C01320/JSENV: Ability::constructor callee is object [object Object]
-02-19 12:46:27.936  9709  9709 I C01332/UIAbility: [JUA393]End
-02-19 12:46:27.936  9709  9709 I C01332/UIAbility: [ui_ability_thread169]Lifecycle:Attach
-02-19 12:46:27.939  9709  9709 I C01317/AppKit: [MAINTHD2670]called
-02-19 12:46:27.939  9709  9709 I C03f00/ArkCompiler: [gc] app is not inBackground
-02-19 12:46:27.947  9709  9709 E C01707/CONCUR: [Interface] task 9810 apply qos failed, errno = 4
-02-19 12:46:27.947  9709  9709 E C01707/CONCUR: [Interface] task 9811 apply qos failed, errno = 4
-02-19 12:46:27.947  9709  9709 E C01707/CONCUR: [Interface] task 9809 apply qos failed, errno = 4
-02-19 12:46:27.948  9709  9796 I C01332/UIAbility: [ui_ability_thread317]name:EntryAbility,targeState:5,isNewWant:0
-02-19 12:46:27.952  9709  9709 I C01332/UIAbility: [ui_ability_thread236]Lifecycle:name EntryAbility
-02-19 12:46:27.952  9709  9709 I C04201/DMS: AddDisplayIdFromAms: abilityToken and display[0] has been added.
-02-19 12:46:27.953  9709  9709 I C01332/UIAbility: [JUA1853]JsUIAbility call js, name: onCreate
-02-19 12:46:27.953  9709  9709 I C01317/AppKit: [ohos_application1111]current 2, pre 0
-02-19 12:46:27.953  9709  9709 W C01317/AppKit: [ohos_application1140]fontSize empty
-02-19 12:46:27.953  9709  9709 I C01317/AppKit: [ohos_application1171]current 2, pre 0
-02-19 12:46:27.953  9709  9709 W C01317/AppKit: [ohos_application1175]language empty
-02-19 12:46:27.953  9709  9709 W C01317/AppKit: [ohos_application1194]language and locale empty
-02-19 12:46:27.953  9709  9709 I C01317/AppKit: [ohos_application287]configuration_: {"0#const.build.characteristics":"phone","0#input.pointer.device":"true","0#ohos.app.fontSizeScale":"nonFollowSystem","0#ohos.application.densitydpi":"xxxldpi","0#ohos.application.direction":"vertical","0#ohos.application.displayid":"0","0#ohos.system.colorMode":"light","0#ohos.system.colorMode.isSetByApp":"isSetByApp","0#ohos.system.fontSizeScale":"1.0","0#ohos.system.fontWeightScale":"1.0","0#ohos.system.hour":"false","0#ohos.system.language":"zh-Hans-CN","0#ohos.system.locale":"zh-Hans-CN"}, config: {"0#ohos.system.colorMode":"light","0#ohos.system.colorMode.isSetByApp":"isSetByApp"}
-02-19 12:46:27.954  9709  9709 E C04217/WMSAttribute: UpdateConfigurationSyncForAll: root is null
-02-19 12:46:27.956  9709  9709 I C01332/UIAbility: [JUA1853]JsUIAbility call js, name: onConfigurationUpdated
-02-19 12:46:27.956  9709  9709 I C01332/UIAbility: [JUA1898]end, name: onConfigurationUpdated, time: 0
-02-19 12:46:27.956  9709  9709 I C01332/UIAbility: [JUA1853]JsUIAbility call js, name: onConfigurationUpdate
-02-19 12:46:27.956  9709  9709 I C01332/UIAbility: [JUA1898]end, name: onConfigurationUpdate, time: 0
-02-19 12:46:27.956  9709  9709 W C01317/AppKit: [js_ability_stage819]Not found AbilityStage.js
-02-19 12:46:27.956  9709  9709 W C01317/AppKit: [js_ability_stage819]Not found AbilityStage.js
-02-19 12:46:27.956  9709  9709 I C01317/AppKit: [ohos_application311]ignoreWindowContext size 0
-02-19 12:46:27.956  9709  9709 E C04217/WMSAttribute: UpdateConfigurationForAll: root is null
-02-19 12:46:27.956  9709  9709 I A00000/testTag: Ability onCreate
-02-19 12:46:27.956  9709  9709 D A00000/testTag: want.parameters:[object Object]
-02-19 12:46:27.956  9709  9709 I C01332/UIAbility: [JUA1898]end, name: onCreate, time: 3
-02-19 12:46:27.956  9709  9709 E C01332/UIAbility: [ui_ability_impl305]hasSaveData_: false
-02-19 12:46:27.956  9709  9709 W C01332/UIAbility: [JUA1088]formatRegex: []
-02-19 12:46:27.956  9709  9709 I C04202/WMSMain: Init: WindowScene with window session!
-02-19 12:46:27.956  9709  9709 I C04202/WMSMain: Init: set isModuleAbilityHookEnd
-02-19 12:46:27.957  9709  9709 I C04204/WMSScb: RS multi-instance enabled: 1, deviceType phone
-02-19 12:46:27.957  9709  9709 I C01406/OHOS::RS: multi-instance, create RSUIContextManager, isMultiInstanceOpen_ 1
-02-19 12:46:27.957  9709  9709 I C04204/WMSScb: InitRSUIDirector: Create RSUIDirector: RSUIDirector's RSUIContext [token: 41699837476865, tid: 9709], rsUIContext: RSUIContext is null
-02-19 12:46:27.993  9709  9709 I C01406/OHOS::RS: RSLogManager init log flag: 0x0(0)
-02-19 12:46:27.993  9709  9709 I C01406/OHOS::RS: RSFrameRateLinker::Create id: 41699837476864
-02-19 12:46:27.993  9709  9709 I C04202/WMSMain: VsyncStation: id 41699837476866 created
-02-19 12:46:27.993  9709  9709 I C04200/WindowSceneSessionImpl: WindowSceneSessionImpl: [WMSCom] Constructor shark0
-02-19 12:46:27.993  9709  9709 E C04200/WMS: SetWindowType: permission denied!
-02-19 12:46:27.993  9709  9709 I C0420a/WMSLife: Create: Window Create name:shark0, state:0, mode:0
-02-19 12:46:28.013  9709  9709 I C0420a/WMSLife: Create: SetIsAbilityHookOff 0
-02-19 12:46:28.013  9709  9709 W C0420a/WMSLife: IsWindowSessionInvalid: already destroyed or not created! id: 0 state_: 0
-02-19 12:46:28.013  9709  9709 W C04200/WindowSceneSessionImpl: AdjustWindowAnimationFlag: session invalid!
-02-19 12:46:28.013  9709  9709 I C04200/WindowSceneSessionImpl: Remove window flag WINDOW_FLAG_SHOW_WHEN_LOCKED
-02-19 12:46:28.013  9709  9709 I C0420a/WMSLife: Connect: in
-02-19 12:46:28.014  9709  9796 I C04208/WMSLayout: NotifyAppHookWindowInfoUpdated: in
-02-19 12:46:28.015  9709  9709 I C04208/WMSLayout: Connect: updateRect when connect.preRect:[0,0,0,0]rect:[0,0,1316,2832]
-02-19 12:46:28.015  9709  9709 I C0420a/WMSLife: Connect: Window Connect [name:shark0, id:46, type:1], ret:0
-02-19 12:46:28.016  9709  9709 I C04208/WMSLayout: NotifyWindowStatusChange: id:46, windowMode:1, windowStatus:1, lastWindowStatus:0, skipRedundantWindowStatusNotifications:0
-02-19 12:46:28.016  9709  9709 I C04208/WMSLayout: SetConfigWindowLimitsVP: id:46, windowLimits:[0 0 0 0 0.000000 0.000000 1.000000]
-02-19 12:46:28.018  9709  9709 I C04208/WMSLayout: GetSystemSizeLimits: min[1120,840] max[6720,6720] configMax:1920 vpr:3.500000
-02-19 12:46:28.019  9709  9709 I C0421a/WMSLayoutPc: GetSupportedWindowModesConfiguration: winId: 46, windowModeSupportType: 15
-02-19 12:46:28.019  9709  9709 I C0420f/WMSRecover: RegisterSessionRecoverCallbackFunc: persistentId=46
-02-19 12:46:28.019  9709  9709 I C04217/WMSAttribute: UpdateDefaultStatusBarColor: win=46, appColor=light
-02-19 12:46:28.019  9709  9709 I C04209/WMSImms: SetSpecificBarProperty: win [46 shark0] type 2108 1 ffffff ff000000 0 4
-02-19 12:46:28.019  9709  9796 I C04208/WMSLayout: SetAppHookWindowInfo: Id:46, preHookWindowInfo:[enableHookWindow: false, widthHookRatio: 1.000000], newHookWindowInfo:[enableHookWindow: false, widthHookRatio: 1.000000]
-02-19 12:46:28.019  9709  9796 I C0421d/WMSRotation: SetCurrentRotation: currentRotation: 0
-02-19 12:46:28.020  9709  9796 I C04208/WMSLayout: UpdateRect: id:46 name:shark0 rect:[0 0 1316 2832]->[0 0 1316 2832] reason:0 displayId:0
-02-19 12:46:28.020  9709  9796 W C04208/WMSLayout: NotifySingleHandTransformChange: id:46, uiContent is nullptr
-02-19 12:46:28.020  9709  9709 I C04200/WMS: IsMainHandlerAvailable: id:46, isAvailable:1
-02-19 12:46:28.020  9709  9709 I C04200/WMS: IsMainHandlerAvailable: id:46, isAvailable:1
-02-19 12:46:28.020  9709  9709 I C02800/InputManagerImpl: [][SetWindowInputEventConsumer:364] enter
-02-19 12:46:28.040  9709  9709 I C02800/MMIClient: [][OnConnected:267] Connection to server succeeded, fd:52
-02-19 12:46:28.040  9709  9709 I C02800/MMIClient: [][AddFdListener:166] Server was listening
-02-19 12:46:28.040  9709  9709 I C02800/MMIClient: [][StartEventRunner:127] reuse current event handler, thread name:
-02-19 12:46:28.040  9709  9709 I C02800/MMIClient: [][StartEventRunner:130] File fd is in listening
-02-19 12:46:28.040  9709  9709 I C02800/InputManagerImpl: [][SetWindowInputEventConsumer] leave
-02-19 12:46:28.040  9709  9709 I C0420c/WMSEvent: AddInputWindow: SetWindowInputEventConsumer success, wid:46
-02-19 12:46:28.040  9709  9709 I C0420c/WMSEvent: LoadGameController: in
-02-19 12:46:28.042  9709  9709 I C04732/GameController: [(RegisterEntryModule:24)]begin load gamecontroller_event
-02-19 12:46:28.042  9709  9709 I C04732/GameController: [(StartInputToTouch:55)]Begin StartInputToTouch
-02-19 12:46:28.042  9709  9709 I C0420c/WMSEvent: LoadGameController: dlopen GameController success
-02-19 12:46:28.042  9709  9709 I C04217/WMSAttribute: ConnectServer: start connect
-02-19 12:46:28.042  9709  9709 I C04217/WMSAttribute: ConnectServer: end connect
-02-19 12:46:28.042  9709  9709 W C04217/WMSAttribute: RegisterGetWMSWindowListCallback: callback has registered
-02-19 12:46:28.042  9709  9709 I C04217/WMSAttribute: RegisterGetWMSWindowListCallback: winId: 46
-02-19 12:46:28.042  9709  9709 I C04217/WMSAttribute: UpdateColorMode: winId: 46, colorMode: light
-02-19 12:46:28.042  9709  9709 I C04217/WMSAttribute: UpdateColorMode: winId: 46, colorMode: light, hasDarkRes: 1
-02-19 12:46:28.042  9709  9709 I C0421c/WMSCompat: SetPcAppInpadSpecificSystemBarInvisible: isPcAppInpadSpecificSystemBarInvisible: 0
-02-19 12:46:28.042  9709  9709 I C0421c/WMSCompat: SetPcAppInpadOrientationLandscape: isPcAppInpadOrientationLandscape: 0
-02-19 12:46:28.042  9709  9709 E C04200/WMS: singleton_container.cpp GetSingleton: cant get OHOS::Rosen::WindowInfoReporter
-02-19 12:46:28.043  9709  9709 I C01332/UIAbility: [JUA1853]JsUIAbility call js, name: onWindowStageCreate
-02-19 12:46:28.043  9709  9709 I A00000/testTag: Ability onWindowStageCreate
-02-19 12:46:28.043  9709  9709 I A03d00/JSAPP: [RCP]  session list: ["0"] after create: undefined
-02-19 12:46:28.043  9709  9709 I C01653/PreferencesJsKit: GetContextMode: set gContextNode: 1, status: 0,
-02-19 12:46:28.043  9709  9818 I C01653/NativePreferences: XmlReadFile: file:/***/el2/***/sha***, m:0.
-02-19 12:46:28.044  9709  9709 I A03d00/JSAPP: start newDistributed
-02-19 12:46:28.044  9709  9709 I A03d00/JSAPP: constructor success 
-02-19 12:46:28.044  9709  9709 I C04200/JsWindowStage: LoadContent: [NAPI]
-02-19 12:46:28.044  9709  9709 I C01332/UIAbility: [JUA1898]end, name: onWindowStageCreate, time: 1
-02-19 12:46:28.044  9709  9709 I C01332/UIAbility: [JUA1853]JsUIAbility call js, name: onWillForeground
-02-19 12:46:28.044  9709  9709 I C01332/UIAbility: [JUA1898]end, name: onWillForeground, time: 0
-02-19 12:46:28.044  9709  9709 I C04202/WMSMain: GoForeground: reason: 4
-02-19 12:46:28.044  9709  9709 I C0420a/WMSLife: Show: Window show [name: shark0, id: 46, type: 1], reason: 4, state:1, requestState:1
-02-19 12:46:28.050  9709  9709 I C04208/WMSLayout: GetSystemSizeLimits: min[1120,840] max[6720,6720] configMax:1920 vpr:3.500000
-02-19 12:46:28.050  9709  9709 I C04208/WMSLayout: UpdateNewSize: fullscreen or compatible mode could not update new size, Id: 46
-02-19 12:46:28.050  9709  9709 I C04217/WMSAttribute: IsSystemDensityChanged: windowId: 46, lastDensity: -1.000000, currDensity: 3.500000
-02-19 12:46:28.051  9709  9709 W C04200/WindowSessionImpl: UpdateViewportConfig: uiContent is null!
-02-19 12:46:28.051  9709  9709 I C01332/UIAbility: [ui_ability_impl430]wnd call, AfterForeground
-02-19 12:46:28.051  9709  9709 W C0420a/WMSLife: GetAttachStateSyncResult: lifecycleCallback is null
-02-19 12:46:28.051  9709  9709 I C01406/OHOS::RS: RSFrameRateLinker::Create id: 41699837476865
-02-19 12:46:28.061  9709  9799 I C04207/WMSFocus: UpdateFocus: focus: 1, id: 46
-02-19 12:46:28.062  9709  9799 I C04207/WMSFocus: NotifyHighlightChange: windowId: 46, isHighlight: 1,
-02-19 12:46:28.062  9709  9799 W C04208/WMSLayout: NotifySingleHandTransformChange: id:46, uiContent is nullptr
-02-19 12:46:28.062  9709  9799 I C04200/WindowSessionImpl: NotifyTransformChange: in
-02-19 12:46:28.077  9709  9709 I C01706/rtg_interface: rtg fOpen fail, errno = 2(No such file or directory)
-02-19 12:46:28.077  9709  9709 I C01706/RsFrameReportExt: RsFrameReportExt:[LoadLibrary] load library success!
-02-19 12:46:28.077  9709  9709 I C01706/RsFrameReportExt: RsFrameReportExt:[Init] dlopen libframe_ui_intf.so success!
-02-19 12:46:28.077  9709  9709 E C01706/ueaClient-RmeCoreSched: [Init]: do not enabled!ret: -1
-02-19 12:46:28.077  9709  9709 I C01706/ueaClient-FrameMsgMgr: [Init]:inited success!
-02-19 12:46:28.077  9709  9709 I C01706/ueaClient-FrameUiIntf: [Init]:ret:1, inited:1
-02-19 12:46:28.080  9709  9843 I C04732/GameController: [(GetSelfBundleName:49)]The current bundleName [com.xiaobingkj.shark]. version [1.0.0]
-02-19 12:46:28.080  9709  9843 I C04732/GameController: [(IsCommonApp:87)]The [com.xiaobingkj.shark] is a common app.
-02-19 12:46:28.080  9709  9843 W C04732/GameController: [(ReadJsonFromFile:200)]realpath failed for [/data/service/el1/public/for-all-app/gamecontroller_server/game_support_key_mapping.json]
-02-19 12:46:28.080  9709  9843 I C04732/GameController: [(DoAsyncTask:69)]The app does not support input-to-touch feature.
-02-19 12:46:28.089  9709  9709 I C04217/WMSAttribute: InitWaterfallMode: winId: 46
-02-19 12:46:28.089  9709  9709 I C04217/WMSAttribute: NotifyWaterfallModeChange: winId: 46, waterfall: 0, stat: 2
-02-19 12:46:28.089  9709  9709 I C0420a/WMSLife: NotifyAfterDidForeground: reason: 4
-02-19 12:46:28.089  9709  9709 I C04202/WMSMain: NotifyFreeMultiWindowModeResume: IsPcMode 0, isColdStart 1
-02-19 12:46:28.089  9709  9709 I C0420a/WMSLife: Show: Window show success [name:shark0, id:46, type:1]
-02-19 12:46:28.089  9709  9709 I C04208/WMSLayout: NotifyWindowStatusChange: id:46, windowMode:1, windowStatus:1, lastWindowStatus:1, skipRedundantWindowStatusNotifications:0
-02-19 12:46:28.089  9709  9709 I C04208/WMSLayout: NotifyWindowStatusDidChange: Id:46, WindowMode:1, windowStatus:1, lastWindowStatus:0, listenerSize:0, rect:[0 0 1316 2832]
-02-19 12:46:28.089  9709  9709 W C04201/DMS: OnDisplayInfoChange: data is not changed.
-02-19 12:46:28.089  9709  9709 I C01332/UIAbility: [JUA1853]JsUIAbility call js, name: onForeground
-02-19 12:46:28.089  9709  9709 I A00000/testTag: Ability onForeground
-02-19 12:46:28.089  9709  9709 I C01332/UIAbility: [JUA1898]end, name: onForeground, time: 0
-02-19 12:46:28.091  9709  9709 I C0420a/WMSLife: NotifyAfterDidForeground execute
-02-19 12:46:28.091  9709  9709 I C01332/UIAbility: [JUA1853]JsUIAbility call js, name: onDidForeground
-02-19 12:46:28.091  9709  9709 I C01332/UIAbility: [JUA1898]end, name: onDidForeground, time: 0
-02-19 12:46:28.091  9709  9709 I C04202/WMSMain: GoResume: in
-02-19 12:46:28.091  9709  9709 I C0420a/WMSLife: Resume: in, isColdStart: 1, isDidForeground: 0
-02-19 12:46:28.091  9709  9709 I C0420a/WMSLife: NotifyAfterLifecycleResumed: in
-02-19 12:46:28.091  9709  9709 I C0420a/WMSLife: SetUIContentInner: pages/TabPage, state:2, persistentId: 46
-02-19 12:46:28.091  9709  9709 I C0420a/WMSLife: SetUIContentComplete: persistentId=46
-02-19 12:46:28.092  9709  9709 I C03900/Ace: [(-1:-1:undefined)] CreateUIContent.
-02-19 12:46:28.092  9709  9709 I C03934/AceUIEvent: [(-1:-1:undefined)] report ace loaded
-02-19 12:46:28.093  9709  9806 W C04707/HaClient: =========Invalid Client=========
-02-19 12:46:28.093  9709  9709 I C04707/HaAceEngine: OnAceLoaded end
-02-19 12:46:28.093  9709  9709 W C0391f/AceImage: [(-2:-1:undefined)] mkdir cache file path failed.
-02-19 12:46:28.094  9709  9709 I C03900/Ace: [(-2:-1:undefined)] Create ace bg threads pool.
-02-19 12:46:28.094  9709  9709 I C03900/Ace: [(-2:-1:undefined)] Init RenderService UniRender Type:0
-02-19 12:46:28.094  9709  9709 I C03900/Ace: [(-2:-1:undefined)] [com.xiaobingkj.shark][entry][-1]: UIContent: apiCompatibleVersion: 50000012, apiTargetVersion: 60002022, and apiReleaseType: Release, useNewPipe: 1
-02-19 12:46:28.098  9709  9709 I C02c03/PARAM_WATCHER: [watcher_manager_kits.cpp:176]Add watcher keyPrefix persist.sys.arkui.animationscale remoteWatcherId 58 success
-02-19 12:46:28.098  9709  9709 E C03900/Ace: [(-2:-1:undefined)] ConfigXMLParserBase read system file failed
-02-19 12:46:28.098  9709  9709 W C03900/Ace: [(-2:-1:undefined)] ArkUiFeatureParamManager failed to load xml file
-02-19 12:46:28.099  9709  9709 I C03900/Ace: [(-2:-1:undefined)] SetLocale language tag: zh-CN, select language: zh-CN
-02-19 12:46:28.099  9709  9709 I C03900/Ace: [(-2:-1:undefined)] [com.xiaobingkj.shark][entry][-1]: SetLanguage: zh, colorMode: light, deviceAccess: 1
-02-19 12:46:28.099  9709  9709 I C03900/Ace: [(-2:-1:undefined)] [com.xiaobingkj.shark][entry][-1]: Initialize UIContent isModelJson:true
-02-19 12:46:28.123  9709  9709 I C03900/Ace: [(100000:100000:scope)] SetHapPath, Use hap path to load resource
-02-19 12:46:28.124  9709  9709 I C04217/WMSAttribute: RegisterWaterfallModeChangeListener: winId: 46
-02-19 12:46:28.126  9709  9709 I C04200/WMS: GetSurfaceNode: name:shark0, id:46
-02-19 12:46:28.126  9709  9709 I C04200/WMS: GetSurfaceNode: name:shark0, id:46
-02-19 12:46:28.126  9709  9709 I C03900/Ace: [(100000:100000:scope)] SetRSSurfaceNode 41699837476866 with rs multi
-02-19 12:46:28.133  9709  9709 W C03900/Ace: [(100000:100000:scope)] Invalid config:zh_CN-long-notround-vertical-light-phone-xxxhdpi
-02-19 12:46:28.133  9709  9709 I C01406/OHOS::RS: RSSurfaceNode::SetAbilityState, surfaceNodeId:[41699837476866], ability state: background
-02-19 12:46:28.133  9709  9709 I C03900/Ace: [(100000:100000:scope)] set translateManager to pipeline, instanceId:100000
-02-19 12:46:28.133  9709  9709 I C0421d/WMSRotation: RegisterOrientationChangeListener: in
-02-19 12:46:28.133  9709  9709 I C03900/Ace: [(100000:100000:scope)] AddPersistAfterLayoutTask size: 1
-02-19 12:46:28.133  9709  9709 I C03919/AceInputTracking: [(100000:100000:scope)] Debug touch pass mode 0
-02-19 12:46:28.134  9709  9709 E C03934/AceUIEvent: [(100000:100000:scope)] AceTransform load failed: Error loading shared library /system/lib64/libtransform_interaction_ext.z.so: No such file or directory
-02-19 12:46:28.134  9709  9709 I C03937/AceResource: [(100000:100000:scope)] ResourceAdapter UpdateResConfig with colorMode light
-02-19 12:46:28.134  9709  9709 W C03900/Ace: [(100000:100000:scope)] not found systemTheme in HapModuleInfo, loading default OHOS_THEME
-02-19 12:46:28.134  9709  9709 I C03900/Ace: [(100000:100000:scope)] Cannot Get File List from resources/styles/
-02-19 12:46:28.134  9709  9709 W C03900/Ace: [(100000:100000:scope)] GetAsset failed: resources/styles/default.json
-02-19 12:46:28.139  9709  9709 I C03900/Ace: [(100000:100000:scope)] root node OnAttachToFrameNode, id:0
-02-19 12:46:28.140  9709  9709 I C03900/Ace: [(100000:100000:scope)] Rosenwindow set root, rsId:41699837476867
-02-19 12:46:28.140  9709  9709 I C02220/IntentionClient: in Connect, enter
-02-19 12:46:28.141  9709  9709 I C02220/IntentionClient: in Connect, Connecting IntentionService success
-02-19 12:46:28.141  9709  9709 I C02220/IntentionClient: in Connect, leave
-02-19 12:46:28.149  9709  9709 E C01d02/accessibility_asacfwk: [(AccessibilitySystemAbilityClientImpl:57)]accessibility service is ready.
-02-19 12:46:28.152  9709  9709 I C02c03/PARAM_WATCHER: [watcher_manager_kits.cpp:176]Add watcher keyPrefix accessibility.config.ready remoteWatcherId 58 success
-02-19 12:46:28.152  9709  9709 I C03900/Ace: [(100000:100000:scope)] focusWindowId: 0, realHostWindowId: 0
-02-19 12:46:28.152  9709  9709 I C03900/Ace: [(100000:100000:scope)] [com.xiaobingkj.shark][entry][100000]: window focus
-02-19 12:46:28.153  9709  9709 I C02c03/PARAM_WATCHER: [watcher_manager_kits.cpp:176]Add watcher keyPrefix debug.graphic.frame remoteWatcherId 58 success
-02-19 12:46:28.153  9709  9709 E C01719/ffrt: 4:Load:62 load so[lib_cpuboost.so] fail
-02-19 12:46:28.154  9709  9709 E C03900/Ace: [(100000:100000:scope)] ERROR EACCES
-02-19 12:46:28.155  9709  9709 E C03900/Ace: [(100000:100000:scope)] ERROR EACCES
-02-19 12:46:28.155  9709  9709 I C03900/Ace: [(100000:100000:scope)] ArkUIInvisibleFreeze: 0
-02-19 12:46:28.155  9709  9709 I C03900/Ace: [(100000:100000:scope)] [com.xiaobingkj.shark][entry][100000]: SetMinPlatformVersion is 50000012
-02-19 12:46:28.155  9709  9709 I C04209/WMSImms: RegisterAvoidAreaChangeListener: win 46
-02-19 12:46:28.155  9709  9709 E C04201/IMockSessionManager: Read result failed, code is: 3.
-02-19 12:46:28.156  9709  9709 E C04201/IMockSessionManager: Read result failed, code is: 5.
-02-19 12:46:28.161  9709  9797 I C04208/WMSLayout: UpdateRect: id:46 name:shark0 rect:[0 0 1316 2832]->[0 0 1316 2832] reason:23 displayId:0
-02-19 12:46:28.162  9709  9709 I C04209/WMSImms: GetAvoidAreaByType: win [46 shark0] type 0 times 1 area top [0 0 1316 136] 
-02-19 12:46:28.164  9709  9709 I C04209/WMSImms: GetAvoidAreaByType: win [46 shark0] type 1 times 2 area top [512 37 292 83] 
-02-19 12:46:28.164  9709  9709 I C04209/WMSImms: GetAvoidAreaByType: win [46 shark0] type 4 times 3 area bottom [427 2734 462 98] 
-02-19 12:46:28.164  9709  9709 I C03917/AceSafeArea: [(100000:100000:scope)] InitializeSafeArea systemInsets:SafeAreaInsets left_: [start: 0, end: 0], top_: [start: 0, end: 136], right_: [start: 0, end: 0], bottom_: [start: 0, end: 0], cutoutInsets:SafeAreaInsets left_: [start: 0, end: 0], top_: [start: 37, end: 120], right_: [start: 0, end: 0], bottom_: [start: 0, end: 0], navInsets:SafeAreaInsets left_: [start: 0, end: 0], top_: [start: 0, end: 0], right_: [start: 0, end: 0], bottom_: [start: 2734, end: 2832]
-02-19 12:46:28.165  9709  9709 I C0394e/AceWindow: [(100000:100000:scope)] Initialize displayId: 0, availableRect: [0, 0, 1316, 2832]
-02-19 12:46:28.165  9709  9709 I C03900/Ace: [(100000:100000:scope)] Failed to open libthp_extra_innerapi.z.so, reason: Error loading shared library /system/lib64/libthp_extra_innerapi.z.so: No such file or directory
-02-19 12:46:28.165  9709  9709 I C03900/Ace: [(-2:100000:singleton)] [com.xiaobingkj.shark][entry][100000]: Initialize: pages/TabPage
-02-19 12:46:28.165  9709  9709 I C03900/Ace: [(100000:100000:scope)] RunPage:pages/TabPage
-02-19 12:46:28.165  9709  9709 W C03900/Ace: [(100000:100000:scope)] GetAsset failed: manifest.json
-02-19 12:46:28.166  9709  9709 I C04200/WMS: InitUIContent: [0, 0]
-02-19 12:46:28.166  9709  9709 I C04208/WMSLayout: SetUIContentInner: single hand, id:46, posX:0, posY:0, scaleX:1.000000, scaleY:1.000000
-02-19 12:46:28.166  9709  9858 I C03951/InputKeyFlow: [(-1:100000:singleton)] Subscribe touch.events.pass.through Event
-02-19 12:46:28.166  9709  9709 I C04219/WMSDecor: UpdateDecorEnable: decorVisible:1, id: 46
-02-19 12:46:28.166  9709  9709 I C03900/Ace: [(-2:100000:singleton)] [com.xiaobingkj.shark][entry][100000]: UpdateWindowVisible: 1, hasDecor: 0
-02-19 12:46:28.166  9709  9709 I C03900/Ace: [(-2:100000:singleton)] [com.xiaobingkj.shark][entry][100000]: NotifyWindowMode mode = 1
-02-19 12:46:28.167  9709  9709 I C03900/Ace: [(-2:100000:singleton)] [com.xiaobingkj.shark][entry][100000]: window foreground
-02-19 12:46:28.167  9709  9709 I C03900/Ace: [(100000:100000:scope)] Update application state , state: ON_SHOW
-02-19 12:46:28.167  9709  9709 I C01406/OHOS::RS: RSSurfaceNode::SetAbilityState, surfaceNodeId:[41699837476866], ability state: foreground
-02-19 12:46:28.167  9709  9709 I C03900/Ace: [(100000:100000:scope)] ArkUI requests first Vsync.
-02-19 12:46:28.167  9709  9709 I C04202/WMSMain: RequestVsync: First vsync has requested, nodeId: 41699837476866
-02-19 12:46:28.168  9709  9709 I C03959/AceLayout: [(-2:100000:singleton)] [com.xiaobingkj.shark][entry][100000]: UpdateViewportConfig Viewport config: size: (1316, 2832) orientation: 0 density: 3.500000 position: (0, 0) transformHint: 0 displayId: 0, windowSizeChangeReason 0, is rsTransaction nullptr 1, , keyboardInfo is null
-02-19 12:46:28.168  9709  9709 I C04208/WMSLayout: UpdateViewportConfig: Id: 46, reason: 0, windowRect: [0 0 1316 2832], displayOrientation: 0, config[0, 0, 0, 3.500000]
-02-19 12:46:28.168  9709  9709 I C03900/Ace: [(-2:100000:singleton)] [com.xiaobingkj.shark][entry][100000]: window focus
-02-19 12:46:28.168  9709  9709 I C03900/Ace: [(-2:100000:singleton)] [com.xiaobingkj.shark][entry][100000]:window active
-02-19 12:46:28.168  9709  9709 I C04208/WMSLayout: NotifyAfterUIContentReady: Renotify transform, id:46, scaleX:1.000000, scaleY:1.000000
-02-19 12:46:28.168  9709  9855 I C02c03/PARAM_WATCHER: [watcher_manager_kits.cpp:176]Add watcher keyPrefix persist.ace.trace.layout.enabled remoteWatcherId 58 success
-02-19 12:46:28.168  9709  9709 W C01320/JsEnv: [source_map145]the stack without line info
-02-19 12:46:28.168  9709  9709 I A00000/testTag: Succeeded in loading the content.
-02-19 12:46:28.169  9709  9709 I C04200/JsWindowStage: Window [46, shark0] load content end, ret=0
-02-19 12:46:28.169  9709  9709 I C04209/WMSImms: NotifyAvoidAreaChange: win 46 api 22 type 0 area top [0 0 1316 136] 
-02-19 12:46:28.169  9709  9709 I C04209/WMSImms: NotifyAvoidAreaChange: win 46 api 22 type 1 area top [512 37 292 83] 
-02-19 12:46:28.169  9709  9709 I C04209/WMSImms: NotifyAvoidAreaChange: win 46 api 22 type 2 area empty
-02-19 12:46:28.169  9709  9709 I C04209/WMSImms: NotifyAvoidAreaChange: win 46 api 22 type 3 area empty
-02-19 12:46:28.169  9709  9709 I C04209/WMSImms: NotifyAvoidAreaChange: win 46 api 22 type 4 area bottom [427 2734 462 98] 
-02-19 12:46:28.169  9709  9709 I C03959/AceLayout: [(-2:100000:singleton)] [com.xiaobingkj.shark][entry][100000]: UpdateViewportConfig Viewport config: size: (1316, 2832) orientation: 0 density: 3.500000 position: (0, 0) transformHint: 0 displayId: 0, windowSizeChangeReason 0, is rsTransaction nullptr 1, updateAvoidAreas size: 5[(0,top [0 0 1316 136] )(1,top [512 37 292 83] )(2,empty)(3,empty)(4,bottom [427 2734 462 98] )], keyboardInfo is null
-02-19 12:46:28.169  9709  9855 I C02c03/PARAM_WATCHER: [watcher_manager_kits.cpp:176]Add watcher keyPrefix persist.ace.trace.inputevent.enabled remoteWatcherId 58 success
-02-19 12:46:28.169  9709  9709 I C04208/WMSLayout: UpdateViewportConfig: Id: 46, reason: 0, windowRect: [0 0 1316 2832], displayOrientation: 0, config[0, 0, 0, 3.500000]
-02-19 12:46:28.170  9709  9709 I C03900/Ace: [(100000:100000:scope)] Update application state , state: ON_ACTIVE
-02-19 12:46:28.170  9709  9709 I C01d02/accessibility_asacfwk: [(SubscribeStateObserver:547)]Observer has subscribed!
-02-19 12:46:28.170  9709  9709 I C01d02/accessibility_asacfwk: [(SubscribeStateObserver:547)]Observer has subscribed!
-02-19 12:46:28.170  9709  9709 I C01d02/accessibility_asacfwk: [(SubscribeStateObserver:547)]Observer has subscribed!
-02-19 12:46:28.170  9709  9709 I C0391c/AceFocus: [(100000:100000:scope)] Window: 46 get focus.
-02-19 12:46:28.170  9709  9709 W C0391c/AceFocus: [(100000:100000:scope)] Current focus view can not found!
-02-19 12:46:28.170  9709  9709 I C0391c/AceFocus: [(100000:100000:scope)] Request focus on rootFocusHub: root/0
-02-19 12:46:28.170  9709  9855 I C02c03/PARAM_WATCHER: [watcher_manager_kits.cpp:176]Add watcher keyPrefix const.security.developermode.state remoteWatcherId 58 success
-02-19 12:46:28.171  9709  9709 I C03959/AceLayout: [(-2:100000:singleton)] [com.xiaobingkj.shark][entry][100000]: UpdateViewportConfig Viewport config: size: (1316, 2832) orientation: 0 density: 3.500000 position: (0, 0) transformHint: 0 displayId: 0, windowSizeChangeReason 23, is rsTransaction nullptr 1, updateAvoidAreas size: 5[(0,top [0 0 1316 136] )(1,top [512 37 292 83] )(2,empty)(3,empty)(4,bottom [427 2734 462 98] )], keyboardInfo is null
-02-19 12:46:28.171  9709  9709 I C04208/WMSLayout: UpdateViewportConfig: Id: 46, reason: 23, windowRect: [0 0 1316 2832], displayOrientation: 0, config[0, 0, 0, 3.500000]
-02-19 12:46:28.171  9709  9709 I C03925/AceRouter: [(100000:100000:scope)] Page router manager is creating page[1]: url: pages/TabPage path: pages/TabPage.js, recoverable: yes, namedRouter: no
-02-19 12:46:28.172  9709  9709 I C03f01/NAPI: [RegisterByBuffer] Module name is 'arkui.modifier'
-02-19 12:46:28.173  9709  9855 I C02c03/PARAM_WATCHER: [watcher_manager_kits.cpp:176]Add watcher keyPrefix persist.ace.debug.statemgr.enabled remoteWatcherId 58 success
-02-19 12:46:28.173  9709  9855 I C02c03/PARAM_WATCHER: [watcher_manager_kits.cpp:176]Add watcher keyPrefix persist.ace.debug.boundary.enabled remoteWatcherId 58 success
-02-19 12:46:28.173  9709  9855 I C02c03/PARAM_WATCHER: [watcher_manager_kits.cpp:176]Add watcher keyPrefix persist.ace.performance.monitor.enabled remoteWatcherId 58 success
-02-19 12:46:28.174  9709  9855 I C02c03/PARAM_WATCHER: [watcher_manager_kits.cpp:176]Add watcher keyPrefix persist.gesture.smart_gesture_enable remoteWatcherId 58 success
-02-19 12:46:28.175  9709  9709 E C01707/CONCUR: [Interface] task 9810 apply qos failed, errno = 4
-02-19 12:46:28.177  9709  9709 E C01707/CONCUR: [Interface] task 9811 apply qos failed, errno = 4
-02-19 12:46:28.179  9709  9709 E C01707/CONCUR: [Interface] task 9809 apply qos failed, errno = 4
-02-19 12:46:28.181  9709  9709 E C01707/CONCUR: [Interface] task 9810 apply qos failed, errno = 4
-02-19 12:46:28.184  9709  9709 E C01707/CONCUR: [Interface] task 9811 apply qos failed, errno = 4
-02-19 12:46:28.185  9709  9709 E C01707/CONCUR: [Interface] task 9809 apply qos failed, errno = 4
-02-19 12:46:28.188  9709  9709 E C01707/CONCUR: [Interface] task 9810 apply qos failed, errno = 4
-02-19 12:46:28.191  9709  9709 E C01707/CONCUR: [Interface] task 9811 apply qos failed, errno = 4
-02-19 12:46:28.193  9709  9709 E C01707/CONCUR: [Interface] task 9809 apply qos failed, errno = 4
-02-19 12:46:28.194  9709  9709 E C01707/CONCUR: [Interface] task 9810 apply qos failed, errno = 4
-02-19 12:46:28.195  9709  9709 E C01707/CONCUR: [Interface] task 9811 apply qos failed, errno = 4
-02-19 12:46:28.196  9709  9709 E C01707/CONCUR: [Interface] task 9809 apply qos failed, errno = 4
-02-19 12:46:28.200  9709  9709 E C01707/CONCUR: [Interface] task 9810 apply qos failed, errno = 4
-02-19 12:46:28.202  9709  9709 E C01707/CONCUR: [Interface] task 9811 apply qos failed, errno = 4
-02-19 12:46:28.205  9709  9709 E C01707/CONCUR: [Interface] task 9809 apply qos failed, errno = 4
-02-19 12:46:28.207  9709  9709 E C01707/CONCUR: [Interface] task 9810 apply qos failed, errno = 4
-02-19 12:46:28.212  9709  9709 E C01707/CONCUR: [Interface] task 9811 apply qos failed, errno = 4
-02-19 12:46:28.213  9709  9709 E C01707/CONCUR: [Interface] task 9809 apply qos failed, errno = 4
-02-19 12:46:28.215  9709  9709 E C01707/CONCUR: [Interface] task 9810 apply qos failed, errno = 4
-02-19 12:46:28.217  9709  9709 E C01707/CONCUR: [Interface] task 9811 apply qos failed, errno = 4
-02-19 12:46:28.221  9709  9709 E C01707/CONCUR: [Interface] task 9809 apply qos failed, errno = 4
-02-19 12:46:28.224  9709  9709 E C01707/CONCUR: [Interface] task 9810 apply qos failed, errno = 4
-02-19 12:46:28.225  9709  9709 E C01707/CONCUR: [Interface] task 9811 apply qos failed, errno = 4
-02-19 12:46:28.226  9709  9709 E C01707/CONCUR: [Interface] task 9809 apply qos failed, errno = 4
-02-19 12:46:28.227  9709  9709 I C05506/ScanFrameworkUIServiceExtension: [Init:340] begin Init startScanForResult
-02-19 12:46:28.227  9709  9709 I C05506/ScanFrameworkUIServiceExtension: [DefineErrorCodeEnumClass:256] begin defineErrorCodeEnumClass
-02-19 12:46:28.227  9709  9709 I C05506/ScanFrameworkUIServiceExtension: [DefineErrorCodeEnumClass:276] end defineErrorCodeEnumClass
-02-19 12:46:28.227  9709  9709 I C05506/ScanFrameworkUIServiceExtension: [Init:348] end Init startScanForResult
-02-19 12:46:28.286  9709  9709 E C02d33/HitraceMeter: write trace_marker failed, 9
-02-19 12:46:28.286  9709  9709 I C01405/EffectKit: ColorPicker Napi CALL
-02-19 12:46:28.286  9709  9709 I C01405/EffectKit: Init success
-02-19 12:46:28.287  9709  9709 I C03f01/NAPI: [RegisterByBuffer] Module name is 'arkui.node'
-02-19 12:46:28.290  9709  9709 E C01707/CONCUR: [Interface] task 9810 apply qos failed, errno = 4
-02-19 12:46:28.291  9709  9709 E C01707/CONCUR: [Interface] task 9811 apply qos failed, errno = 4
-02-19 12:46:28.296  9709  9709 E C01707/CONCUR: [Interface] task 9809 apply qos failed, errno = 4
-02-19 12:46:28.302  9709  9709 E C01707/CONCUR: [Interface] task 9810 apply qos failed, errno = 4
-02-19 12:46:28.303  9709  9709 E C01707/CONCUR: [Interface] task 9811 apply qos failed, errno = 4
-02-19 12:46:28.310  9709  9709 E C01707/CONCUR: [Interface] task 9809 apply qos failed, errno = 4
-02-19 12:46:28.323  9709  9709 E C01707/CONCUR: [Interface] task 9810 apply qos failed, errno = 4
-02-19 12:46:28.326  9709  9709 E C01707/CONCUR: [Interface] task 9811 apply qos failed, errno = 4
-02-19 12:46:28.326  9709  9709 E C01707/CONCUR: [Interface] task 9809 apply qos failed, errno = 4
-02-19 12:46:28.329  9709  9709 E C01707/CONCUR: [Interface] task 9810 apply qos failed, errno = 4
-02-19 12:46:28.331  9709  9709 E C01707/CONCUR: [Interface] task 9811 apply qos failed, errno = 4
-02-19 12:46:28.333  9709  9709 E C01707/CONCUR: [Interface] task 9809 apply qos failed, errno = 4
-02-19 12:46:28.334  9709  9709 I C04500/webview: Init: begin to init native media player napi properties
-02-19 12:46:28.334  9709  9709 I C04500/webview: Init: [PROXYCONTROLLER] NapiProxyConfig::Init is called
-02-19 12:46:28.334  9709  9709 I C03f01/NAPI: [RegisterByBuffer] Module name is 'file.photoAccessHelper'
-02-19 12:46:28.335  9709  9709 E C01707/CONCUR: [Interface] task 9810 apply qos failed, errno = 4
-02-19 12:46:28.337  9709  9709 E C01707/CONCUR: [Interface] task 9811 apply qos failed, errno = 4
-02-19 12:46:28.339  9709  9709 E C01707/CONCUR: [Interface] task 9809 apply qos failed, errno = 4
-02-19 12:46:28.341  9709  9709 E C01707/CONCUR: [Interface] task 9810 apply qos failed, errno = 4
-02-19 12:46:28.345  9709  9709 E C01707/CONCUR: [Interface] task 9811 apply qos failed, errno = 4
-02-19 12:46:28.346  9709  9709 E C01707/CONCUR: [Interface] task 9809 apply qos failed, errno = 4
-02-19 12:46:28.347  9709  9709 W C03f01/NAPI: [FindNativeModuleByDisk] mismatch: moduleName is file.photoAccessHelperNative, name is file.photoAccessHelper
-02-19 12:46:28.348  9709  9709 I C02b01/CAMERA: {Onload():63} CameraPickerNapi::OnLoad
-02-19 12:46:28.348  9709  9709 I C02b01/CAMERA: {Init():463} CameraPickerNapi::Init is called
-02-19 12:46:28.348  9709  9709 W C03f01/NAPI: [FindNativeModuleByDisk] mismatch: moduleName is web.webnativemessagingextensionmanager_napi, name is web.webNativeMessagingExtensionManager
-02-19 12:46:28.350  9709  9709 I C015b0/NetMgrSubSystem: newId = 1, id = 2
-02-19 12:46:28.351  9709  9709 W C02d07/Verify: invalid configName=
-02-19 12:46:28.351  9709  9709 I C02d07/ObserverMgr: register processor=1 exit
-02-19 12:46:28.352  9709  9709 W C02d07/Verify: invalid configName=
-02-19 12:46:28.352  9709  9709 I C02d07/ObserverMgr: register processor=1 exit
-02-19 12:46:28.357  9709  9709 W C03926/AceTheme: [(100000:100000:scope)] style 125829872 not contains tab_pattern!
-02-19 12:46:28.357  9709  9709 W C03926/AceTheme: [(100000:100000:scope)] style tab_pattern not contains default_tab_bar_name!
-02-19 12:46:28.357  9709  9709 W C03926/AceTheme: [(100000:100000:scope)] style tab_pattern get attr dialog_radius_level10 error!
-02-19 12:46:28.357  9709  9709 W C03926/AceTheme: [(100000:100000:scope)] style tab_pattern get attr dialog_icon_primary error!
-02-19 12:46:28.357  9709  9709 W C03926/AceTheme: [(100000:100000:scope)] style tab_pattern get attr dialog_font_primary error!
-02-19 12:46:28.357  9709  9709 W C03926/AceTheme: [(100000:100000:scope)] style 125829872 not contains swiper_pattern!
-02-19 12:46:28.358  9709  9709 W C03926/AceTheme: [(100000:100000:scope)] style swiper_pattern get attr swiper_focus_style_type error!
-02-19 12:46:28.358  9709  9709 W C03926/AceTheme: [(100000:100000:scope)] style swiper_pattern not contains swiper_indicator_drag_min_angle!
-02-19 12:46:28.358  9709  9709 W C03926/AceTheme: [(100000:100000:scope)] style swiper_pattern not contains swiper_indicator_drag_max_angle!
-02-19 12:46:28.359  9709  9709 W C03926/AceTheme: [(100000:100000:scope)] style 125829872 not contains focus_animation_pattern!
-02-19 12:46:28.359  9709  9709 W C03926/AceTheme: [(100000:100000:scope)] style 125829872 not contains aging_adapation_dialog_pattern!
-02-19 12:46:28.359  9709  9709 W C03926/AceTheme: [(100000:100000:scope)] style text_pattern not contains linear_split_child_min_size!
-02-19 12:46:28.359  9709  9709 W C03926/AceTheme: [(100000:100000:scope)] style text_pattern not contains menu_celia_ask_is_support!
-02-19 12:46:28.360  9709  9709 I C0391c/AceFocus: [(100000:100000:scope)] view: page/2 show
-02-19 12:46:28.360  9709  9709 I C03922/AceNavigation: [(100000:100000:scope)] can't find inner navigation
-02-19 12:46:28.361  9709  9709 I C03933/AceKeyboard: [(100000:100000:scope)] StageManager FrameNode notNeedSoftKeyboard.
-02-19 12:46:28.361  9709  9709 I C03933/AceKeyboard: [(100000:100000:scope)] Container not SceneBoardWindow.
-02-19 12:46:28.361  9709  9709 I C03925/AceRouter: [(100000:100000:scope)] LoadPage Success
-02-19 12:46:28.361  9709  9709 I C02d06/XCollie: Application is in starting period.
-02-19 12:46:28.361  9709  9709 I C0392a/AceUiExtensionComponent: [(-2:100000:singleton)] NotifyWindowMode aliveUIExtensions = 0
-02-19 12:46:28.361  9709  9709 I C0394e/AceWindow: [(100000:100000:scope)] Update displayWindowRect in UpdateViewportConfig to : Rect (0.00, 0.00) - [1316.00 x 2832.00]
-02-19 12:46:28.361  9709  9709 I C03917/AceSafeArea: [(100000:100000:scope)] SetIsFullScreen 1
-02-19 12:46:28.362  9709  9709 I C03900/Ace: [(100000:100000:scope)] Root node request first frame.
-02-19 12:46:28.362  9709  9709 I C03900/Ace: [(100000:100000:scope)] Update application state , state: ON_ACTIVE
-02-19 12:46:28.363  9709  9709 I C01d02/accessibility_asacfwk: [(SubscribeStateObserver:547)]Observer has subscribed!
-02-19 12:46:28.363  9709  9709 I C01d02/accessibility_asacfwk: [(SubscribeStateObserver:547)]Observer has subscribed!
-02-19 12:46:28.363  9709  9709 I C01d02/accessibility_asacfwk: [(SubscribeStateObserver:547)]Observer has subscribed!
-02-19 12:46:28.363  9709  9709 I C0391c/AceFocus: [(100000:100000:scope)] Window: 46 get focus.
-02-19 12:46:28.363  9709  9709 I C03900/Ace: [(100000:100000:scope)] Update application state , state: ON_ACTIVE
-02-19 12:46:28.363  9709  9709 I C01d02/accessibility_asacfwk: [(SubscribeStateObserver:547)]Observer has subscribed!
-02-19 12:46:28.363  9709  9709 I C01d02/accessibility_asacfwk: [(SubscribeStateObserver:547)]Observer has subscribed!
-02-19 12:46:28.363  9709  9709 I C01d02/accessibility_asacfwk: [(SubscribeStateObserver:547)]Observer has subscribed!
-02-19 12:46:28.363  9709  9709 I C04202/WMSMain: VsyncCallbackInner: First vsync has come back, nodeId: 41699837476866
-02-19 12:46:28.366  9709  9709 I C01408/Text: InitTextBundleConfig: Adapter text height enabled 0
-02-19 12:46:28.369  9709  9709 W C03926/AceTheme: [(100000:100000:scope)] style 125829872 not contains divider_pattern!
-02-19 12:46:28.370  9709  9709 W C03926/AceTheme: [(100000:100000:scope)] style 125829872 not contains navigation_bar_pattern!
-02-19 12:46:28.370  9709  9709 W C03926/AceTheme: [(100000:100000:scope)] style navigation_bar_pattern not contains title_sapce_vertical!
-02-19 12:46:28.371  9709  9709 E C03947/AceStateMgmt: [(100000:100000:scope)] FIX THIS APPLICATION ERROR: @Component 'ServerView: State variable 'navPathStack' has changed during render! It's illegal to change @Component state while build (initial render or re-render) is on-going. Application error!
-02-19 12:46:28.371  9709  9709 I C03922/AceNavigation: [(100000:100000:scope)] navigation necessary to immediately trigger a refresh
-02-19 12:46:28.371  9709  9709 W C03926/AceTheme: [(100000:100000:scope)] style 125829872 not contains sheet_pattern!
-02-19 12:46:28.371  9709  9709 W C03926/AceTheme: [(100000:100000:scope)] style sheet_pattern not contains corner_radius_none!
-02-19 12:46:28.371  9709  9709 E C03949/AceSheet: [(100000:100000:scope)] radius is not correct type
-02-19 12:46:28.380  9709  9709 I C03922/AceNavigation: [(100000:100000:scope)] AvoidInfoManager register listener
-02-19 12:46:28.384  9709  9709 I C03900/Ace: [(100000:100000:scope)] ArkUi flush first frame messages.
-02-19 12:46:28.385  9709  9709 I C0391c/AceFocus: [(100000:100000:scope)] Request focus on focusView: page/2.
-02-19 12:46:28.385  9709  9709 I C0391c/AceFocus: [(100000:100000:scope)] WinFocusMove end, root/secure_field onBlur, Tabs/secure_field onFocus, start: 2, end: 1, update: 2
-02-19 12:46:28.385  9709  9709 I C03933/AceKeyboard: [(100000:100000:scope)] current focus node: (Tabs/5). isDynamic: 0
-02-19 12:46:28.385  9709  9709 I C03933/AceKeyboard: [(100000:100000:scope)] Trigger Window Focus Callback
-02-19 12:46:28.385  9709  9709 I C03933/AceKeyboard: [(100000:100000:scope)] need keyboard : 0.
-02-19 12:46:28.385  9709  9709 I C0420b/WMSKeyboard: id: 46, isNeedKeyboard: 0, keepKeyboardFlag: 0
-02-19 12:46:28.385  9709  9709 I C0420b/WMSKeyboard: RequestInputMethodCloseKeyboard: Notify InputMethod framework close keyboard start.
-02-19 12:46:28.391  9709  9709 I C03903/AceSubWindow: [(100000:100000:scope)] hide menu ng exit, window not exist
-02-19 12:46:28.392  9709  9709 W C02d66/Hiview-PerfMonitor: OnAnimatorStop: Animation has not started, sceneId: APP_TAB_SWITCH
-02-19 12:46:28.392  9709  9709 I C04216/WMSPattern: FlushLayoutSize: NotifyFrameLayoutFinishFromApp, id: 46, rect: [0 0 1316 2832], notifyListener: 0
-02-19 12:46:28.392  9709  9709 I C02d66/Hiview-PerfMonitor: ProcessJank: JankFrameMonitor::ProcessJank jank >= threshold
-02-19 12:46:28.392  9709  9709 E C03949/AceSheet: [(100000:100000:scope)] radius is not correct type
-02-19 12:46:28.393  9709  9709 W C03913/AceText: [(100000:100000:scope)] destroy TxtParagraph with placeholderCnt_ 0, textAlign_ 0, count 0
-02-19 12:46:28.393  9709  9709 I C03922/AceNavigation: [(100000:100000:scope)] sync with js stack, id: , UINodeId: 26, preStackSize: 0, newStackSize: 0
-02-19 12:46:28.394  9709  9709 I C03922/AceNavigation: [(100000:100000:scope)] last standard page index is -1
-02-19 12:46:28.394  9709  9709 I C03922/AceNavigation: [(100000:100000:scope)] page is not change. don't transition
-02-19 12:46:28.403  9709  9709 E C03949/AceSheet: [(100000:100000:scope)] radius is not correct type
-02-19 12:46:28.867  9709  9709 I C01356/Recovery: [app_recovery468]fileDir: /data/storage/el2/base/files
-02-19 12:46:29.825  9709  9809 I C03f00/ArkCompiler: [gc] SmartGC: app cold start just finished
-02-19 12:46:31.431  9709  9709 I C02805/InputKeyFlow: [][OnPointerEvent:242] ac: down: 69
-02-19 12:46:31.431  9709  9709 I C02805/InputKeyFlow: [P:D:69][OnPointerEvent:645] recv
-02-19 12:46:31.432  9709  9709 I C04213/InputKeyFlow: HandleInputEvent: eid:0,InputId:69,wid:46,ac:2
-02-19 12:46:31.432  9709  9709 I C03951/InputKeyFlow: [(100000:100000:scope)] ITK Id:69, fId:0, T:0, I=0, M=0
-02-19 12:46:31.433  9709  9709 I C03951/InputKeyFlow: [(100000:100000:scope)] ITK Id:69, TTHNI:fId: 0{ T: Swiper, D: 6 };{ T: MenuItem, D: 13 };
-02-19 12:46:31.433  9709  9709 I C03951/InputKeyFlow: [(100000:100000:scope)] ITK Id:69, TTHRTI: T ClickRecognizer info: { T: BarItem }; { T: MenuItem };
-02-19 12:46:31.434  9709  9709 I C03945/AceStateStyle: [(100000:100000:scope)] Handle TouchDown event node: MenuItem
-02-19 12:46:31.435  9709  9709 E C02c03/PARAM_WATCHER: Read result failed, code is: 1.
-02-19 12:46:31.435  9709  9709 E C02c03/PARAM_WATCHER: [watcher_manager_kits.cpp:165]Failed to add watcher for persist.rosen.animationtrace.enabled
-02-19 12:46:31.435  9709  9709 E C02c03/PARAM_WATCHER: [watcher_manager_kits.cpp:350]SystemWatchParameter is failed! keyPrefix is:persist.rosen.animationtrace.enabled, errNum is:-1
-02-19 12:46:31.435  9709  9709 E C02c0b/BEGET: [service_watcher.c:83]WatchParameter failed! the errNum is -1
-02-19 12:46:31.436  9709  9709 I C02c03/PARAM_WATCHER: [watcher_manager_kits.cpp:176]Add watcher keyPrefix sys.graphic.openTestModeTrace remoteWatcherId 58 success
-02-19 12:46:31.436  9709  9709 I C03915/AceSwiper: [(100000:100000:scope)] Swiper HandleTouchDown id: 6
-02-19 12:46:31.436  9709  9709 I C03919/AceInputTracking: [(100000:100000:scope)] Consumed id:69, last id:-1
-02-19 12:46:31.436  9709  9709 I C04213/InputKeyFlow: ConsumePointerEventInner: InputId:69,wid:46,pointId:0,srcType:2,rect:[0,0,1316,2832],notify:1
-02-19 12:46:31.436  9709  9709 I C03f00/ArkCompiler: [ecmascript] PandaFileSnapshotInterfaces::Serialize: /data/storage/system_optimize/ark_startup_cache/
-02-19 12:46:31.436  9709  9709 I C03f00/ArkCompiler: [ecmascript] PandaFileSnapshotInterfaces::Serialize: /data/storage/system_optimize/ark_startup_cache/ is not exists
-02-19 12:46:31.436  9709  9709 I C03f00/ArkCompiler: [ecmascript] ModuleSnapshotInterfaces::Serialize: /data/storage/system_optimize/ark_startup_cache/
-02-19 12:46:31.436  9709  9709 I C03f00/ArkCompiler: [ecmascript] ModuleSnapshotInterface::Serialize: /data/storage/system_optimize/ark_startup_cache/ is not exists
-02-19 12:46:31.545  9709  9709 I C02805/InputKeyFlow: [][OnPointerEvent:242] ac: up: 70
-02-19 12:46:31.545  9709  9709 I C02805/InputKeyFlow: [P:U:70][OnPointerEvent:645] recv
-02-19 12:46:31.545  9709  9709 I C04213/InputKeyFlow: HandleInputEvent: eid:1,InputId:70,wid:46,ac:4
-02-19 12:46:31.545  9709  9709 I C03951/InputKeyFlow: [(100000:100000:scope)] ITK Id:70, fId:0, T:1, I=0, M=0
-02-19 12:46:31.545  9709  9709 I C03945/AceStateStyle: [(100000:100000:scope)] Handle TouchUp or Cancel event node: MenuItem
-02-19 12:46:31.545  9709  9709 I C03915/AceSwiper: [(100000:100000:scope)] Swiper HandleTouchUp id: 6
-02-19 12:46:31.546  9709  9709 I C0391e/AceGesture: [(100000:100000:scope)] Click try accept
-02-19 12:46:31.546  9709  9709 I C03951/InputKeyFlow: [(100000:100000:scope)] CLK RACC, T: BarItem
-02-19 12:46:31.546  9709  9709 I C03919/AceInputTracking: [(100000:100000:scope)] Consumed id:70, last id:-1
-02-19 12:46:31.546  9709  9709 I C04213/InputKeyFlow: ConsumePointerEventInner: InputId:70,wid:46,pointId:0,srcType:2,rect:[0,0,1316,2832],notify:1
-02-19 12:46:31.551  9709  9709 E C03949/AceSheet: [(100000:100000:scope)] radius is not correct type
-02-19 12:46:31.556  9709  9709 E C03947/AceStateMgmt: [(100000:100000:scope)] FIX THIS APPLICATION ERROR: @Component 'ServerView'[25] has error in update func: undefined is not callable
-02-19 12:46:31.556  9709  9709 W C03f00/ArkCompiler: [default] [Call:3918] occur exception need return
-02-19 12:46:31.556  9709  9709 E C03f00/ArkCompiler: [ecmascript] Pending exception before ExecutePendingJob called, in line:5894, exception details as follows:
-02-19 12:46:31.556  9709  9709 E C03f00/ArkCompiler: TypeError: undefined is not callable
-02-19 12:46:31.556  9709  9709 E C03f00/ArkCompiler:     at SynchedPropertyTwoWayPU (/usr1/hmos_for_system/src/increment/sourcecode/out/generic_generic_arm_64only/all_all_phone_standard_emulator/obj/foundation/arkui/ace_engine/frameworks/bridge/declarative_frontend/stateMgmt.js:7285:1)
-02-19 12:46:31.556  9709  9709 E C03f00/ArkCompiler:     at SynchedPropertySimpleTwoWayPU (/usr1/hmos_for_system/src/increment/sourcecode/out/generic_generic_arm_64only/all_all_phone_standard_emulator/obj/foundation/arkui/ace_engine/frameworks/bridge/declarative_frontend/stateMgmt.js:7505:1)
-02-19 12:46:31.556  9709  9709 E C03f00/ArkCompiler:     at ServerListView entry (entry/src/main/ets/pages/ServerListView.ets:13:64)
-02-19 12:46:31.556  9709  9709 E C03f00/ArkCompiler:     at anonymous entry (entry/src/main/ets/pages/ServerListView.ets:106:3)
-02-19 12:46:31.556  9709  9709 E C03f00/ArkCompiler:     at updateFunc (/usr1/hmos_for_system/src/increment/sourcecode/out/generic_generic_arm_64only/all_all_phone_standard_emulator/obj/foundation/arkui/ace_engine/frameworks/bridge/declarative_frontend/stateMgmt.js:8626:1)
-02-19 12:46:31.556  9709  9709 E C03f00/ArkCompiler:     at observeComponentCreation2 (/usr1/hmos_for_system/src/increment/sourcecode/out/generic_generic_arm_64only/all_all_phone_standard_emulator/obj/foundation/arkui/ace_engine/frameworks/bridge/declarative_frontend/stateMgmt.js:8653:1)
-02-19 12:46:31.556  9709  9709 E C03f00/ArkCompiler:     at ServerListViewBuilder entry (entry/src/main/ets/pages/ServerListView.ets:105:39)
-02-19 12:46:31.556  9709  9709 E C03f00/ArkCompiler:     at builder entry (entry/src/main/ets/pages/ServerView.ets:600:63)
-02-19 12:46:31.556  9709  9709 W C03900/Ace: [(100000:100000:scope)] after call jsFunction hasError, empty: 0, caught: 1
-02-19 12:46:31.560  9709  9709 I C01356/Recovery: [app_recovery255]scheduleRecoverApp  begin
-02-19 12:46:31.560  9709  9709 E C01317/AppKit: [MAINTHD2019]
-02-19 12:46:31.560  9709  9709 E C01317/AppKit: com.xiaobingkj.shark is about to exit due to RuntimeError
-02-19 12:46:31.560  9709  9709 E C01317/AppKit: Error type:TypeError
-02-19 12:46:31.560  9709  9709 E C01317/AppKit: Error name:TypeError
-02-19 12:46:31.560  9709  9709 E C01317/AppKit: Error message:undefined is not callable
-02-19 12:46:31.560  9709  9709 E C01317/AppKit: Stacktrace:
-02-19 12:46:31.560  9709  9709 E C01317/AppKit:     at SynchedPropertyTwoWayPU (/usr1/hmos_for_system/src/increment/sourcecode/out/generic_generic_arm_64only/all_all_phone_standard_emulator/obj/foundation/arkui/ace_engine/frameworks/bridge/declarative_frontend/stateMgmt.js:7285:1)
-02-19 12:46:31.560  9709  9709 E C01317/AppKit:     at SynchedPropertySimpleTwoWayPU (/usr1/hmos_for_system/src/increment/sourcecode/out/generic_generic_arm_64only/all_all_phone_standard_emulator/obj/foundation/arkui/ace_engine/frameworks/bridge/declarative_frontend/stateMgmt.js:7505:1)
-02-19 12:46:31.560  9709  9709 E C01317/AppKit:     at ServerListView entry (entry/src/main/ets/pages/ServerListView.ets:13:64)
-02-19 12:46:31.560  9709  9709 E C01317/AppKit:     at anonymous entry (entry/src/main/ets/pages/ServerListView.ets:106:3)
-02-19 12:46:31.560  9709  9709 E C01317/AppKit:     at updateFunc (/usr1/hmos_for_system/src/increment/sourcecode/out/generic_generic_arm_64only/all_all_phone_standard_emulator/obj/foundation/arkui/ace_engine/frameworks/bridge/declarative_frontend/stateMgmt.js:8626:1)
-02-19 12:46:31.560  9709  9709 E C01317/AppKit:     at observeComponentCreation2 (/usr1/hmos_for_system/src/increment/sourcecode/out/generic_generic_arm_64only/all_all_phone_standard_emulator/obj/foundation/arkui/ace_engine/frameworks/bridge/declarative_frontend/stateMgmt.js:8653:1)
-02-19 12:46:31.560  9709  9709 E C01317/AppKit:     at ServerListViewBuilder entry (entry/src/main/ets/pages/ServerListView.ets:105:39)
-02-19 12:46:31.560  9709  9709 E C01317/AppKit:     at builder entry (entry/src/main/ets/pages/ServerView.ets:600:63)
-02-19 12:46:31.560  9709  9709 W C01317/AppKit: [MAINTHD2030]hisysevent write result=0, send event [FRAMEWORK,PROCESS_KILL], pid=9709, processName=com.xiaobingkj.shark, msg=Kill Reason:Js Error, foreground=1, isUncatchable=0
+开始签名 release APP...
+
+未找到 release 未签名的 APP 文件，尝试查找其他...
+
+找到未签名的文件: ./build/outputs/default/Shark-default-unsigned.app
+
+使用签名工具: /opt/command-line-tools/sdk/default/openharmony/toolchains/lib/hap-sign-tool.jar
+
+输入文件: ./build/outputs/default/Shark-default-unsigned.app
+
+输出文件: build/Shark-default-v0.***.6-signed.app
+
+文件类型: app
+
+02-***9 03:24:07.398  INFO - Start sign-app
+
+02-***9 03:24:07.580  INFO - certificate in profile: 范东(***4999***470***6545***8593)\,Release
+
+02-***9 03:24:07.59***  INFO - no need to sign code for :app
+
+02-***9 03:24:07.6***4  INFO - ./dis.p***2 is exist. Try to load it with given passwd
+
+02-***9 03:24:07.7***6  INFO - Add sign data in sign info list success.
+
+02-***9 03:24:07.726  INFO - Generate signing block success, begin write it to output file
+
+02-***9 03:24:07.727  INFO - Sign Hap success!
+
+02-***9 03:24:07.727  INFO - sign-app success
+
+签名成功: build/Shark-default-v0.***.6-signed.app (***.8M)
+
+0s
+
+2s
+
+Run set -e
+
+📤 获取 Access Token...
+
+API 响应: {"access_token":"***","expires_in":***72799}
+
+✅ Access Token 获取成功
+
+📤 获取上传地址...
+
+请求参数:
+
+appId: ***
+
+fileName: Shark-default-v0.***.6-signed.app
+
+contentLength: ***88***9***4
+
+sha256: d453c00aac4c49facd8cedbbd99ffbde4d494aba359b7b6***fb76aa2e4cc3b2f***
+
+releaseType: ***
+
+chineseMainlandFlag: ***
+
+client_id: ***
+
+access_token 前缀: ***
+
+发送请求...
+
+API 响应状态码: 403
+
+API 响应内容: * Host connect-api.cloud.huawei.com:443 was resolved.
+
+* IPv6: (none)
+
+* IPv4: ***3.227.87.***2, ***3.227.87.***4, ***3.227.87.40, ***3.227.87.***
+
+*   Trying ***3.227.87.***2:443...
+
+* Connected to connect-api.cloud.huawei.com (***3.227.87.***2) port 443
+
+* ALPN: curl offers h2,http/***.***
+
+} [5 bytes data]
+
+* TLSv***.3 (OUT), TLS handshake, Client hello (***):
+
+} [5***2 bytes data]
+
+*  CAfile: /etc/ssl/certs/ca-certificates.crt
+
+*  CApath: /etc/ssl/certs
+
+{ [5 bytes data]
+
+* TLSv***.3 (IN), TLS handshake, Server hello (2):
+
+{ [***22 bytes data]
+
+* TLSv***.3 (IN), TLS handshake, Encrypted Extensions (8):
+
+{ [***0 bytes data]
+
+* TLSv***.3 (IN), TLS handshake, Certificate (***):
+
+{ [4***29 bytes data]
+
+* TLSv***.3 (IN), TLS handshake, CERT verify (***5):
+
+{ [392 bytes data]
+
+* TLSv***.3 (IN), TLS handshake, Finished (20):
+
+{ [36 bytes data]
+
+* TLSv***.3 (OUT), TLS change cipher, Change cipher spec (***):
+
+} [*** bytes data]
+
+* TLSv***.3 (OUT), TLS handshake, Finished (20):
+
+} [36 bytes data]
+
+* SSL connection using TLSv***.3 / TLS_AES_***28_GCM_SHA256 / X255***9 / RSASSA-PSS
+
+* ALPN: server did not agree on a protocol. Uses default.
+
+* Server certificate:
+
+*  subject: C=CN; ST=Jiangsu; L=Nanjing; O=Huawei Software Technologies Co., Ltd.; CN=petalmaps.com
+
+*  start date: Jul ***7 03:26:02 2025 GMT
+
+*  expire date: Aug ***8 03:26:0*** 2026 GMT
+
+*  subjectAltName: host "connect-api.cloud.huawei.com" matched cert's "*.cloud.huawei.com"
+
+*  issuer: C=BE; O=GlobalSign nv-sa; CN=GlobalSign RSA OV SSL CA 20***8
+
+*  SSL certificate verify ok.
+
+*   Certificate level 0: Public *** type RSA (3072/***28 Bits/secBits), signed using sha256WithRSAEncryption
+
+*   Certificate level ***: Public *** type RSA (2048/***2 Bits/secBits), signed using sha256WithRSAEncryption
+
+*   Certificate level 2: Public *** type RSA (2048/***2 Bits/secBits), signed using sha256WithRSAEncryption
+
+* using HTTP/***.x
+
+} [5 bytes data]
+
+> GET /api/publish/v2/upload-url/for-obs?appId=***&fileName=Shark-default-v0.***.6-signed.app&contentLength=***88***9***4&sha256=d453c00aac4c49facd8cedbbd99ffbde4d494aba359b7b6***fb76aa2e4cc3b2f***&releaseType=***&chineseMainlandFlag=*** HTTP/***.***
+
+> Host: connect-api.cloud.huawei.com
+
+> User-Agent: curl/8.5.0
+
+> Authorization: ***
+
+> client_id: ***
+
+> Accept: application/json
+
+>
+
+{ [5 bytes data]
+
+* TLSv***.3 (IN), TLS handshake, Newsession Ticket (4):
+
+{ [***57 bytes data]
+
+< HTTP/***.*** 403 client token authorization fail.
+
+< Content-Type: application/json
+
+< Content-Length: 0
+
+< Connection: keep-alive
+
+< Date: Thu, ***9 Feb 2026 03:24:09 GMT
+
+< X-Cache: Error from cloudfront
+
+< Via: ***.*** ***3d2aa888cce585a7e25***9e366883656.cloudfront.net (CloudFront)
+
+< X-Amz-Cf-Pop: ORD58-P***6
+
+< X-Amz-Cf-Id: 0rBd5a3bD8zKtKIHoDhMoW2auD9EGFp3LsJde-2***j5IT96yUWgzM4A==
+
+<
+
+* Connection #0 to host connect-api.cloud.huawei.com left intact
+
+❌ 获取上传地址失败，HTTP 状态码: 403

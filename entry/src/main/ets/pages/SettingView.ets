@@ -5,6 +5,7 @@ import { CommonConstants, ProcessUtil } from '@ohos/common'
 import { CardItem } from '../common/CardItem'
 import { CardRightItem } from '../common/CardRightItem'
 import { CardToogleItem } from '../common/CardToogleItem'
+import { AboutViewBuilder } from './AboutView'
 
 const DEVICE_TOKEN_KEY: string = 'deviceToken'
 const HISTORY_DATA_VALUE_KEY: string = 'historyStoreData'
@@ -23,11 +24,16 @@ export function SettingViewBuilder(name: string, param: Object) {
 @Preview
 @Component
 export struct SettingView {
+
+  @StorageProp('currentBreakpoint') currentBreakpoint: string = '';
+  @State aboutViewShow: boolean = false;
+  @StorageLink('navPathStack') navPathStack: NavPathStack = new NavPathStack()
   @State defaultSave: boolean = true;
   @Watch('onRefreshTickChange')
   @StorageLink('historyRefreshTick') refreshTick: number = 0
   @StorageLink(DEVICE_TOKEN_KEY) deviceToken: string = ''
   @StorageLink(HISTORY_DATA_VALUE_KEY) historyStoreData: HistoryStoreData = new HistoryStoreData()
+  @StorageLink('tabBarHidden') tabBarHidden: boolean = false
 
   private getHistoryCount(): number {
     let titleCount: number = this.historyStoreData.titles.length
@@ -51,7 +57,11 @@ export struct SettingView {
   }
 
   private openGithubRun(): void {
-    let url: string = 'https://github.com/xiaobingtech/Shark/actions/runs/' + CommonConstants.GITHUB_RUN_ID
+    let url = 'https://github.com/xiaobingtech/Shark/actions/runs/' + CommonConstants.GITHUB_RUN_ID
+    this.openBrowser(url)
+  }
+
+  private openBrowser(url: string): void {
     let context: common.UIAbilityContext = getContext(this) as common.UIAbilityContext
     let want: Want = {
       action: 'ohos.want.action.viewData',
@@ -73,7 +83,7 @@ export struct SettingView {
   }
 
   build() {
-    Navigation() {
+    Navigation(this.navPathStack) {
       Column({ space: 8 }) {
         List() {
           ListItem() {
@@ -212,7 +222,10 @@ export struct SettingView {
               CardItem({
                 isShow: false,
                 textContent: '常见问题',
-                symbolSrc: $r('sys.symbol.exclamationmark_circle')
+                symbolSrc: $r('sys.symbol.exclamationmark_circle'),
+                onclick:() => {
+                  this.openBrowser("https://bark.day.app/#/faq")
+                }
               })
             }
             .height(undefined)
@@ -222,7 +235,10 @@ export struct SettingView {
               CardItem({
                 isShow: false,
                 textContent: '使用文档',
-                symbolSrc: $r('sys.symbol.doc_text')
+                symbolSrc: $r('sys.symbol.doc_text'),
+                onclick:() => {
+                  this.openBrowser("https://bark.day.app/#/tutorial")
+                }
               })
             }
             .height(undefined)
@@ -232,11 +248,55 @@ export struct SettingView {
               CardItem({
                 isShow: false,
                 textContent: '开源代码',
-                symbolSrc: $r('sys.symbol.communicationsharing')
+                symbolSrc: $r('sys.symbol.communicationsharing'),
+                onclick:() => {
+                  this.openBrowser("https://github.com/xiaobingtech/Shark")
+                }
               })
             }
             .height(undefined)
             .width('100%')
+
+            ListItem({ style: ListItemStyle.CARD }) {
+              CardItem({
+                isShow: false,
+                textContent: $r('app.string.setting_more_apps'),
+                symbolSrc: $r('sys.symbol.square_grid_2x2'),
+                onclick: () => {
+                  this.navPathStack.pushPathByName('MyAppView', null);
+                  this.tabBarHidden = true
+                },
+                onClose: () => {
+                },
+              })
+            }
+            .height(undefined)
+            .width("100%")
+
+            ListItem({ style: ListItemStyle.CARD }) {
+              CardItem({
+                isShow: this.aboutViewShow,
+                textContent: $r('app.string.about'),
+                symbolSrc: $r('sys.symbol.info_circle'),
+                onclick: () => {
+                  this.aboutViewShow = !this.aboutViewShow
+                },
+                onClose: () => {
+                  this.aboutViewShow = false
+                },
+              })
+                .bindSheet(this.aboutViewShow, AboutViewBuilder(), {
+                  preferType: this.currentBreakpoint === "lg" ? SheetType.CENTER : SheetType.BOTTOM,
+                  title: { title: '关于' },
+                  height: SheetSize.LARGE,
+                  width: undefined,
+                  onWillDisappear: () => {
+                    this.aboutViewShow = false
+                  },
+                })
+            }
+            .height(undefined)
+            .width("100%")
           }
           .divider({
             strokeWidth: 1,

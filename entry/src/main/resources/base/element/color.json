@@ -3,6 +3,10 @@
     {
       "name": "start_window_background",
       "value": "#FFFFFF"
+    },
+    {
+      "name": "about_badge_color",
+      "value": "#FA2A2D"
     }
   ]
 }

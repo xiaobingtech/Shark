@@ -11,6 +11,38 @@
     {
       "name": "EntryAbility_label",
       "value": "Shark"
+    },
+    {
+      "name": "setting_more_apps",
+      "value": "更多应用"
+    },
+    {
+      "name": "myapp_open",
+      "value": "打开"
+    },
+    {
+      "name": "version_information",
+      "value": "版本信息"
+    },
+    {
+      "name": "updated_version",
+      "value": "待更新"
+    },
+    {
+      "name": "latest_version",
+      "value": "最新版本"
+    },
+    {
+      "name": "copyright1",
+      "value": "鲁ICP备2024080492号-8A"
+    },
+    {
+      "name": "copyright2",
+      "value": "Copyright © 2025 范小兵. All rights reserved."
+    },
+    {
+      "name": "about",
+      "value": "关于我们"
     }
   ]
 }
