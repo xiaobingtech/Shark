@@ -569,14 +569,13 @@ jobs:
 
           # ── Step 2: 获取上传文件地址 ──
           echo "📤 获取上传地址..."
-
-          UPLOAD_GET_URL=$(python3 -c "from urllib.parse import urlencode;import sys;p=dict(zip(['appId','fileName','contentLength','sha256','releaseType','chineseMainlandFlag'],sys.argv[1:7]));print('https://connect-api.cloud.huawei.com/api/publish/v2/upload-url/for-obs?'+urlencode(p))" "$HUAWEI_APP_ID" "$FILE_NAME" "$FILE_SIZE" "$SHA256" "$HUAWEI_RELEASE_TYPE" "$HUAWEI_CHINA_MAINLAND_FLAG")
+          FILE_NAME_ENC=$(python3 -c "from urllib.parse import quote; import sys; print(quote(sys.argv[1]))" "$FILE_NAME")
+          UPLOAD_GET_URL="https://connect-api.cloud.huawei.com/api/publish/v2/upload-url/for-obs?appId=${HUAWEI_APP_ID}&fileName=${FILE_NAME_ENC}&contentLength=${FILE_SIZE}"
           echo "🔗 请求URL: $UPLOAD_GET_URL"
           UPLOAD_URL_RESP=$(curl -sS -w "\n%{http_code}" \
-            -H "Host: connect-api.cloud.huawei.com" \
             -H "Authorization: Bearer ${ACCESS_TOKEN}" \
+            -H "Host: connect-api.cloud.huawei.com" \
             -H "client_id: ${HUAWEI_CLIENT_ID}" \
-            -H "Accept: application/json" \
             "$UPLOAD_GET_URL")
 
           HTTP_CODE=$(echo "$UPLOAD_URL_RESP" | tail -n1)
