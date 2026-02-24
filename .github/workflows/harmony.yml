@@ -576,9 +576,9 @@ jobs:
           fi
 
           # 清理隐藏换行，避免 header/query 参数污染导致 403
-          HUAWEI_CLIENT_ID="$(echo -n "$HUAWEI_CLIENT_ID" | tr -d '\r\n')"
+          HUAWEI_CLIENT_ID="$(echo -n "$HUAWEI_CLIENT_ID" | tr -d '[:space:]')"
           HUAWEI_CLIENT_SECRET="$(echo -n "$HUAWEI_CLIENT_SECRET" | tr -d '\r\n')"
-          HUAWEI_APP_ID="$(echo -n "$HUAWEI_APP_ID" | tr -d '\r\n')"
+          HUAWEI_APP_ID="$(echo -n "$HUAWEI_APP_ID" | tr -d '[:space:]')"
           HUAWEI_RELEASE_TYPE="$(echo -n "${HUAWEI_RELEASE_TYPE:-1}" | tr -d '\r\n')"
           HUAWEI_CHINA_MAINLAND_FLAG="$(echo -n "${HUAWEI_CHINA_MAINLAND_FLAG:-1}" | tr -d '\r\n')"
 
@@ -608,6 +608,13 @@ jobs:
             echo "$TOKEN_RESP" | jq .
             exit 1
           fi
+          # 快速校验 token 归属是否与 client_id 一致，提前发现 secret 配置错位
+          TOKEN_SUB=$(echo "$ACCESS_TOKEN" | cut -d'.' -f2 | tr '_-' '/+' | awk '{l=length($0)%4; if(l==2)print $0"=="; else if(l==3)print $0"="; else print $0}' | base64 -d 2>/dev/null | jq -r '.sub // empty' 2>/dev/null || true)
+          if [ -n "$TOKEN_SUB" ] && [ "$TOKEN_SUB" != "$HUAWEI_CLIENT_ID" ]; then
+            echo "❌ token 与 client_id 不一致: token.sub=$TOKEN_SUB, client_id=$HUAWEI_CLIENT_ID"
+            exit 1
+          fi
+          echo "🔎 client_id指纹: $(echo -n "$HUAWEI_CLIENT_ID" | sha256sum | cut -c1-12), app_id指纹: $(echo -n "$HUAWEI_APP_ID" | sha256sum | cut -c1-12)"
           echo "✅ Access Token 获取成功"
 
           # ── Step 2: 获取上传地址（严格对齐本地可用 curl） ──
