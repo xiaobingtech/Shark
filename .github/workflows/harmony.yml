@@ -1,4 +1,4 @@
-name: HarmonyOS Release Build
+name: HarmonyOS Release Build Deploy to AppGallery
 
 on:
   push:
