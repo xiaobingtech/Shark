@@ -560,22 +560,33 @@ jobs:
           HUAWEI_UPLOAD_FILE: ${{ env.HUAWEI_UPLOAD_FILE }}
           ORIGINAL_FILENAME: ${{ env.ORIGINAL_FILENAME }}
         run: |
-          set -e
-          FILE_PATH="$HUAWEI_UPLOAD_FILE"
-          FILE_NAME="$ORIGINAL_FILENAME"
+          set -euo pipefail
 
-          if [ -z "$HUAWEI_CLIENT_ID" ] || [ -z "$HUAWEI_CLIENT_SECRET" ] || [ -z "$HUAWEI_APP_ID" ]; then
+          FILE_PATH="${HUAWEI_UPLOAD_FILE:-}"
+          FILE_NAME="${ORIGINAL_FILENAME:-}"
+
+          if [ -z "${HUAWEI_CLIENT_ID:-}" ] || [ -z "${HUAWEI_CLIENT_SECRET:-}" ] || [ -z "${HUAWEI_APP_ID:-}" ]; then
             echo "❌ 缺少华为上传所需密钥"
             exit 1
           fi
 
-          if [ ! -f "$FILE_PATH" ]; then
+          if [ -z "$FILE_PATH" ] || [ ! -f "$FILE_PATH" ]; then
             echo "❌ 上传文件不存在: $FILE_PATH"
             exit 1
           fi
 
-          FILE_SIZE=$(stat -c%s "$FILE_PATH")
-          SHA256=$(sha256sum "$FILE_PATH" | cut -d' ' -f1)
+          # 清理隐藏换行，避免 header/query 参数污染导致 403
+          HUAWEI_CLIENT_ID="$(echo -n "$HUAWEI_CLIENT_ID" | tr -d '\r\n')"
+          HUAWEI_CLIENT_SECRET="$(echo -n "$HUAWEI_CLIENT_SECRET" | tr -d '\r\n')"
+          HUAWEI_APP_ID="$(echo -n "$HUAWEI_APP_ID" | tr -d '\r\n')"
+          HUAWEI_RELEASE_TYPE="$(echo -n "${HUAWEI_RELEASE_TYPE:-1}" | tr -d '\r\n')"
+          HUAWEI_CHINA_MAINLAND_FLAG="$(echo -n "${HUAWEI_CHINA_MAINLAND_FLAG:-1}" | tr -d '\r\n')"
+
+          FILE_NAME="$(basename "$FILE_NAME" | tr -d '\r\n')"
+          [ -z "$FILE_NAME" ] && FILE_NAME="$(basename "$FILE_PATH")"
+
+          FILE_SIZE=$(wc -c < "$FILE_PATH" | tr -d ' ')
+          SHA256=$(sha256sum "$FILE_PATH" | awk '{print $1}')
           echo "📦 待上传: $FILE_NAME ($(du -h "$FILE_PATH" | cut -f1), SHA256: ${SHA256:0:16}...)"
 
           # ── Step 1: 获取 Access Token ──
@@ -585,44 +596,47 @@ jobs:
             -d "{\"grant_type\":\"client_credentials\",\"client_id\":\"${HUAWEI_CLIENT_ID}\",\"client_secret\":\"${HUAWEI_CLIENT_SECRET}\"}" \
             "https://connect-api.cloud.huawei.com/api/oauth2/v1/token")
 
-          if ! echo "$TOKEN_RESP" | jq empty 2>/dev/null; then
+          if ! echo "$TOKEN_RESP" | jq empty >/dev/null 2>&1; then
             echo "❌ Token API 返回非 JSON 响应"
+            echo "$TOKEN_RESP"
             exit 1
           fi
 
           ACCESS_TOKEN=$(echo "$TOKEN_RESP" | jq -r '.access_token // empty')
           if [ -z "$ACCESS_TOKEN" ]; then
             echo "❌ 获取 access_token 失败"
+            echo "$TOKEN_RESP" | jq .
             exit 1
           fi
           echo "✅ Access Token 获取成功"
 
-          # ── Step 2: 获取上传文件地址 ──
+          # ── Step 2: 获取上传地址（按你可用 curl 形式） ──
           echo "📤 获取上传地址..."
-          FILE_NAME_ENC=$(jq -Rr @uri <<< "$FILE_NAME")
-          UPLOAD_GET_URL="https://connect-api.cloud.huawei.com/api/publish/v2/upload-url/for-obs?appId=${HUAWEI_APP_ID}&fileName=${FILE_NAME_ENC}&contentLength=${FILE_SIZE}"
-          echo "🔗 请求URL: $UPLOAD_GET_URL"
-          UPLOAD_URL_RESP=$(curl -sS -w "\n%{http_code}" \
+          UPLOAD_URL_RESP=$(curl -sS -w "\n%{http_code}" -G \
+            "https://connect-api.cloud.huawei.com/api/publish/v2/upload-url/for-obs" \
             -H "Authorization: Bearer ${ACCESS_TOKEN}" \
             -H "Host: connect-api.cloud.huawei.com" \
             -H "client_id: ${HUAWEI_CLIENT_ID}" \
-            -H "Content-Type: application/json" \
-            "$UPLOAD_GET_URL")
+            --data-urlencode "appId=${HUAWEI_APP_ID}" \
+            --data-urlencode "fileName=${FILE_NAME}" \
+            --data-urlencode "contentLength=${FILE_SIZE}" \
+            --data-urlencode "sha256=${SHA256}" \
+            --data-urlencode "releaseType=${HUAWEI_RELEASE_TYPE}" \
+            --data-urlencode "chineseMainlandFlag=${HUAWEI_CHINA_MAINLAND_FLAG}")
 
           HTTP_CODE=$(echo "$UPLOAD_URL_RESP" | tail -n1)
           RESP_BODY=$(echo "$UPLOAD_URL_RESP" | sed '$d')
 
           if [ "$HTTP_CODE" -ne 200 ]; then
             echo "❌ 获取上传地址失败 (HTTP $HTTP_CODE)"
-            if [ -n "$RESP_BODY" ]; then
-              ERR_CODE=$(echo "$RESP_BODY" | jq -r '.ret.code // empty' 2>/dev/null)
-              ERR_MSG=$(echo "$RESP_BODY" | jq -r '.ret.msg // empty' 2>/dev/null)
-              if [ -n "$ERR_CODE" ]; then
-                echo "错误码: $ERR_CODE, 信息: $ERR_MSG"
-              else
-                echo "$RESP_BODY" | jq . 2>/dev/null || echo "$RESP_BODY"
-              fi
-            fi
+            echo "$RESP_BODY" | jq . 2>/dev/null || echo "$RESP_BODY"
+            exit 1
+          fi
+
+          RET_CODE=$(echo "$RESP_BODY" | jq -r '.ret.code // empty')
+          RET_MSG=$(echo "$RESP_BODY" | jq -r '.ret.msg // empty')
+          if [ -n "$RET_CODE" ] && [ "$RET_CODE" != "0" ]; then
+            echo "❌ 获取上传地址失败: ret.code=$RET_CODE, msg=$RET_MSG"
             exit 1
           fi
 
@@ -636,6 +650,7 @@ jobs:
 
           if [ -z "$UPLOAD_URL" ]; then
             echo "❌ 获取上传地址失败: urlInfo.url 为空"
+            echo "$RESP_BODY" | jq .
             exit 1
           fi
           echo "✅ 上传地址获取成功"
@@ -652,15 +667,16 @@ jobs:
 
           UPLOAD_RESP=$(curl "${CURL_ARGS[@]}" "$UPLOAD_URL")
           UPLOAD_HTTP_CODE=$(echo "$UPLOAD_RESP" | tail -n1)
+          UPLOAD_RESP_BODY=$(echo "$UPLOAD_RESP" | sed '$d')
 
-          if [ "$UPLOAD_HTTP_CODE" -eq 200 ]; then
+          if [ "$UPLOAD_HTTP_CODE" = "200" ] || [ "$UPLOAD_HTTP_CODE" = "201" ] || [ "$UPLOAD_HTTP_CODE" = "204" ]; then
             echo "✅ 华为 AppGallery 上传成功！($FILE_NAME, $(du -h "$FILE_PATH" | cut -f1))"
           else
-            UPLOAD_RESP_BODY=$(echo "$UPLOAD_RESP" | sed '$d')
             echo "❌ 上传失败 (HTTP $UPLOAD_HTTP_CODE)"
             echo "$UPLOAD_RESP_BODY"
             exit 1
           fi
+      
 
       # 14. 创建 GitHub Release
       - name: Create GitHub Release
