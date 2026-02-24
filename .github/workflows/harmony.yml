@@ -71,8 +71,9 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      # 5. 下载并合并命令行工具分卷包
+      # 5. 下载并合并命令行工具分卷包（仅 Linux，Mac 本地已安装）
       - name: Download Commandline Tools (Split Archives)
+        if: runner.os == 'Linux'
         run: |
           # 创建临时目录
           mkdir -p /tmp/cli-tools
