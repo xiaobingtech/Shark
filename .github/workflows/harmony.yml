@@ -527,13 +527,13 @@ jobs:
           HUAWEI_APP_ID: ${{ secrets.HUAWEI_APP_ID }}
           HUAWEI_RELEASE_TYPE: ${{ secrets.HUAWEI_RELEASE_TYPE || '1' }}
           HUAWEI_CHINA_MAINLAND_FLAG: ${{ secrets.HUAWEI_CHINA_MAINLAND_FLAG || '1' }}
+          HUAWEI_UPLOAD_FILE: ${{ env.HUAWEI_UPLOAD_FILE }}
+          ORIGINAL_FILENAME: ${{ env.ORIGINAL_FILENAME }}
         run: |
           set -e
-          # 华为上传使用原始格式的文件（.app 或 .hap）
-          FILE_PATH="${{ env.HUAWEI_UPLOAD_FILE }}"
-          FILE_NAME="${{ env.ORIGINAL_FILENAME }}"
+          FILE_PATH="$HUAWEI_UPLOAD_FILE"
+          FILE_NAME="$ORIGINAL_FILENAME"
 
-          # 检查必要参数
           if [ -z "$HUAWEI_CLIENT_ID" ] || [ -z "$HUAWEI_CLIENT_SECRET" ] || [ -z "$HUAWEI_APP_ID" ]; then
             echo "❌ 缺少华为上传所需密钥"
             exit 1
@@ -546,59 +546,31 @@ jobs:
 
           FILE_SIZE=$(stat -c%s "$FILE_PATH")
           SHA256=$(sha256sum "$FILE_PATH" | cut -d' ' -f1)
+          echo "📦 待上传: $FILE_NAME ($(du -h "$FILE_PATH" | cut -f1), SHA256: ${SHA256:0:16}...)"
 
+          # ── Step 1: 获取 Access Token ──
           echo "📤 获取 Access Token..."
-          TOKEN_URL="https://connect-api.cloud.huawei.com/api/oauth2/v1/token"
-          echo "请求 URL: $TOKEN_URL"
-          echo "请求 Headers:"
-          echo "  Content-Type: application/json"
-          echo "请求 Body:"
-          echo "  grant_type: client_credentials"
-          echo "  client_id: ${HUAWEI_CLIENT_ID}"
-
-          # 获取 Access Token (OAuth 2.0 client credentials)
           TOKEN_RESP=$(curl -sS -X POST \
             -H "Content-Type: application/json" \
             -d "{\"grant_type\":\"client_credentials\",\"client_id\":\"${HUAWEI_CLIENT_ID}\",\"client_secret\":\"${HUAWEI_CLIENT_SECRET}\"}" \
-            "$TOKEN_URL")
+            "https://connect-api.cloud.huawei.com/api/oauth2/v1/token")
 
-          echo "API 响应: $TOKEN_RESP"
-
-          # 检查响应是否为有效 JSON
           if ! echo "$TOKEN_RESP" | python3 -c "import json,sys; json.loads(sys.stdin.read())" 2>/dev/null; then
-            echo "❌ API 返回非 JSON 格式响应"
-            echo "响应内容: $TOKEN_RESP"
+            echo "❌ Token API 返回非 JSON 响应"
             exit 1
           fi
 
-          ACCESS_TOKEN=$(echo "$TOKEN_RESP" | python3 -c "import json,sys;data=json.loads(sys.stdin.read());print(data.get('access_token',''))")
-
+          ACCESS_TOKEN=$(echo "$TOKEN_RESP" | python3 -c "import json,sys; print(json.loads(sys.stdin.read()).get('access_token',''))")
           if [ -z "$ACCESS_TOKEN" ]; then
             echo "❌ 获取 access_token 失败"
-            echo "响应内容: $TOKEN_RESP"
             exit 1
           fi
           echo "✅ Access Token 获取成功"
 
-          echo ""
+          # ── Step 2: 获取上传文件地址 (GET /upload-url/for-obs) ──
           echo "📤 获取上传地址..."
-          UPLOAD_URL_ENDPOINT="https://connect-api.cloud.huawei.com/api/publish/v2/upload-url/for-obs"
-          echo "请求 URL: $UPLOAD_URL_ENDPOINT"
-          echo "请求 Headers:"
-          echo "  Authorization: Bearer ${ACCESS_TOKEN:0:20}..."
-          echo "  client_id: ${HUAWEI_CLIENT_ID}"
-          echo "  Accept: application/json"
-          echo "请求参数:"
-          echo "  appId: ${HUAWEI_APP_ID}"
-          echo "  fileName: ${FILE_NAME}"
-          echo "  contentLength: ${FILE_SIZE}"
-          echo "  sha256: ${SHA256}"
-          echo "  releaseType: ${HUAWEI_RELEASE_TYPE}"
-          echo "  chineseMainlandFlag: ${HUAWEI_CHINA_MAINLAND_FLAG}"
-
-          # 获取上传地址 - 使用 GET 方法
           UPLOAD_URL_RESP=$(curl -sS -w "\n%{http_code}" -G \
-            "$UPLOAD_URL_ENDPOINT" \
+            "https://connect-api.cloud.huawei.com/api/publish/v2/upload-url/for-obs" \
             -H "Authorization: Bearer ${ACCESS_TOKEN}" \
             -H "client_id: ${HUAWEI_CLIENT_ID}" \
             -H "Accept: application/json" \
@@ -609,110 +581,68 @@ jobs:
             --data-urlencode "releaseType=${HUAWEI_RELEASE_TYPE}" \
             --data-urlencode "chineseMainlandFlag=${HUAWEI_CHINA_MAINLAND_FLAG}")
 
-          # 分离 HTTP 状态码和响应内容
           HTTP_CODE=$(echo "$UPLOAD_URL_RESP" | tail -n1)
           RESP_BODY=$(echo "$UPLOAD_URL_RESP" | sed '$d')
 
-          echo "API 响应状态码: $HTTP_CODE"
-          echo "API 响应内容: $RESP_BODY"
-
           if [ "$HTTP_CODE" -ne 200 ]; then
-            echo "❌ 获取上传地址失败，HTTP 状态码: $HTTP_CODE"
-            # 尝试解析错误信息
+            echo "❌ 获取上传地址失败 (HTTP $HTTP_CODE)"
             if [ -n "$RESP_BODY" ]; then
-              ERROR_CODE=$(echo "$RESP_BODY" | python3 -c "import json,sys; data=json.loads(sys.stdin.read()); print(data.get('ret',{}).get('code','') or '')" 2>/dev/null || echo "")
-              ERROR_MSG=$(echo "$RESP_BODY" | python3 -c "import json,sys; data=json.loads(sys.stdin.read()); print(data.get('ret',{}).get('msg','') or '')" 2>/dev/null || echo "")
-              if [ -n "$ERROR_CODE" ]; then
-                echo "错误码: $ERROR_CODE"
-                echo "错误信息: $ERROR_MSG"
-              fi
-            else
-              echo "⚠️ 响应体为空，可能原因:"
-              echo "  1. client_id 与获取 token 时使用的 client_id 不匹配"
-              echo "  2. API 客户端未配置发布权限"
-              echo "  3. appId 不属于该 API 客户端关联的项目"
+              echo "$RESP_BODY" | python3 -c "
+          import json,sys
+          try:
+              data=json.loads(sys.stdin.read())
+              ret=data.get('ret',{})
+              code,msg=ret.get('code',''),ret.get('msg','')
+              if code: print(f'错误码: {code}, 信息: {msg}')
+              else: print(json.dumps(data,ensure_ascii=False))
+          except: pass" 2>/dev/null
             fi
             exit 1
           fi
 
-          # 解析响应获取上传 URL 和必要的 headers
-          UPLOAD_URL=$(echo "$RESP_BODY" | python3 -c "import json,sys; data=json.loads(sys.stdin.read()); print(data.get('urlInfo',{}).get('url','') or '')")
-
-          # 提取上传所需的 headers
-          UPLOAD_AUTH=$(echo "$RESP_BODY" | python3 -c "import json,sys; data=json.loads(sys.stdin.read()); headers=data.get('urlInfo',{}).get('headers',{}); print(headers.get('Authorization','') or '')")
-          UPLOAD_SHA256_HEADER=$(echo "$RESP_BODY" | python3 -c "import json,sys; data=json.loads(sys.stdin.read()); headers=data.get('urlInfo',{}).get('headers',{}); print(headers.get('x-amz-content-sha256','') or '')")
-          UPLOAD_DATE=$(echo "$RESP_BODY" | python3 -c "import json,sys; data=json.loads(sys.stdin.read()); headers=data.get('urlInfo',{}).get('headers',{}); print(headers.get('x-amz-date','') or '')")
-          UPLOAD_HOST=$(echo "$RESP_BODY" | python3 -c "import json,sys; data=json.loads(sys.stdin.read()); headers=data.get('urlInfo',{}).get('headers',{}); print(headers.get('Host','') or '')")
-          UPLOAD_USER_AGENT=$(echo "$RESP_BODY" | python3 -c "import json,sys; data=json.loads(sys.stdin.read()); headers=data.get('urlInfo',{}).get('headers',{}); print(headers.get('user-agent','') or '')")
-          UPLOAD_CONTENT_TYPE=$(echo "$RESP_BODY" | python3 -c "import json,sys; data=json.loads(sys.stdin.read()); headers=data.get('urlInfo',{}).get('headers',{}); print(headers.get('Content-Type','') or 'application/octet-stream')")
+          # 一次性解析 urlInfo（url + 所有 headers）
+          eval "$(echo "$RESP_BODY" | python3 -c "
+          import json,sys,shlex
+          data=json.loads(sys.stdin.read())
+          info=data.get('urlInfo',{})
+          h=info.get('headers',{})
+          pairs=[
+              ('UPLOAD_URL',info.get('url','')),
+              ('UPLOAD_HDR_AUTH',h.get('Authorization','')),
+              ('UPLOAD_HDR_SHA256',h.get('x-amz-content-sha256','')),
+              ('UPLOAD_HDR_DATE',h.get('x-amz-date','')),
+              ('UPLOAD_HDR_HOST',h.get('Host','')),
+              ('UPLOAD_HDR_UA',h.get('user-agent','')),
+              ('UPLOAD_HDR_CT',h.get('Content-Type','application/octet-stream')),
+          ]
+          for k,v in pairs:
+              print(f'{k}={shlex.quote(v)}')")"
 
           if [ -z "$UPLOAD_URL" ]; then
-            echo "❌ 获取上传地址失败：URL 为空"
-            echo "响应内容: $RESP_BODY"
+            echo "❌ 获取上传地址失败: urlInfo.url 为空"
             exit 1
           fi
-
           echo "✅ 上传地址获取成功"
 
-          echo ""
-          echo "📤 开始上传文件..."
-          echo "请求 URL: $UPLOAD_URL"
-          echo "请求 Headers:"
-          if [ -n "$UPLOAD_AUTH" ]; then
-            echo "  Authorization: ${UPLOAD_AUTH:0:50}..."
-          fi
-          if [ -n "$UPLOAD_SHA256_HEADER" ]; then
-            echo "  x-amz-content-sha256: $UPLOAD_SHA256_HEADER"
-          fi
-          if [ -n "$UPLOAD_DATE" ]; then
-            echo "  x-amz-date: $UPLOAD_DATE"
-          fi
-          if [ -n "$UPLOAD_HOST" ]; then
-            echo "  Host: $UPLOAD_HOST"
-          fi
-          if [ -n "$UPLOAD_USER_AGENT" ]; then
-            echo "  user-agent: $UPLOAD_USER_AGENT"
-          fi
-          echo "  Content-Type: ${UPLOAD_CONTENT_TYPE}"
-          echo "上传文件: $FILE_NAME"
-          echo "文件大小: $(du -h "$FILE_PATH" | cut -f1)"
+          # ── Step 3: 上传文件 (PUT to OBS) ──
+          echo "📤 上传文件到华为 OBS..."
+          CURL_ARGS=(-sS -w "\n%{http_code}" -X PUT --upload-file "$FILE_PATH")
+          [ -n "$UPLOAD_HDR_AUTH" ]   && CURL_ARGS+=(-H "Authorization: $UPLOAD_HDR_AUTH")
+          [ -n "$UPLOAD_HDR_SHA256" ] && CURL_ARGS+=(-H "x-amz-content-sha256: $UPLOAD_HDR_SHA256")
+          [ -n "$UPLOAD_HDR_DATE" ]   && CURL_ARGS+=(-H "x-amz-date: $UPLOAD_HDR_DATE")
+          [ -n "$UPLOAD_HDR_HOST" ]   && CURL_ARGS+=(-H "Host: $UPLOAD_HDR_HOST")
+          [ -n "$UPLOAD_HDR_UA" ]     && CURL_ARGS+=(-H "user-agent: $UPLOAD_HDR_UA")
+          [ -n "$UPLOAD_HDR_CT" ]     && CURL_ARGS+=(-H "Content-Type: $UPLOAD_HDR_CT")
 
-          # 构建上传请求的 headers
-          CURL_HEADERS=""
-          if [ -n "$UPLOAD_AUTH" ]; then
-            CURL_HEADERS="$CURL_HEADERS -H \"Authorization: $UPLOAD_AUTH\""
-          fi
-          if [ -n "$UPLOAD_SHA256_HEADER" ]; then
-            CURL_HEADERS="$CURL_HEADERS -H \"x-amz-content-sha256: $UPLOAD_SHA256_HEADER\""
-          fi
-          if [ -n "$UPLOAD_DATE" ]; then
-            CURL_HEADERS="$CURL_HEADERS -H \"x-amz-date: $UPLOAD_DATE\""
-          fi
-          if [ -n "$UPLOAD_HOST" ]; then
-            CURL_HEADERS="$CURL_HEADERS -H \"Host: $UPLOAD_HOST\""
-          fi
-          if [ -n "$UPLOAD_USER_AGENT" ]; then
-            CURL_HEADERS="$CURL_HEADERS -H \"user-agent: $UPLOAD_USER_AGENT\""
-          fi
-          CURL_HEADERS="$CURL_HEADERS -H \"Content-Type: ${UPLOAD_CONTENT_TYPE}\""
-
-          # 上传文件 - 使用 PUT 方法和从响应中获取的 headers
-          UPLOAD_RESP=$(eval curl -sS -w "\\n%{http_code}" -X PUT \
-            $CURL_HEADERS \
-            --upload-file "$FILE_PATH" \
-            "$UPLOAD_URL")
-
+          UPLOAD_RESP=$(curl "${CURL_ARGS[@]}" "$UPLOAD_URL")
           UPLOAD_HTTP_CODE=$(echo "$UPLOAD_RESP" | tail -n1)
-          UPLOAD_RESP_BODY=$(echo "$UPLOAD_RESP" | sed '$d')
 
           if [ "$UPLOAD_HTTP_CODE" -eq 200 ]; then
-            echo "✅ 文件上传成功！"
-            echo "文件: $FILE_NAME"
-            echo "大小: $(du -h "$FILE_PATH" | cut -f1)"
-            echo "SHA256: $SHA256"
+            echo "✅ 华为 AppGallery 上传成功！($FILE_NAME, $(du -h "$FILE_PATH" | cut -f1))"
           else
-            echo "❌ 上传失败，HTTP 状态码: $UPLOAD_HTTP_CODE"
-            echo "响应内容: $UPLOAD_RESP_BODY"
+            UPLOAD_RESP_BODY=$(echo "$UPLOAD_RESP" | sed '$d')
+            echo "❌ 上传失败 (HTTP $UPLOAD_HTTP_CODE)"
+            echo "$UPLOAD_RESP_BODY"
             exit 1
           fi
 
