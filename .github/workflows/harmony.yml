@@ -555,12 +555,12 @@ jobs:
             -d "{\"grant_type\":\"client_credentials\",\"client_id\":\"${HUAWEI_CLIENT_ID}\",\"client_secret\":\"${HUAWEI_CLIENT_SECRET}\"}" \
             "https://connect-api.cloud.huawei.com/api/oauth2/v1/token")
 
-          if ! echo "$TOKEN_RESP" | python3 -c "import json,sys; json.loads(sys.stdin.read())" 2>/dev/null; then
+          if ! echo "$TOKEN_RESP" | jq empty 2>/dev/null; then
             echo "❌ Token API 返回非 JSON 响应"
             exit 1
           fi
 
-          ACCESS_TOKEN=$(echo "$TOKEN_RESP" | python3 -c "import json,sys; print(json.loads(sys.stdin.read()).get('access_token',''))")
+          ACCESS_TOKEN=$(echo "$TOKEN_RESP" | jq -r '.access_token // empty')
           if [ -z "$ACCESS_TOKEN" ]; then
             echo "❌ 获取 access_token 失败"
             exit 1
@@ -569,7 +569,7 @@ jobs:
 
           # ── Step 2: 获取上传文件地址 ──
           echo "📤 获取上传地址..."
-          FILE_NAME_ENC=$(python3 -c "from urllib.parse import quote; import sys; print(quote(sys.argv[1]))" "$FILE_NAME")
+          FILE_NAME_ENC=$(jq -Rr @uri <<< "$FILE_NAME")
           UPLOAD_GET_URL="https://connect-api.cloud.huawei.com/api/publish/v2/upload-url/for-obs?appId=${HUAWEI_APP_ID}&fileName=${FILE_NAME_ENC}&contentLength=${FILE_SIZE}"
           echo "🔗 请求URL: $UPLOAD_GET_URL"
           UPLOAD_URL_RESP=$(curl -sS -w "\n%{http_code}" \
@@ -584,36 +584,24 @@ jobs:
           if [ "$HTTP_CODE" -ne 200 ]; then
             echo "❌ 获取上传地址失败 (HTTP $HTTP_CODE)"
             if [ -n "$RESP_BODY" ]; then
-              echo "$RESP_BODY" | python3 -c "
-          import json,sys
-          try:
-              data=json.loads(sys.stdin.read())
-              ret=data.get('ret',{})
-              code,msg=ret.get('code',''),ret.get('msg','')
-              if code: print(f'错误码: {code}, 信息: {msg}')
-              else: print(json.dumps(data,ensure_ascii=False))
-          except: pass" 2>/dev/null
+              ERR_CODE=$(echo "$RESP_BODY" | jq -r '.ret.code // empty' 2>/dev/null)
+              ERR_MSG=$(echo "$RESP_BODY" | jq -r '.ret.msg // empty' 2>/dev/null)
+              if [ -n "$ERR_CODE" ]; then
+                echo "错误码: $ERR_CODE, 信息: $ERR_MSG"
+              else
+                echo "$RESP_BODY" | jq . 2>/dev/null || echo "$RESP_BODY"
+              fi
             fi
             exit 1
           fi
 
-          # 一次性解析 urlInfo（url + 所有 headers）
-          eval "$(echo "$RESP_BODY" | python3 -c "
-          import json,sys,shlex
-          data=json.loads(sys.stdin.read())
-          info=data.get('urlInfo',{})
-          h=info.get('headers',{})
-          pairs=[
-              ('UPLOAD_URL',info.get('url','')),
-              ('UPLOAD_HDR_AUTH',h.get('Authorization','')),
-              ('UPLOAD_HDR_SHA256',h.get('x-amz-content-sha256','')),
-              ('UPLOAD_HDR_DATE',h.get('x-amz-date','')),
-              ('UPLOAD_HDR_HOST',h.get('Host','')),
-              ('UPLOAD_HDR_UA',h.get('user-agent','')),
-              ('UPLOAD_HDR_CT',h.get('Content-Type','application/octet-stream')),
-          ]
-          for k,v in pairs:
-              print(f'{k}={shlex.quote(v)}')")"
+          UPLOAD_URL=$(echo "$RESP_BODY" | jq -r '.urlInfo.url // empty')
+          UPLOAD_HDR_AUTH=$(echo "$RESP_BODY" | jq -r '.urlInfo.headers.Authorization // empty')
+          UPLOAD_HDR_SHA256=$(echo "$RESP_BODY" | jq -r '.urlInfo.headers."x-amz-content-sha256" // empty')
+          UPLOAD_HDR_DATE=$(echo "$RESP_BODY" | jq -r '.urlInfo.headers."x-amz-date" // empty')
+          UPLOAD_HDR_HOST=$(echo "$RESP_BODY" | jq -r '.urlInfo.headers.Host // empty')
+          UPLOAD_HDR_UA=$(echo "$RESP_BODY" | jq -r '.urlInfo.headers."user-agent" // empty')
+          UPLOAD_HDR_CT=$(echo "$RESP_BODY" | jq -r '.urlInfo.headers."Content-Type" // "application/octet-stream"')
 
           if [ -z "$UPLOAD_URL" ]; then
             echo "❌ 获取上传地址失败: urlInfo.url 为空"
