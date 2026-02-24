@@ -5,6 +5,12 @@ on:
     tags:
       - 'v*'  # 只对 v 开头的 tag 触发，例如 v1.0.0
   workflow_dispatch:  # 允许手动触发
+    inputs:
+      debug_unmask:
+        description: '临时显示敏感变量真实值 (base64)'
+        required: false
+        default: false
+        type: boolean
 
 jobs:
   build-and-release:
@@ -63,6 +69,24 @@ jobs:
           
           # 设置 DevEco SDK 路径
           echo "DEVECO_SDK_HOME=/opt/command-line-tools/sdk" >> $GITHUB_ENV
+
+      # 3.1 调试：临时显示敏感变量真实值（base64，解码：echo XXX | base64 -d）
+      - name: Debug Unmask (base64)
+        if: github.event.inputs.debug_unmask == 'true'
+        env:
+          SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          HUAWEI_CLIENT_ID: ${{ secrets.HUAWEI_CLIENT_ID }}
+          HUAWEI_CLIENT_SECRET: ${{ secrets.HUAWEI_CLIENT_SECRET }}
+          HUAWEI_APP_ID: ${{ secrets.HUAWEI_APP_ID }}
+        run: |
+          echo "=== 敏感变量 (base64，本地解码: echo XXX | base64 -d) ==="
+          echo "SIGNING_KEY_ALIAS=$(echo -n "$SIGNING_KEY_ALIAS" | base64)"
+          echo "KEYSTORE_PASSWORD=$(echo -n "$KEYSTORE_PASSWORD" | base64)"
+          echo "HUAWEI_CLIENT_ID=$(echo -n "$HUAWEI_CLIENT_ID" | base64)"
+          echo "HUAWEI_CLIENT_SECRET=$(echo -n "$HUAWEI_CLIENT_SECRET" | base64)"
+          echo "HUAWEI_APP_ID=$(echo -n "$HUAWEI_APP_ID" | base64)"
+          echo "=========================================="
 
       # 4. 安装 JDK 17
       - name: Setup JDK 17
