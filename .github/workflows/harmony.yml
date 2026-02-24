@@ -610,9 +610,9 @@ jobs:
           fi
           echo "✅ Access Token 获取成功"
 
-          # ── Step 2: 获取上传地址（按你可用 curl 形式） ──
+          # ── Step 2: 获取上传地址（严格对齐本地可用 curl） ──
           echo "📤 获取上传地址..."
-          UPLOAD_URL_RESP=$(curl -sS -w "\n%{http_code}" -G \
+          HTTP_CODE=$(curl -sS -G \
             "https://connect-api.cloud.huawei.com/api/publish/v2/upload-url/for-obs" \
             -H "Authorization: Bearer ${ACCESS_TOKEN}" \
             -H "Host: connect-api.cloud.huawei.com" \
@@ -620,16 +620,18 @@ jobs:
             --data-urlencode "appId=${HUAWEI_APP_ID}" \
             --data-urlencode "fileName=${FILE_NAME}" \
             --data-urlencode "contentLength=${FILE_SIZE}" \
-            --data-urlencode "sha256=${SHA256}" \
-            --data-urlencode "releaseType=${HUAWEI_RELEASE_TYPE}" \
-            --data-urlencode "chineseMainlandFlag=${HUAWEI_CHINA_MAINLAND_FLAG}")
+            -D /tmp/huawei_upload_headers.txt \
+            -o /tmp/huawei_upload_body.txt \
+            -w "%{http_code}")
 
-          HTTP_CODE=$(echo "$UPLOAD_URL_RESP" | tail -n1)
-          RESP_BODY=$(echo "$UPLOAD_URL_RESP" | sed '$d')
+          RESP_BODY=$(cat /tmp/huawei_upload_body.txt)
 
           if [ "$HTTP_CODE" -ne 200 ]; then
             echo "❌ 获取上传地址失败 (HTTP $HTTP_CODE)"
-            echo "$RESP_BODY" | jq . 2>/dev/null || echo "$RESP_BODY"
+            echo "----- response headers -----"
+            sed -n '1,120p' /tmp/huawei_upload_headers.txt || true
+            echo "----- response body -----"
+            cat /tmp/huawei_upload_body.txt || true
             exit 1
           fi
 
