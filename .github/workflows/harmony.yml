@@ -569,17 +569,18 @@ jobs:
 
           # ── Step 2: 获取上传文件地址 (GET /upload-url/for-obs) ──
           echo "📤 获取上传地址..."
-          UPLOAD_URL_RESP=$(curl -sS -w "\n%{http_code}" -G \
-            "https://connect-api.cloud.huawei.com/api/publish/v2/upload-url/for-obs" \
+          UPLOAD_GET_URL=$(python3 -c '
+          from urllib.parse import urlencode
+          import sys
+          q = {"appId": sys.argv[1], "fileName": sys.argv[2], "contentLength": sys.argv[3], "sha256": sys.argv[4], "releaseType": sys.argv[5], "chineseMainlandFlag": sys.argv[6]}
+          print("https://connect-api.cloud.huawei.com/api/publish/v2/upload-url/for-obs?" + urlencode(q))
+          ' "$HUAWEI_APP_ID" "$FILE_NAME" "$FILE_SIZE" "$SHA256" "$HUAWEI_RELEASE_TYPE" "$HUAWEI_CHINA_MAINLAND_FLAG")
+          UPLOAD_URL_RESP=$(curl -sS -w "\n%{http_code}" \
+            -H "Host: connect-api.cloud.huawei.com" \
             -H "Authorization: Bearer ${ACCESS_TOKEN}" \
             -H "client_id: ${HUAWEI_CLIENT_ID}" \
             -H "Accept: application/json" \
-            --data-urlencode "appId=${HUAWEI_APP_ID}" \
-            --data-urlencode "fileName=${FILE_NAME}" \
-            --data-urlencode "contentLength=${FILE_SIZE}" \
-            --data-urlencode "sha256=${SHA256}" \
-            --data-urlencode "releaseType=${HUAWEI_RELEASE_TYPE}" \
-            --data-urlencode "chineseMainlandFlag=${HUAWEI_CHINA_MAINLAND_FLAG}")
+            "$UPLOAD_GET_URL")
 
           HTTP_CODE=$(echo "$UPLOAD_URL_RESP" | tail -n1)
           RESP_BODY=$(echo "$UPLOAD_URL_RESP" | sed '$d')
