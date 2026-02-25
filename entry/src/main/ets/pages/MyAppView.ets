@@ -62,7 +62,8 @@ struct MyAppView {
       httpRequest.destroy();
       if (response.responseCode === 200 && response.result) {
         const data = typeof response.result === 'string' ? response.result : JSON.stringify(response.result);
-        this.appList = JSON.parse(data) as HarmonyAppItem[];
+        let appList = JSON.parse(data) as HarmonyAppItem[];
+        this.appList = appList.filter(item => item.bundleId != "com.xiaobingkj.shark")
       } else {
         this.loadError = '加载失败';
       }

@@ -6,6 +6,10 @@ import { CardItem } from '../common/CardItem'
 import { CardRightItem } from '../common/CardRightItem'
 import { CardToogleItem } from '../common/CardToogleItem'
 import { AboutViewBuilder } from './AboutView'
+import { iap } from '@kit.IAPKit'
+import IAPLogger from '../common/IAPLogger'
+import { PurchaseData, PurchaseOrderPayload } from '../common/IapDataModel'
+import { JWSUtil } from '../common/JWSUtil'
 
 const DEVICE_TOKEN_KEY: string = 'deviceToken'
 const HISTORY_DATA_VALUE_KEY: string = 'historyStoreData'
@@ -24,6 +28,8 @@ export function SettingViewBuilder(name: string, param: Object) {
 @Preview
 @Component
 export struct SettingView {
+
+  @State selectedProductId: string = 'com.xiaobingkj.shark.coffee'
 
   @StorageProp('currentBreakpoint') currentBreakpoint: string = '';
   @State aboutViewShow: boolean = false;
@@ -198,7 +204,7 @@ export struct SettingView {
           .borderRadius($r('sys.float.corner_radius_level8'))
 
           ListItem() {
-            Text('Bark 由 GitHub Actions 构建上传 App Store，此信息可帮助你确认当前版本是否由开源代码所构建，未经任何人（包含作者）修改')
+            Text('Shark 由 GitHub Actions 构建上传 Huawei AppGallery，此信息可帮助你确认当前版本是否由开源代码所构建，未经任何人（包含作者）修改')
               .fontSize($r('sys.float.Body_S'))
               .fontColor($r('sys.color.font_secondary'))
               .margin({
@@ -326,19 +332,13 @@ export struct SettingView {
               CardRightItem({
                 isShow: false,
                 textContent: '一次性捐赠',
-                rightText: '$2.69',
-                symbolSrc: $r('sys.symbol.star_fill')
-              })
-            }
-            .height(undefined)
-            .width('100%')
-
-            ListItem({ style: ListItemStyle.CARD }) {
-              CardRightItem({
-                isShow: false,
-                textContent: '持续支持',
-                rightText: '$2.69 / 1年',
-                symbolSrc: $r('sys.symbol.star_fill')
+                rightText: '¥6.00',
+                symbolSrc: $r('sys.symbol.star_fill'),
+                onclick: () => {
+                  // com.xiaobingkj.shark.coffee
+                  const context: common.UIAbilityContext = getContext(this) as common.UIAbilityContext;
+                  this.createPurchase(context)
+                }
               })
             }
             .height(undefined)
@@ -369,5 +369,125 @@ export struct SettingView {
       .padding({ top: 15 })
     }
     .title('设置')
+  }
+
+  createPurchase(context: common.UIAbilityContext) {
+    if (!this.selectedProductId) {
+      promptAction.showToast({ message: '请先选择一个产品' });
+      return;
+    }
+
+    try {
+      const createPurchaseParam: iap.PurchaseParameter = {
+        productId: this.selectedProductId,
+        productType: iap.ProductType.CONSUMABLE,
+      }
+      iap.createPurchase(context, createPurchaseParam).then((result) => {
+        IAPLogger.info('PaywallView', 'Succeeded in creating purchase.');
+        this.dealPurchaseData(result.purchaseData, iap.ProductType.CONSUMABLE);
+      }).catch((err: BusinessError) => {
+        IAPLogger.error('PaywallView', `Failed to create purchase. Code is ${err.code}, message is ${err.message}`);
+        this.handlePurchaseError(err, context);
+      })
+    } catch (err) {
+      const e: BusinessError = err as BusinessError;
+      IAPLogger.error('PaywallView', `Failed to create purchase. Code is ${e.code}, message is ${e.message}`);
+      promptAction.showToast({ message: '购买失败，请稍后重试' });
+    }
+  }
+
+  handlePurchaseError(err: BusinessError, context: common.UIAbilityContext) {
+    let errorMessage = '';
+
+    switch (err.code) {
+      case iap.IAPErrorCode.USER_CANCELED:
+        errorMessage = '您已取消购买';
+        break;
+      case iap.IAPErrorCode.SYSTEM_ERROR:
+        errorMessage = '系统繁忙，请稍后重试';
+        break;
+      case iap.IAPErrorCode.APP_NOT_AUTHORIZED:
+        errorMessage = '应用未授权，请联系客服';
+        break;
+      case iap.IAPErrorCode.INVALID_PRODUCT:
+        errorMessage = '商品信息无效，请稍后重试';
+        break;
+      case iap.IAPErrorCode.FREQUENT_CALLS:
+        errorMessage = '操作过于频繁，请稍后重试';
+        break;
+      case iap.IAPErrorCode.NETWORK_ERROR:
+        errorMessage = '网络连接异常，请检查网络后重试';
+        break;
+      case iap.IAPErrorCode.PRODUCT_TERRITORY_NOT_SUPPORTED:
+        errorMessage = '当前地区暂不支持购买';
+        break;
+      case iap.IAPErrorCode.ACCOUNT_NOT_LOGGED_IN:
+        errorMessage = '请先登录华为账号';
+        break;
+      case iap.IAPErrorCode.PRODUCT_OWNED:
+        errorMessage = '您已拥有该商品';
+        break;
+      case iap.IAPErrorCode.PURCHASE_NOT_PAID:
+        errorMessage = '商品未购买成功';
+        break;
+      case iap.IAPErrorCode.PURCHASE_FINISHED:
+        errorMessage = '该商品已完成购买';
+        break;
+      case iap.IAPErrorCode.ACCOUNT_TERRITORY_NOT_SUPPORTED:
+        errorMessage = '您的账号所在地区暂不支持购买';
+        break;
+      case iap.IAPErrorCode.USER_NOT_ALLOWED:
+        errorMessage = '交易被拒绝，请稍后重试或更换支付方式';
+        break;
+      case iap.IAPErrorCode.INVALID_PROMOTIONAL_OFFER:
+        errorMessage = '优惠信息无效';
+        break;
+      case iap.IAPErrorCode.INVALID_PURCHASE_SIGNATURE:
+        errorMessage = '签名验证失败，请稍后重试';
+        break;
+      case iap.IAPErrorCode.PURCHASE_ALREADY_REFUNDED:
+        errorMessage = '该商品已退款或正在退款中';
+        break;
+      case iap.IAPErrorCode.REFUND_NOT_ALLOWED:
+        errorMessage = '该商品不支持退款';
+        break;
+      default:
+        errorMessage = `支付失败: ${err.message}`;
+        break;
+    }
+
+    if (errorMessage) {
+      promptAction.showToast({ message: errorMessage });
+    }
+  }
+
+  dealPurchaseData(purchaseData: string, productType: iap.ProductType) {
+    try {
+      const data = JSON.parse(purchaseData) as PurchaseData;
+      let productId = '';
+      const jwsPurchaseOrder = data.jwsPurchaseOrder;
+      if (!jwsPurchaseOrder) return;
+      const purchaseOrderStr = JWSUtil.decodeJwsObj(jwsPurchaseOrder);
+      const purchaseOrderPayload = JSON.parse(purchaseOrderStr) as PurchaseOrderPayload;
+      if (purchaseOrderPayload) {
+        promptAction.showToast({ message: '购买成功' });
+      }
+    } catch (e) {
+      IAPLogger.error('PaywallView', 'dealPurchaseData json error');
+    }
+  }
+
+  finishPurchase(purchaseOrder: PurchaseOrderPayload) {
+    const context: common.UIAbilityContext = getContext(this) as common.UIAbilityContext;
+    const finishPurchaseParam: iap.FinishPurchaseParameter = {
+      productType: Number(purchaseOrder.productType),
+      purchaseToken: purchaseOrder.purchaseToken,
+      purchaseOrderId: purchaseOrder.purchaseOrderId
+    };
+    iap.finishPurchase(context, finishPurchaseParam).then(() => {
+      IAPLogger.info('PaywallView', 'Succeeded in finishing purchase.');
+    }).catch((err: BusinessError) => {
+      IAPLogger.error('PaywallView', `Failed to finish purchase. Code is ${err.code}, message is ${err.message}`);
+    });
   }
 }
