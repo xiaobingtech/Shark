@@ -122,37 +122,45 @@ jobs:
           echo "仓库文件列表(前50项)："
           ls -la | head -50
 
-          echo "检查分卷文件是否存在..."
-          COUNT=$(ls -1 commandline-tools-mac-arm64-6.0.2.640.7z.* 2>/dev/null | wc -l | tr -d ' ')
-          echo "找到分卷数量：$COUNT"
-          if [ "$COUNT" -ne 17 ]; then
-            echo "❌ 分卷数量不对。请确认文件是否在子目录。尝试全仓库搜索："
-            find . -maxdepth 3 -name "commandline-tools-mac-arm64-6.0.2.640.7z.*" -print
+          echo "检查分卷文件是否存在（递归查找并排序）..."
+
+          # 递归找所有分卷（支持在子目录）
+          mapfile -t PARTS < <(find . -maxdepth 4 -type f -name "commandline-tools-mac-arm64-6.0.2.640.7z.*" | sort)
+
+          echo "找到分卷数量：${#PARTS[@]}"
+          printf '%s\n' "${PARTS[@]}"
+
+          # 强校验：通常应当是 17 个；如果不是，直接报出目录结构并退出，避免合并出坏包
+          if [ "${#PARTS[@]}" -ne 17 ]; then
+            echo "❌ 分卷数量不为 17（当前：${#PARTS[@]}）。请确认分卷是否在其他目录或命名不同。"
+            echo "当前仓库目录结构（前200行）："
+            find . -maxdepth 3 -type f | sed -n '1,200p'
             exit 1
           fi
 
           echo "合并分卷..."
           COMBINED_FILE="/tmp/commandline-tools-mac-arm64-6.0.2.640.7z"
-          cat commandline-tools-mac-arm64-6.0.2.640.7z.* > "$COMBINED_FILE"
+          cat "${PARTS[@]}" > "$COMBINED_FILE"
           echo "✅ 合并成功: $COMBINED_FILE ($(du -h "$COMBINED_FILE" | cut -f1))"
-
-          sudo mkdir -p /opt/command-line-tools
-          sudo chown -R "$(whoami)":staff /opt/command-line-tools || true
 
           echo "解压 7z..."
           mkdir -p /tmp/cli-extract
           rm -rf /tmp/cli-extract/*
           7z x "$COMBINED_FILE" -o/tmp/cli-extract -y
 
-          ZIP_FILE=$(find /tmp/cli-extract -name "*.zip" -type f | head -1 || true)
-          if [ -n "${ZIP_FILE:-}" ]; then
+          # 在 set -u 下，必须先初始化变量，且变量名不能混入任何不可见字符
+          ZIP_FILE=""
+          ZIP_FILE="$(find /tmp/cli-extract -type f -name "*.zip" | head -n 1 || true)"
+
+          if [ -n "${ZIP_FILE}" ]; then
             echo "找到 ZIP：$ZIP_FILE，解压到 /opt/command-line-tools"
+            sudo mkdir -p /opt/command-line-tools
             unzip -q "$ZIP_FILE" -d /opt/command-line-tools
           else
-            echo "未找到 ZIP，直接同步解压内容"
+            echo "未找到 ZIP，直接同步解压内容到 /opt/command-line-tools"
+            sudo mkdir -p /opt/command-line-tools
             rsync -a /tmp/cli-extract/ /opt/command-line-tools/
           fi
-
           if [ -d "/opt/command-line-tools/command-line-tools" ]; then
             sudo rsync -a /opt/command-line-tools/command-line-tools/ /opt/command-line-tools/
             sudo rm -rf /opt/command-line-tools/command-line-tools
