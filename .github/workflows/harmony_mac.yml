@@ -92,7 +92,7 @@ jobs:
           cd /tmp/cli-tools
 
           # ✅ 修复 RAW URL：不要使用 refs/heads
-          BASE_URL="https://raw.githubusercontent.com/xiaobingtech/commandline-tools-mac-arm64-6.0.2.640/main"
+          BASE_URL="https://raw.githubusercontent.com/xiaobingtech/commandline-tools-mac-arm64-6.0.2.640/refs/heads/main"
 
           echo "开始下载命令行工具分卷包..."
 
