@@ -213,7 +213,8 @@ jobs:
           fi
 
       # 9. 安装系统依赖
-      - name: Install System Dependencies
+      - name: Install System Dependencies [Linux only]
+        if: runner.os == 'Linux'
         run: |
           sudo apt-get update
           sudo apt-get install -y libgl1-mesa-dev
@@ -293,11 +294,10 @@ jobs:
             echo "错误：未找到任何未签名的构建产物"
             echo "搜索到的文件:"
             find . -name "*.app" -type f 2>/dev/null
-            find . -name "*.hap" -type f - name: Install System Dependencies [Linux only]
-        if: runner.os == 'Linux'
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y libgl1-mesa-dev
+            find . -name "*.hap" -type f 2>/dev/null
+            exit 1
+          fi
+          
           if [[ "$UNSIGNED_APP" == *.app ]]; then
             EXTENSION=".app"
             BASENAME=$(basename "$UNSIGNED_APP" "-unsigned.app")
