@@ -41,7 +41,7 @@ jobs:
           
           echo "Tag: $TAG_NAME"
           echo "Version: $VERSION"
-          echo "Release Name: $RELEASE_NAME"
+          echo "Release Name: $TAG_NAME"
 
       - name: Inject GitHub Run Id
         run: |
@@ -55,7 +55,6 @@ jobs:
       # 3. 设置环境变量
       - name: Set Environment Variables
         run: |
-          echo "JAVA_HOME=/opt/jdk-17" >> $GITHUB_ENV
           echo "COMMANDLINE_TOOL_DIR=/opt" >> $GITHUB_ENV
           echo "PROJECT_PATH=${{ github.workspace }}" >> $GITHUB_ENV
           echo "SIGNING_KEY_ALIAS=${{ secrets.SIGNING_KEY_ALIAS }}" >> $GITHUB_ENV
@@ -72,171 +71,91 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      # 5. 下载并合并命令行工具分卷包（仅 Linux，Mac 本地已安装）
-      - name: Download Commandline Tools (Split Archives)
+      # 5. 下载并合并命令行工具分卷包（macOS runner 自动安装）
+      - name: Download Commandline Tools (Split Archives) [macOS]
+        if: runner.os == 'macOS'
+        shell: bash
         run: |
+          set -euo pipefail
+
+          # macOS 安装依赖（7z、unzip）
+          if ! command -v 7z >/dev/null 2>&1; then
+            brew update
+            brew install p7zip
+          fi
+          if ! command -v unzip >/dev/null 2>&1; then
+            brew install unzip
+          fi
+
           # 创建临时目录
           mkdir -p /tmp/cli-tools
           cd /tmp/cli-tools
-          
-          # 分卷文件的基础 URL
-          BASE_URL="https://raw.githubusercontent.com/xiaobingtech/commandline-tools-mac-arm64-6.0.2.640/refs/heads/main"
-          
+
+          # ✅ 修复 RAW URL：不要使用 refs/heads
+          BASE_URL="https://raw.githubusercontent.com/xiaobingtech/commandline-tools-mac-arm64-6.0.2.640/main"
+
           echo "开始下载命令行工具分卷包..."
-          
+
           # 下载所有分卷文件（001 到 017）
           for i in {001..017}; do
             FILENAME="commandline-tools-mac-arm64-6.0.2.640.7z.$i"
             URL="$BASE_URL/$FILENAME"
             echo "下载: $FILENAME"
-            
-            # 使用重试机制下载
-            for attempt in {1..3}; do
-              echo "下载尝试 $attempt..."
-              if wget -q --timeout=30 "$URL" -O "$FILENAME"; then
-                echo "✅ 下载成功: $FILENAME ($(du -h "$FILENAME" | cut -f1))"
-                break
-              else
-                echo "❌ 下载失败 $attempt: $FILENAME"
-                if [ $attempt -eq 3 ]; then
-                  echo "❌ 下载失败: $FILENAME，终止构建"
-                  exit 1
-                fi
-                sleep 3
-              fi
-            done
+            curl -fL --retry 5 --retry-delay 2 --connect-timeout 30 -o "$FILENAME" "$URL"
+            echo "✅ 下载成功: $FILENAME ($(du -h "$FILENAME" | cut -f1))"
           done
-          
+
           echo "所有分卷下载完成"
-          echo "文件列表:"
           ls -lh *.7z.*
-          
-          # 验证文件数量
-          FILE_COUNT=$(ls -1 *.7z.* 2>/dev/null | wc -l)
+
+          FILE_COUNT=$(ls -1 *.7z.* 2>/dev/null | wc -l | tr -d ' ')
           echo "找到 $FILE_COUNT 个分卷文件"
-          
           if [ "$FILE_COUNT" -ne 17 ]; then
             echo "❌ 错误: 期望 17 个分卷文件，但找到 $FILE_COUNT 个"
             exit 1
           fi
-          
-          # 合并文件
+
           echo "合并分卷文件..."
           COMBINED_FILE="commandline-tools-mac-arm64-6.0.2.640.7z"
           cat commandline-tools-mac-arm64-6.0.2.640.7z.* > "$COMBINED_FILE"
-          
-          # 验证合并后的文件
-          if [ -f "$COMBINED_FILE" ]; then
-            COMBINED_SIZE=$(du -h "$COMBINED_FILE" | cut -f1)
-            echo "✅ 合并成功: $COMBINED_FILE ($COMBINED_SIZE)"
-          else
-            echo "❌ 合并失败"
-            exit 1
-          fi
-          
-          # 创建目标目录
+          echo "✅ 合并成功: $COMBINED_FILE ($(du -h "$COMBINED_FILE" | cut -f1))"
+
           sudo mkdir -p /opt/command-line-tools
-          sudo chown -R runner:runner /opt/command-line-tools
-          
-          echo "解压 7z 文件..."
-          
-          # 安装解压工具（如果不存在）
-          if ! command -v 7z &> /dev/null; then
-            echo "安装 p7zip 工具..."
-            sudo apt-get update
-            sudo apt-get install -y p7zip-full
-          fi
-          
-          if ! command -v unzip &> /dev/null; then
-            echo "安装 unzip 工具..."
-            sudo apt-get install -y unzip
-          fi
-          
-          # 先列出7z文件内容，查看内部结构
-          echo "列出7z文件内容..."
+          sudo chown -R runner:staff /opt/command-line-tools
+
+          echo "列出7z文件内容(前20行)..."
           7z l "$COMBINED_FILE" | head -20
-          
-          # 创建解压目录
+
           mkdir -p extract
-          
-          echo "第一步：解压 7z 文件..."
-          # 解压7z文件
+          echo "解压 7z..."
           7z x "$COMBINED_FILE" -oextract -y
-          
-          if [ $? -eq 0 ]; then
-            echo "✅ 7z 解压成功"
-            
-            # 查看解压出的文件
-            echo "解压出的文件:"
-            ls -la extract/
-            
-            # 查找 zip 文件
-            ZIP_FILE=$(find extract -name "*.zip" -type f | head -1)
-            if [ -n "$ZIP_FILE" ]; then
-              echo "找到 ZIP 文件: $ZIP_FILE"
-              
-              echo "第二步：解压 ZIP 文件到 /opt/command-line-tools..."
-              # 解压 zip 文件
-              unzip "$ZIP_FILE" -d /opt/command-line-tools
-              
-              if [ $? -eq 0 ]; then
-                echo "✅ ZIP 解压成功"
-                
-                # 检查解压结果
-                echo "检查解压目录内容..."
-                find /opt/command-line-tools -maxdepth 2 -type f | head -10
-                
-                # 计算文件数量
-                FILE_COUNT=$(find /opt/command-line-tools -type f 2>/dev/null | wc -l)
-                echo "解压出 $FILE_COUNT 个文件"
-                
-                # 检查关键工具
-                echo "查找关键工具:"
-                for tool in hvigorw ohpm hdc hap-sign-tool.jar; do
-                  TOOL_PATH=$(find /opt/command-line-tools -name "$tool" -type f 2>/dev/null | head -1)
-                  if [ -n "$TOOL_PATH" ]; then
-                    echo "✅ 找到 $tool: $TOOL_PATH"
-                  else
-                    echo "⚠️ 未找到 $tool"
-                  fi
-                done
-                
-                # 检查是否有嵌套的目录结构，如果有则调整
-                if [ -d "/opt/command-line-tools/command-line-tools" ]; then
-                  echo "发现嵌套目录结构，正在调整..."
-                  mv /opt/command-line-tools/command-line-tools/* /opt/command-line-tools/
-                  rm -rf /opt/command-line-tools/command-line-tools
-                fi
-                
-              else
-                echo "❌ ZIP 解压失败"
-                exit 1
-              fi
-            else
-              # 如果没有找到 zip 文件，尝试其他格式
-              echo "未找到 ZIP 文件，查找其他格式..."
-              ALL_FILES=$(find extract -type f)
-              echo "所有解压文件:"
-              echo "$ALL_FILES"
-              
-              # 尝试直接移动所有文件
-              mv extract/* /opt/command-line-tools/ 2>/dev/null || true
-              
-              FILE_COUNT=$(find /opt/command-line-tools -type f 2>/dev/null | wc -l)
-              echo "移动了 $FILE_COUNT 个文件到 /opt/command-line-tools"
-            fi
+
+          echo "解压出的文件:"
+          ls -la extract/ || true
+
+          ZIP_FILE=$(find extract -name "*.zip" -type f | head -1 || true)
+          if [ -n "${ZIP_FILE:-}" ]; then
+            echo "找到 ZIP 文件: $ZIP_FILE"
+            echo "解压 ZIP 到 /opt/command-line-tools..."
+            unzip -q "$ZIP_FILE" -d /opt/command-line-tools
           else
-            echo "❌ 7z 解压失败"
-            exit 1
+            echo "未找到 ZIP，尝试直接移动解压内容..."
+            rsync -a extract/ /opt/command-line-tools/
           fi
-          
-          # 设置目录权限
+
+          # 如果出现嵌套目录，拉平
+          if [ -d "/opt/command-line-tools/command-line-tools" ]; then
+            echo "发现嵌套目录结构，正在调整..."
+            sudo rsync -a /opt/command-line-tools/command-line-tools/ /opt/command-line-tools/
+            sudo rm -rf /opt/command-line-tools/command-line-tools
+          fi
+
           sudo chmod -R 755 /opt/command-line-tools
-          
-          # 清理临时文件
+
           cd /
           rm -rf /tmp/cli-tools
-          echo "临时文件清理完成"
+          echo "✅ 命令行工具安装完成"
+
 
       # 6. 根据实际位置配置环境变量
       - name: Configure Environment
@@ -374,13 +293,11 @@ jobs:
             echo "错误：未找到任何未签名的构建产物"
             echo "搜索到的文件:"
             find . -name "*.app" -type f 2>/dev/null
-            find . -name "*.hap" -type f 2>/dev/null
-            exit 1
-          fi
-          
-          echo "找到未签名的文件: $UNSIGNED_APP"
-          
-          # 根据文件类型确定扩展名
+            find . -name "*.hap" -type f - name: Install System Dependencies [Linux only]
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libgl1-mesa-dev
           if [[ "$UNSIGNED_APP" == *.app ]]; then
             EXTENSION=".app"
             BASENAME=$(basename "$UNSIGNED_APP" "-unsigned.app")
