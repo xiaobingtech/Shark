@@ -125,14 +125,18 @@ jobs:
           echo "检查分卷文件是否存在（递归查找并排序）..."
 
           # 递归找所有分卷（支持在子目录）
-          mapfile -t PARTS < <(find . -maxdepth 4 -type f -name "commandline-tools-mac-arm64-6.0.2.640.7z.*" | sort)
+          echo "检查分卷文件是否存在（递归查找并排序，兼容老 bash）..."
 
-          echo "找到分卷数量：${#PARTS[@]}"
-          printf '%s\n' "${PARTS[@]}"
+          PARTS_LIST="/tmp/cli_parts_list.txt"
+          find . -maxdepth 4 -type f -name "commandline-tools-mac-arm64-6.0.2.640.7z.*" | sort > "$PARTS_LIST"
 
-          # 强校验：通常应当是 17 个；如果不是，直接报出目录结构并退出，避免合并出坏包
-          if [ "${#PARTS[@]}" -ne 17 ]; then
-            echo "❌ 分卷数量不为 17（当前：${#PARTS[@]}）。请确认分卷是否在其他目录或命名不同。"
+          COUNT="$(wc -l < "$PARTS_LIST" | tr -d ' ')"
+          echo "找到分卷数量：$COUNT"
+          sed -n '1,200p' "$PARTS_LIST"
+
+          # ✅ 你仓库里实际上是 001~017（17个），这里强校验
+          if [ "$COUNT" -ne 17 ]; then
+            echo "❌ 分卷数量不为 17（当前：$COUNT）。请确认是否缺文件/命名不一致。"
             echo "当前仓库目录结构（前200行）："
             find . -maxdepth 3 -type f | sed -n '1,200p'
             exit 1
@@ -140,7 +144,13 @@ jobs:
 
           echo "合并分卷..."
           COMBINED_FILE="/tmp/commandline-tools-mac-arm64-6.0.2.640.7z"
-          cat "${PARTS[@]}" > "$COMBINED_FILE"
+          # 逐个追加，避免数组/mapfile
+          : > "$COMBINED_FILE"
+          while IFS= read -r part; do
+            cat "$part" >> "$COMBINED_FILE"
+          done < "$PARTS_LIST"
+
+          echo "✅ 合并成功: $COMBINED_FILE ($(du -h "$COMBINED_FILE" | cut -f1))"
           echo "✅ 合并成功: $COMBINED_FILE ($(du -h "$COMBINED_FILE" | cut -f1))"
 
           echo "解压 7z..."
