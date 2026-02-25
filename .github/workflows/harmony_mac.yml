@@ -1,4 +1,4 @@
-name: HarmonyOS Release Build Deploy to AppGallery
+name: HarmonyOS Deploy on MacOS
 
 on:
   push:
@@ -8,8 +8,8 @@ on:
 
 jobs:
   build-and-release:
-    runs-on: macos-latest  # 使用 Mac 环境
-    # runs-on: self-hosted
+    # runs-on: macos-latest  # 使用 Mac 环境
+    runs-on: self-hosted
     
     # 为 Release 添加策略
     permissions:
