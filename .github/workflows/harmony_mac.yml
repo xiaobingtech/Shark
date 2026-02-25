@@ -73,88 +73,103 @@ jobs:
 
       # 5. 下载并合并命令行工具分卷包（macOS runner 自动安装）
       - name: Download Commandline Tools (Split Archives) [macOS]
-        if: runner.os == 'macOS'
-        shell: bash
-        run: |
-          set -euo pipefail
+  if: runner.os == 'macOS'
+  shell: bash
+  run: |
+    set -euo pipefail
 
-          # macOS 安装依赖（7z、unzip）
-          if ! command -v 7z >/dev/null 2>&1; then
-            brew update
-            brew install p7zip
-          fi
-          if ! command -v unzip >/dev/null 2>&1; then
-            brew install unzip
-          fi
+    # macOS 依赖
+    if ! command -v 7z >/dev/null 2>&1; then
+      brew update
+      brew install p7zip
+    fi
+    if ! command -v unzip >/dev/null 2>&1; then
+      brew install unzip
+    fi
 
-          # 创建临时目录
-          mkdir -p /tmp/cli-tools
-          cd /tmp/cli-tools
+    mkdir -p /tmp/cli-tools
+    cd /tmp/cli-tools
 
-          # ✅ 修复 RAW URL：不要使用 refs/heads
-          BASE_URL="https://raw.githubusercontent.com/xiaobingtech/commandline-tools-mac-arm64-6.0.2.640/main"
+    OWNER="xiaobingtech"
+    REPO="commandline-tools-mac-arm64-6.0.2.640"
+    BRANCH="main"
 
-          echo "开始下载命令行工具分卷包..."
+    # 两种下载源：raw（容易被内网拦） + github.com（通常可用）
+    BASE_RAW="https://raw.githubusercontent.com/${OWNER}/${REPO}/${BRANCH}"
+    BASE_GH="https://github.com/${OWNER}/${REPO}/raw/${BRANCH}"
 
-          # 下载所有分卷文件（001 到 017）
-          for i in {001..017}; do
-            FILENAME="commandline-tools-mac-arm64-6.0.2.640.7z.$i"
-            URL="$BASE_URL/$FILENAME"
-            echo "下载: $FILENAME"
-            curl -fL --retry 5 --retry-delay 2 --connect-timeout 30 -o "$FILENAME" "$URL"
-            echo "✅ 下载成功: $FILENAME ($(du -h "$FILENAME" | cut -f1))"
-          done
+    download_one () {
+      local filename="$1"
+      local url_raw="${BASE_RAW}/${filename}"
+      local url_gh="${BASE_GH}/${filename}"
 
-          echo "所有分卷下载完成"
-          ls -lh *.7z.*
+      echo "下载: ${filename}"
+      echo "  - 尝试 RAW: ${url_raw}"
 
-          FILE_COUNT=$(ls -1 *.7z.* 2>/dev/null | wc -l | tr -d ' ')
-          echo "找到 $FILE_COUNT 个分卷文件"
-          if [ "$FILE_COUNT" -ne 17 ]; then
-            echo "❌ 错误: 期望 17 个分卷文件，但找到 $FILE_COUNT 个"
-            exit 1
-          fi
+      # 先试 raw，拿到 http code 便于定位
+      http_code=$(curl -L -sS -o "${filename}" -w "%{http_code}" --retry 3 --retry-delay 2 --connect-timeout 30 "${url_raw}" || true)
+      if [ "${http_code}" = "200" ]; then
+        echo "  ✅ RAW 成功"
+        return 0
+      fi
 
-          echo "合并分卷文件..."
-          COMBINED_FILE="commandline-tools-mac-arm64-6.0.2.640.7z"
-          cat commandline-tools-mac-arm64-6.0.2.640.7z.* > "$COMBINED_FILE"
-          echo "✅ 合并成功: $COMBINED_FILE ($(du -h "$COMBINED_FILE" | cut -f1))"
+      echo "  ⚠️ RAW 失败(http ${http_code})，改用 github.com"
+      rm -f "${filename}"
 
-          sudo mkdir -p /opt/command-line-tools
-          sudo chown -R runner:staff /opt/command-line-tools
+      http_code=$(curl -L -sS -o "${filename}" -w "%{http_code}" --retry 5 --retry-delay 2 --connect-timeout 30 "${url_gh}" || true)
+      if [ "${http_code}" != "200" ]; then
+        echo "  ❌ github.com 也失败(http ${http_code})"
+        echo "  请检查 self-hosted 的网络是否可访问 github.com / 是否有代理重写"
+        exit 1
+      fi
+      echo "  ✅ github.com 成功"
+    }
 
-          echo "列出7z文件内容(前20行)..."
-          7z l "$COMBINED_FILE" | head -20
+    echo "开始下载命令行工具分卷包..."
+    for i in {001..017}; do
+      FILENAME="commandline-tools-mac-arm64-6.0.2.640.7z.${i}"
+      download_one "${FILENAME}"
+      echo "  文件大小: $(du -h "${FILENAME}" | cut -f1)"
+    done
 
-          mkdir -p extract
-          echo "解压 7z..."
-          7z x "$COMBINED_FILE" -oextract -y
+    echo "所有分卷下载完成"
+    ls -lh *.7z.*
 
-          echo "解压出的文件:"
-          ls -la extract/ || true
+    FILE_COUNT=$(ls -1 *.7z.* 2>/dev/null | wc -l | tr -d ' ')
+    if [ "$FILE_COUNT" -ne 17 ]; then
+      echo "❌ 错误: 期望 17 个分卷文件，但找到 $FILE_COUNT 个"
+      exit 1
+    fi
 
-          ZIP_FILE=$(find extract -name "*.zip" -type f | head -1 || true)
-          if [ -n "${ZIP_FILE:-}" ]; then
-            echo "找到 ZIP 文件: $ZIP_FILE"
-            echo "解压 ZIP 到 /opt/command-line-tools..."
-            unzip -q "$ZIP_FILE" -d /opt/command-line-tools
-          else
-            echo "未找到 ZIP，尝试直接移动解压内容..."
-            rsync -a extract/ /opt/command-line-tools/
-          fi
+    echo "合并分卷..."
+    COMBINED_FILE="commandline-tools-mac-arm64-6.0.2.640.7z"
+    cat commandline-tools-mac-arm64-6.0.2.640.7z.* > "$COMBINED_FILE"
+    echo "✅ 合并成功: $COMBINED_FILE ($(du -h "$COMBINED_FILE" | cut -f1))"
 
-          # 如果出现嵌套目录，拉平
-          if [ -d "/opt/command-line-tools/command-line-tools" ]; then
-            echo "发现嵌套目录结构，正在调整..."
-            sudo rsync -a /opt/command-line-tools/command-line-tools/ /opt/command-line-tools/
-            sudo rm -rf /opt/command-line-tools/command-line-tools
-          fi
+    sudo mkdir -p /opt/command-line-tools
+    sudo chown -R "$(whoami)":staff /opt/command-line-tools || true
 
-          sudo chmod -R 755 /opt/command-line-tools
+    echo "解压 7z..."
+    mkdir -p extract
+    7z x "$COMBINED_FILE" -oextract -y
 
-          cd /
-          rm -rf /tmp/cli-tools
-          echo "✅ 命令行工具安装完成"
+    ZIP_FILE=$(find extract -name "*.zip" -type f | head -1 || true)
+    if [ -n "${ZIP_FILE:-}" ]; then
+      unzip -q "$ZIP_FILE" -d /opt/command-line-tools
+    else
+      rsync -a extract/ /opt/command-line-tools/
+    fi
+
+    if [ -d "/opt/command-line-tools/command-line-tools" ]; then
+      sudo rsync -a /opt/command-line-tools/command-line-tools/ /opt/command-line-tools/
+      sudo rm -rf /opt/command-line-tools/command-line-tools
+    fi
+
+    sudo chmod -R 755 /opt/command-line-tools
+
+    cd /
+    rm -rf /tmp/cli-tools
+    echo "✅ 命令行工具安装完成"
 
 
       # 6. 根据实际位置配置环境变量
