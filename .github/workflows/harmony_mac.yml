@@ -84,8 +84,8 @@ jobs:
           
           echo "开始下载命令行工具分卷包..."
           
-          # 下载所有分卷文件（001 到 019）
-          for i in {001..019}; do
+          # 下载所有分卷文件（001 到 017）
+          for i in {001..017}; do
             FILENAME="commandline-tools-mac-arm64-6.0.2.640.7z.$i"
             URL="$BASE_URL/$FILENAME"
             echo "下载: $FILENAME"
@@ -115,8 +115,8 @@ jobs:
           FILE_COUNT=$(ls -1 *.7z.* 2>/dev/null | wc -l)
           echo "找到 $FILE_COUNT 个分卷文件"
           
-          if [ "$FILE_COUNT" -ne 19 ]; then
-            echo "❌ 错误: 期望 19 个分卷文件，但找到 $FILE_COUNT 个"
+          if [ "$FILE_COUNT" -ne 17 ]; then
+            echo "❌ 错误: 期望 17 个分卷文件，但找到 $FILE_COUNT 个"
             exit 1
           fi
           
