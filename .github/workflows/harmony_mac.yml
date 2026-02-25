@@ -8,7 +8,7 @@ on:
 
 jobs:
   build-and-release:
-    runs-on: ubuntu-latest  # 使用 Ubuntu Linux 环境
+    runs-on: macos-latest  # 使用 Mac 环境
     # runs-on: self-hosted
     
     # 为 Release 添加策略
@@ -74,20 +74,19 @@ jobs:
 
       # 5. 下载并合并命令行工具分卷包（仅 Linux，Mac 本地已安装）
       - name: Download Commandline Tools (Split Archives)
-        if: runner.os == 'Linux'
         run: |
           # 创建临时目录
           mkdir -p /tmp/cli-tools
           cd /tmp/cli-tools
           
           # 分卷文件的基础 URL
-          BASE_URL="https://raw.githubusercontent.com/xiaobingtech/commandline-tools-linux-x64-6.0.2.640/refs/heads/main"
+          BASE_URL="https://raw.githubusercontent.com/xiaobingtech/commandline-tools-mac-arm64-6.0.2.640/refs/heads/main"
           
           echo "开始下载命令行工具分卷包..."
           
           # 下载所有分卷文件（001 到 019）
           for i in {001..019}; do
-            FILENAME="commandline-tools-linux-x64-6.0.2.640.7z.$i"
+            FILENAME="commandline-tools-mac-arm64-6.0.2.640.7z.$i"
             URL="$BASE_URL/$FILENAME"
             echo "下载: $FILENAME"
             
@@ -123,8 +122,8 @@ jobs:
           
           # 合并文件
           echo "合并分卷文件..."
-          COMBINED_FILE="commandline-tools-linux-x64-6.0.2.640.7z"
-          cat commandline-tools-linux-x64-6.0.2.640.7z.* > "$COMBINED_FILE"
+          COMBINED_FILE="commandline-tools-mac-arm64-6.0.2.640.7z"
+          cat commandline-tools-mac-arm64-6.0.2.640.7z.* > "$COMBINED_FILE"
           
           # 验证合并后的文件
           if [ -f "$COMBINED_FILE" ]; then
@@ -713,7 +712,7 @@ jobs:
             
             ## 🔧 构建信息
             - 构建系统: GitHub Actions
-            - 构建环境: Ubuntu Linux
+            - 构建环境: MacOS
             - HarmonyOS SDK: 6.0.2.640
             - 构建工具: hvigorw assembleApp
             
