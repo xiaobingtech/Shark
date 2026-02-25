@@ -43,6 +43,10 @@
     {
       "name": "about",
       "value": "关于我们"
+    },
+    {
+      "name": "setting_review",
+      "value": "评分"
     }
   ]
 }

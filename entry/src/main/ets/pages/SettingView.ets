@@ -10,6 +10,8 @@ import { iap } from '@kit.IAPKit'
 import IAPLogger from '../common/IAPLogger'
 import { PurchaseData, PurchaseOrderPayload } from '../common/IapDataModel'
 import { JWSUtil } from '../common/JWSUtil'
+import { commentManager } from '@kit.AppGalleryKit'
+import { hilog } from '@kit.PerformanceAnalysisKit'
 
 const DEVICE_TOKEN_KEY: string = 'deviceToken'
 const HISTORY_DATA_VALUE_KEY: string = 'historyStoreData'
@@ -41,6 +43,9 @@ export struct SettingView {
   @StorageLink('tabBarHidden') tabBarHidden: boolean = false
   @State historyCount: number = 0
 
+  private uiContext: UIContext = this.getUIContext();
+  private context = this.uiContext.getHostContext() as common.UIAbilityContext;
+
   private computeHistoryCount(): number {
     let data: HistoryStoreData | undefined =
       AppStorage.get<HistoryStoreData>(HISTORY_DATA_VALUE_KEY)
@@ -55,6 +60,19 @@ export struct SettingView {
       count = data.times.length
     }
     return count
+  }
+
+  private showReviewDialog(): void {
+    try {
+      commentManager.showCommentDialog(this.context).then(() => {
+        hilog.info(0x0000, 'SettingView', 'succeeded in showing commentDialog.');
+      }).catch((error: BusinessError<Object>) => {
+        hilog.error(0x0000, 'SettingView', `showCommentDialog failed, Code: ${error.code}, message: ${error.message}`);
+      });
+    } catch (error) {
+      let err = error as BusinessError<Object>;
+      hilog.error(0x0000, 'SettingView', `showCommentDialog failed, Code: ${err.code}, message: ${err.message}`);
+    }
   }
 
   private copyDeviceToken(): void {
@@ -264,6 +282,21 @@ export struct SettingView {
             }
             .height(undefined)
             .width('100%')
+
+            ListItem({ style: ListItemStyle.CARD }) {
+              CardItem({
+                isShow: false,
+                textContent: $r('app.string.setting_review'),
+                symbolSrc: $r('sys.symbol.star'),
+                onclick: () => {
+                  this.showReviewDialog();
+                },
+                onClose: () => {
+                },
+              })
+            }
+            .height(undefined)
+            .width("100%")
 
             ListItem({ style: ListItemStyle.CARD }) {
               CardItem({
