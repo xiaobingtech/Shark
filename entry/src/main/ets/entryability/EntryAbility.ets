@@ -5,7 +5,7 @@ import { BusinessError } from '@kit.BasicServicesKit';
 import { hilog } from '@kit.PerformanceAnalysisKit';
 import { efRcp } from '@yunkss/ef_rcp';
 import { updateManager } from '@kit.StoreKit';
-import { DynamicInstallManager, Logger, StorageKey, WebUtil, WindowUtil } from '@ohos/common';
+import { BundleManagerUtil, DynamicInstallManager, Logger, StorageKey, WebUtil, WindowUtil } from '@ohos/common';
 
 const DOMAIN = 0x0000;
 const TAG = '[EntryAbility]';
@@ -200,6 +200,7 @@ export default class EntryAbility extends UIAbility {
       this.windowObj = windowObj
       WebUtil.initialize(windowStage);
       WindowUtil.initialize(windowStage);
+      BundleManagerUtil.getBundleInfo();
       // 获取应用启动时的窗口尺寸
       this.updateBreakpoint(windowObj.getWindowProperties().windowRect.width)
       // 注册回调函数，监听窗口尺寸变化
