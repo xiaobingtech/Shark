@@ -30,6 +30,7 @@ export struct HistoryView {
   @StorageLink('historyRefreshTick') refreshTick: number = 0
   private historyDataObject: distributedDataObject.DataObject | null = null
   private historyStoreData: HistoryStoreData | null = null
+  @StorageLink('navPathStack') navPathStack: NavPathStack = new NavPathStack()
   private dataChangeCallback: distributedDataObject.DataObserver =
     (sessionId: string, fields: Array<string>) => {
       this.loadMessages()

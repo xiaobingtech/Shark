@@ -4,6 +4,16 @@
       "name": "MyAppView",
       "pageSourceFile": "src/main/ets/pages/MyAppView.ets",
       "buildFunction": "MyAppViewBuilder"
+    },
+    {
+      "name": "AddServerView",
+      "pageSourceFile": "src/main/ets/pages/AddServerView.ets",
+      "buildFunction": "AddServerViewBuilder"
+    },
+    {
+      "name": "SoundView",
+      "pageSourceFile": "src/main/ets/pages/SoundView.ets",
+      "buildFunction": "SoundViewBuilder"
     }
   ]
 }

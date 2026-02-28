@@ -167,7 +167,6 @@ export default class EntryAbility extends UIAbility {
     AppStorage.setOrCreate('windowStage', windowStage);
 
     AppStorage.setOrCreate('navPathStack', new NavPathStack())
-    AppStorage.setOrCreate('tabBarHidden', false)
     let existingTabIndex = AppStorage.get<number>(HISTORY_TAB_INDEX_KEY)
     if (existingTabIndex == undefined) {
       AppStorage.setOrCreate(HISTORY_TAB_INDEX_KEY, 0)

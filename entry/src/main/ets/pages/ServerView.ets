@@ -38,7 +38,6 @@ interface ServerInfo {
 @Component
 export struct ServerView {
   @StorageLink('navPathStack') navPathStack: NavPathStack = new NavPathStack()
-  @StorageLink('tabBarHidden') tabBarHidden: boolean = false
   @StorageLink(DEVICE_TOKEN_KEY) deviceToken: string = ''
   @StorageLink(DEVICE_TOKEN_READY_KEY) hasDeviceToken: boolean = false
   @StorageLink(DEVICE_KEY) deviceKey: string = ''
@@ -77,7 +76,6 @@ export struct ServerView {
         value: 'add',
         symbolIcon: new SymbolGlyphModifier($r('sys.symbol.plus')),
         action: () => {
-          this.tabBarHidden = true
           this.navPathStack.pushPath({ name: 'AddServerView' })
         }
       }
@@ -376,7 +374,7 @@ export struct ServerView {
   }
 
   build() {
-    Navigation(this.navPathStack) {
+    Navigation() {
       if (this.hasDeviceToken) {
         Grid() {
           GridItem() {
@@ -465,7 +463,6 @@ export struct ServerView {
                   .fontSize($r('sys.float.Body_S'))
                   .fontColor($r('sys.color.font_emphasize'))
                   .onClick(() => {
-                    this.tabBarHidden = true
                     this.navPathStack.pushPath({ name: 'SoundView' })
                   })
               }

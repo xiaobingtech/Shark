@@ -1,8 +1,9 @@
 import { common } from '@kit.AbilityKit'
 import { media } from '@kit.MediaKit'
-import { BusinessError } from '@kit.BasicServicesKit'
+import { BusinessError, pasteboard } from '@kit.BasicServicesKit'
 import { hilog } from '@kit.PerformanceAnalysisKit'
 import { CardItem } from '../common/CardItem'
+import { promptAction } from '@kit.ArkUI'
 
 const DOMAIN: number = 0x0000
 const SOUND_FILES: Array<string> = [
@@ -40,10 +41,14 @@ const SOUND_FILES: Array<string> = [
   'update'
 ]
 
+@Builder
+export function SoundViewBuilder(name: string, param: Object) {
+  SoundView()
+}
+
 @Component
 export struct SoundView {
   @StorageLink('navPathStack') navPathStack: NavPathStack = new NavPathStack()
-  @StorageLink('tabBarHidden') tabBarHidden: boolean = false
   private avPlayer?: media.AVPlayer
   private playerState: string = 'idle'
   private pendingDescriptor?: media.AVFileDescriptor
@@ -130,7 +135,6 @@ export struct SoundView {
   }
 
   aboutToDisappear(): void {
-    this.tabBarHidden = false
     if (this.avPlayer === undefined) {
       return
     }
@@ -155,6 +159,14 @@ export struct SoundView {
                 symbolSrc: $r('sys.symbol.music'),
                 onclick: () => {
                   this.playSound(sound)
+                  let data = pasteboard.createData(pasteboard.MIMETYPE_TEXT_PLAIN, sound)
+                  let systemPasteboard = pasteboard.getSystemPasteboard()
+                  systemPasteboard.setData(data).catch((err: BusinessError) => {
+                    hilog.error(DOMAIN, 'ServerView', 'Failed to copy url: %{public}d %{public}s', err.code, err.message)
+                  })
+                  promptAction.showToast({
+                    message: "复制成功"
+                  })
                 }
               })
             }
@@ -184,7 +196,6 @@ export struct SoundView {
     }
     .title('铃声列表')
     .onBackPressed(() => {
-      this.tabBarHidden = false
       this.navPathStack.pop()
       return true
     })

@@ -27,11 +27,16 @@ interface ServerInfo {
   key: string
 }
 
+@Builder
+export function AddServerViewBuilder(name: string, param: Object) {
+  AddServerView()
+}
+
+
 @Preview
 @Component
 export struct AddServerView {
   @StorageLink('navPathStack') navPathStack: NavPathStack = new NavPathStack()
-  @StorageLink('tabBarHidden') tabBarHidden: boolean = false
   @StorageLink('serverBaseUrl') serverBaseUrl: string = 'https://shark.xiaobingkj.com'
   @StorageLink('deviceToken') deviceToken: string = ''
   @StorageLink(SERVER_LIST_KEY) serverList: Array<ServerInfo> = []
@@ -114,7 +119,6 @@ export struct AddServerView {
     promptAction.showToast({
       message: '保存成功'
     })
-    this.tabBarHidden = false
     this.navPathStack.pop()
   }
 
@@ -214,7 +218,6 @@ export struct AddServerView {
     .title('添加私有服务器')
     .menus(this.buildMenuItems())
     .onBackPressed(() => {
-      this.tabBarHidden = false
       this.navPathStack.pop()
       return true
     })

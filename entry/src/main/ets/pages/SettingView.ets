@@ -40,7 +40,6 @@ export struct SettingView {
   @Watch('onRefreshTickChange')
   @StorageLink('historyRefreshTick') refreshTick: number = 0
   @StorageLink(DEVICE_TOKEN_KEY) deviceToken: string = ''
-  @StorageLink('tabBarHidden') tabBarHidden: boolean = false
   @State historyCount: number = 0
 
   private uiContext: UIContext = this.getUIContext();
@@ -109,7 +108,7 @@ export struct SettingView {
   }
 
   build() {
-    Navigation(this.navPathStack) {
+    Navigation() {
       Column({ space: 8 }) {
         List() {
           ListItem() {
@@ -305,7 +304,6 @@ export struct SettingView {
                 symbolSrc: $r('sys.symbol.square_grid_2x2'),
                 onclick: () => {
                   this.navPathStack.pushPathByName('MyAppView', null);
-                  this.tabBarHidden = true
                 },
                 onClose: () => {
                 },

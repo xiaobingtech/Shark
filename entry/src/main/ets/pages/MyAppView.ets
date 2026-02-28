@@ -38,7 +38,6 @@ export function MyAppViewBuilder(name: string, param: Object) {
 struct MyAppView {
   private context = this.getUIContext().getHostContext() as common.UIAbilityContext;
   @StorageLink('navPathStack') pathStack: NavPathStack = new NavPathStack();
-  @StorageLink('tabBarHidden') tabBarHidden: boolean = false
 
   @State appList: HarmonyAppItem[] = [];
   @State isLoading: boolean = true;
@@ -187,7 +186,6 @@ struct MyAppView {
     .title($r('app.string.setting_more_apps'))
     .hideBackButton(false)
     .onBackPressed(() => {
-      this.tabBarHidden = false
       this.pathStack.pop()
       return true
     })
