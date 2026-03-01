@@ -249,7 +249,7 @@ export struct SettingView {
                 textContent: '常见问题',
                 symbolSrc: $r('sys.symbol.exclamationmark_circle'),
                 onclick:() => {
-                  this.openBrowser("https://bark.day.app/#/faq")
+                  this.openBrowser("https://shark.app.xiaobingkj.com/faq.html")
                 }
               })
             }
@@ -262,7 +262,7 @@ export struct SettingView {
                 textContent: '使用文档',
                 symbolSrc: $r('sys.symbol.doc_text'),
                 onclick:() => {
-                  this.openBrowser("https://bark.day.app/#/tutorial")
+                  this.openBrowser("https://shark.app.xiaobingkj.com/tutorial.html")
                 }
               })
             }
