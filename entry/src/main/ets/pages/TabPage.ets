@@ -14,6 +14,31 @@ struct TabPage {
 
   @StorageLink('navPathStack') navPathStack: NavPathStack = new NavPathStack()
 
+  aboutToAppear() {
+    try {
+      let appPrivacyResults: privacyManager.AppPrivacyResult[] = privacyManager.getAppPrivacyResult();
+      hilog.info(0, 'TAG', "Succeeded in getting AppPrivacyResult size = " + appPrivacyResults.length);
+      for (let i = 0; i < appPrivacyResults.length; i++) {
+        hilog.info(0, 'TAG', "Succeeded in getting AppPrivacyResult type = " + appPrivacyResults[i]["type"] + ", version = " + appPrivacyResults[i]["versionCode"] + ", result = "+appPrivacyResults[i]["result"]);
+      }
+      if (appPrivacyResults.length != 0 && appPrivacyResults[0].result == 1) {
+        //do nothing
+      }else{
+        const uiContext = this.getUIContext().getHostContext() as common.UIAbilityContext;
+        privacyManager.requestAppPrivacyConsent(uiContext).then((consentResult : privacyManager.ConsentResult) => {
+          let appPrivacyResults: privacyManager.AppPrivacyResult[] = consentResult["results"];
+          for (let i = 0; i < appPrivacyResults.length; i++) {
+            hilog.info(0, 'TAG', "GetAppPrivacyResult type = " + appPrivacyResults[i]["type"] + ", version = " + appPrivacyResults[i]["versionCode"] + ", result = " + appPrivacyResults[i]["result"] + ", signingTimeStamp = " + appPrivacyResults[i]["signingTimeStamp"]);
+          }
+        }).catch((error: BusinessError<Object>) => {
+          hilog.error(0, 'TAG', `requestAppPrivacyConsent failed, Code: ${error.code}, message: ${error.message}`);
+        });
+      }
+    } catch (error) {
+      hilog.error(0, 'TAG', "GetAppPrivacyResultPublic exception code: " + error.code + ", exception message: " + error.message);
+    }
+  }
+
   build() {
     Navigation(this.navPathStack){
       Tabs({
