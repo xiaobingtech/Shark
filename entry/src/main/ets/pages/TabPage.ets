@@ -2,6 +2,9 @@ import { SymbolGlyphModifier } from '@kit.ArkUI'
 import { HistoryView } from './HistoryView'
 import { ServerView } from './ServerView'
 import { SettingView } from './SettingView'
+import { hilog } from '@kit.PerformanceAnalysisKit'
+import { privacyManager } from '@kit.StoreKit'
+import { common } from '@kit.AbilityKit'
 
 @Preview
 @Entry
