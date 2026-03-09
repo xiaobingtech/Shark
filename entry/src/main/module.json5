@@ -54,6 +54,21 @@
     "requestPermissions": [
       {"name": 'ohos.permission.INTERNET'}
     ],
-    "routerMap": "$profile:route_map"
+    "routerMap": "$profile:route_map",
+    "metadata": [
+      {
+        "name": "client_id",
+        "value":"6917597464642011036"
+      },
+      {
+        "name": "appgallery_privacy_hosted",
+        "value": "1"
+      },
+      {
+        "name": "appgallery_privacy_link_privacy_statement",
+        "value": "https://agreement-drcn.hispace.dbankcloud.cn/index.html?lang=zh&agreementId=1896626093369120064" // 必须是https网址
+      }
+    ]
+  }
   }
 }
