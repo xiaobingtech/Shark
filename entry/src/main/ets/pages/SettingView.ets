@@ -31,7 +31,6 @@ export function SettingViewBuilder(name: string, param: Object) {
 @Component
 export struct SettingView {
 
-  @State selectedProductId: string = 'com.xiaobingkj.shark.coffee'
 
   @StorageProp('currentBreakpoint') currentBreakpoint: string = '';
   @State aboutViewShow: boolean = false;
@@ -44,6 +43,8 @@ export struct SettingView {
 
   private uiContext: UIContext = this.getUIContext();
   private context = this.uiContext.getHostContext() as common.UIAbilityContext;
+
+  @State product: iap.Product|null = null
 
   private computeHistoryCount(): number {
     let data: HistoryStoreData | undefined =
@@ -59,6 +60,19 @@ export struct SettingView {
       count = data.times.length
     }
     return count
+  }
+
+  getConsumableProducts() {
+    const queryProductParam: iap.QueryProductsParameter = {
+      productType: iap.ProductType.CONSUMABLE,
+      productIds: ['com.xiaobingkj.shark.coffee']
+    };
+    const context: common.UIAbilityContext = getContext(this) as common.UIAbilityContext;
+    iap.queryProducts(context, queryProductParam).then((result) => {
+      this.product = result[0]
+    }).catch((err: BusinessError) => {
+      console.error(`Failed to query products. Code is ${err.code}, message is ${err.message}`);
+    });
   }
 
   private showReviewDialog(): void {
@@ -101,6 +115,7 @@ export struct SettingView {
 
   aboutToAppear(): void {
     this.historyCount = this.computeHistoryCount()
+    this.getConsumableProducts();
   }
 
   private onRefreshTickChange(): void {
@@ -125,7 +140,7 @@ export struct SettingView {
             ListItem({ style: ListItemStyle.CARD }) {
               CardRightItem({
                 isShow: false,
-                textContent: '导出/导入',
+                textContent: '导出',
                 rightText: this.historyCount + ' 条消息',
                 symbolSrc: $r('sys.symbol.arrow_right_to_line')
               })
@@ -362,8 +377,8 @@ export struct SettingView {
             ListItem({ style: ListItemStyle.CARD }) {
               CardRightItem({
                 isShow: false,
-                textContent: '一次性捐赠',
-                rightText: '¥6.00',
+                textContent: '请我喝一杯奶茶',
+                rightText: this.product?.localPrice,
                 symbolSrc: $r('sys.symbol.star_fill'),
                 onclick: () => {
                   // com.xiaobingkj.shark.coffee
@@ -403,14 +418,9 @@ export struct SettingView {
   }
 
   createPurchase(context: common.UIAbilityContext) {
-    if (!this.selectedProductId) {
-      promptAction.showToast({ message: '请先选择一个产品' });
-      return;
-    }
-
     try {
       const createPurchaseParam: iap.PurchaseParameter = {
-        productId: this.selectedProductId,
+        productId: this.product?.id ?? '',
         productType: iap.ProductType.CONSUMABLE,
       }
       iap.createPurchase(context, createPurchaseParam).then((result) => {
@@ -502,6 +512,7 @@ export struct SettingView {
       const purchaseOrderPayload = JSON.parse(purchaseOrderStr) as PurchaseOrderPayload;
       if (purchaseOrderPayload) {
         promptAction.showToast({ message: '购买成功' });
+        this.finishPurchase(purchaseOrderPayload);
       }
     } catch (e) {
       IAPLogger.error('PaywallView', 'dealPurchaseData json error');

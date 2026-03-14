@@ -31,6 +31,7 @@ export struct HistoryView {
   private historyDataObject: distributedDataObject.DataObject | null = null
   private historyStoreData: HistoryStoreData | null = null
   @StorageLink('navPathStack') navPathStack: NavPathStack = new NavPathStack()
+  private listScroller: ListScroller = new ListScroller()
   private dataChangeCallback: distributedDataObject.DataObserver =
     (sessionId: string, fields: Array<string>) => {
       this.loadMessages()
@@ -94,6 +95,7 @@ export struct HistoryView {
   private onRefreshTickChange(): void {
     this.loadMessages()
   }
+
   private formatNumber(value: number): string {
     if (value < 10) {
       return `0${value}`
@@ -111,11 +113,90 @@ export struct HistoryView {
     return `${year}-${month}-${day} ${hour}:${minute}`
   }
 
+  private deleteMessage(item: HistoryMessage): void {
+    if (this.historyStoreData == null) {
+      return
+    }
+    let index = -1
+    for (let i = 0; i < this.historyStoreData.titles.length; i++) {
+      if (this.historyStoreData.titles[i] === item.title &&
+        this.historyStoreData.bodies[i] === item.body &&
+        this.historyStoreData.times[i] === item.time) {
+        index = i
+        break
+      }
+    }
+    if (index >= 0) {
+      this.historyStoreData.titles.splice(index, 1)
+      this.historyStoreData.bodies.splice(index, 1)
+      this.historyStoreData.times.splice(index, 1)
+      AppStorage.setOrCreate<HistoryStoreData>(HISTORY_DATA_VALUE_KEY, this.historyStoreData)
+    }
+    let updated: Array<HistoryMessage> = []
+    for (let i = 0; i < this.messages.length; i++) {
+      if (this.messages[i].id !== item.id) {
+        updated.push(this.messages[i])
+      }
+    }
+    this.messages = updated
+  }
+
+  private showDeleteConfirmDialog(item: HistoryMessage): void {
+    this.getUIContext().showAlertDialog({
+      title: '删除确认',
+      message: '确定要删除这条历史消息吗？',
+      autoCancel: true,
+      alignment: DialogAlignment.Center,
+      primaryButton: {
+        value: '取消',
+        action: () => {
+          this.listScroller.closeAllSwipeActions()
+        }
+      },
+      secondaryButton: {
+        enabled: true,
+        defaultFocus: true,
+        value: '删除',
+        fontColor: Color.White,
+        backgroundColor: Color.Red,
+        action: () => {
+          this.deleteMessage(item)
+        }
+      },
+      cancel: () => {
+        this.listScroller.closeAllSwipeActions()
+      }
+    })
+  }
+
+  @Builder
+  buildDeleteAction(item: HistoryMessage) {
+    Row() {
+      Button({ type: ButtonType.Circle, stateEffect: true }) {
+        SymbolGlyph($r('sys.symbol.trash'))
+          .fontSize(20)
+          .fontColor([Color.White])
+          .renderingStrategy(SymbolRenderingStrategy.SINGLE)
+          .effectStrategy(SymbolEffectStrategy.SCALE)
+      }
+      .width(36)
+      .height(36)
+      .backgroundColor(Color.Red)
+      .onClick(() => {
+        this.showDeleteConfirmDialog(item)
+      })
+    }
+    .width(56)
+    .height('100%')
+    .justifyContent(FlexAlign.Center)
+    .backgroundColor($r('sys.color.comp_background_tertiary'))
+  }
+
   build() {
     Navigation() {
-      Grid() {
+      List({ scroller: this.listScroller, space: 10}) {
         ForEach(this.messages, (item: HistoryMessage) => {
-          GridItem() {
+          ListItem() {
             Column({ space: 6 }) {
               Text(item.title)
                 .fontSize($r('sys.float.Subtitle_M'))
@@ -135,19 +216,30 @@ export struct HistoryView {
             .alignItems(HorizontalAlign.Start)
             .padding($r('sys.float.padding_level8'))
             .width('100%')
-            .height(undefined)
             .backgroundColor($r('sys.color.comp_background_primary'))
             .borderRadius($r('sys.float.corner_radius_level8'))
           }
           .borderRadius($r('sys.float.corner_radius_level8'))
           .clip(true)
+          .swipeAction({
+            end: {
+              builder: () => {
+                this.buildDeleteAction(item)
+              },
+              onAction: () => {
+                this.showDeleteConfirmDialog(item)
+              },
+              actionAreaDistance: 56
+            }
+          })
+          .transition({ type: TransitionType.Delete, opacity: 0 })
         }, (item: HistoryMessage) => item.id)
       }
-      .columnsTemplate('1fr')
-      .rowsGap($r('sys.float.padding_level8'))
       .padding($r('sys.float.padding_level8'))
       .width('100%')
       .height('100%')
+      .scrollBar(BarState.Off)
+      .edgeEffect(EdgeEffect.Spring, { alwaysEnabled: true })
       .backgroundColor($r('sys.color.background_secondary'))
     }
     .title('历史消息')
