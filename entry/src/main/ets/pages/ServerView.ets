@@ -9,6 +9,7 @@ import { AddServerView } from './AddServerView'
 import { SoundView } from './SoundView'
 import { ServerListView, ServerListViewBuilder } from './ServerListView'
 import { notificationManager } from '@kit.NotificationKit'
+import { getPhoneHdsTabsContentEndOffset } from '../common/utils/ApiVersionUtil'
 
 const DOMAIN: number = 0x0000
 const PREFERENCES_NAME: string = 'shark.db'
@@ -608,7 +609,12 @@ export struct ServerView {
         }
         .columnsTemplate('1fr')
         .rowsGap($r('sys.float.padding_level8'))
-        .padding($r('sys.float.padding_level8'))
+        .padding({
+          left: $r('sys.float.padding_level8'),
+          right: $r('sys.float.padding_level8'),
+          top: $r('sys.float.padding_level8'),
+          bottom: getPhoneHdsTabsContentEndOffset(this.currentBreakpoint)
+        })
         .width('100%')
         .height('100%')
         .backgroundColor($r('sys.color.background_secondary'))

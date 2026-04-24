@@ -1,4 +1,5 @@
 import { distributedDataObject } from '@kit.ArkData'
+import { getPhoneHdsTabsContentEndOffset } from '../common/utils/ApiVersionUtil'
 
 const HISTORY_DATA_KEY: string = 'historyDataObject'
 const HISTORY_DATA_VALUE_KEY: string = 'historyStoreData'
@@ -26,6 +27,7 @@ class HistoryMessage {
 @Component
 export struct HistoryView {
   @State messages: Array<HistoryMessage> = []
+  @StorageProp('currentBreakpoint') currentBreakpoint: string = ''
   @Watch('onRefreshTickChange')
   @StorageLink('historyRefreshTick') refreshTick: number = 0
   private historyDataObject: distributedDataObject.DataObject | null = null
@@ -238,6 +240,7 @@ export struct HistoryView {
       .padding($r('sys.float.padding_level8'))
       .width('100%')
       .height('100%')
+      .contentEndOffset(getPhoneHdsTabsContentEndOffset(this.currentBreakpoint))
       .scrollBar(BarState.Off)
       .edgeEffect(EdgeEffect.Spring, { alwaysEnabled: true })
       .backgroundColor($r('sys.color.background_secondary'))

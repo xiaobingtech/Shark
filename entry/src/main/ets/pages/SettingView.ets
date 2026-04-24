@@ -12,6 +12,7 @@ import { PurchaseData, PurchaseOrderPayload } from '../common/IapDataModel'
 import { JWSUtil } from '../common/JWSUtil'
 import { commentManager } from '@kit.AppGalleryKit'
 import { hilog } from '@kit.PerformanceAnalysisKit'
+import { getPhoneHdsTabsContentEndOffset } from '../common/utils/ApiVersionUtil'
 
 const DEVICE_TOKEN_KEY: string = 'deviceToken'
 const HISTORY_DATA_VALUE_KEY: string = 'historyStoreData'
@@ -404,6 +405,7 @@ export struct SettingView {
         .edgeEffect(EdgeEffect.Spring, { alwaysEnabled: true })
         .width('100%')
         .height('100%')
+        .contentEndOffset(getPhoneHdsTabsContentEndOffset(this.currentBreakpoint))
         .padding({
           left: $r('sys.float.padding_level8'),
           right: $r('sys.float.padding_level8')
