@@ -22,11 +22,17 @@ const HISTORY_TAB_INDEX_KEY: string = 'tabIndex';
 const HISTORY_TITLES_KEY: string = 'historyTitles';
 const HISTORY_BODIES_KEY: string = 'historyBodies';
 const HISTORY_TIMES_KEY: string = 'historyTimes';
+const HISTORY_IMAGES_KEY: string = 'historyImages';
+const HISTORY_STYLES_KEY: string = 'historyStyles';
+const HISTORY_INBOX_CONTENTS_KEY: string = 'historyInboxContents';
 
 class HistoryStoreData {
   titles: Array<string> = [];
   bodies: Array<string> = [];
   times: Array<number> = [];
+  images: Array<string> = [];
+  styles: Array<number> = [];
+  inboxContents: Array<Array<string>> = [];
 }
 
 interface ServerInfo {
@@ -38,6 +44,9 @@ interface PushMessageBody {
   title?: string;
   body?: string;
   notifyId?: number;
+  style?: number | string;
+  inboxContent?: Array<string> | string;
+  image?: string;
 }
 
 interface PushMessageHead {
@@ -72,6 +81,9 @@ interface PushWantAgentInfo {
 interface WantMessageParameters {
   title?: string;
   body?: string;
+  style?: number | string;
+  inboxContent?: Array<string> | string;
+  image?: string;
   time?: number;
   _push_notifyid?: number;
   push_wantAgentInfo?: PushWantAgentInfo;
@@ -235,7 +247,10 @@ export default class EntryAbility extends UIAbility {
     let parameters = want.parameters as WantMessageParameters
     let title: string = ''
     let body: string = ''
+    let image: string = ''
     let timestamp: number = Date.now()
+    let style: number = 0
+    let inboxContentLines: Array<string> = []
     if (parameters != undefined && parameters != null) {
       let message: PushMessage | undefined = undefined
       if (parameters.push_wantAgentInfo != undefined &&
@@ -246,6 +261,9 @@ export default class EntryAbility extends UIAbility {
           message = firstWant.parameters.message
         }
       }
+      let messageStyle: number | string | undefined = undefined
+      let messageInboxContent: Array<string> | string | undefined = undefined
+      let messageImage: string | undefined = undefined
       if (message != undefined && message.body != undefined) {
         if (message.body.title != undefined && message.body.title.length > 0) {
           title = message.body.title
@@ -253,6 +271,9 @@ export default class EntryAbility extends UIAbility {
         if (message.body.body != undefined && message.body.body.length > 0) {
           body = message.body.body
         }
+        messageStyle = message.body.style
+        messageInboxContent = message.body.inboxContent
+        messageImage = message.body.image
       }
       if (message != undefined && message.head != undefined && message.head.serverRecTime != undefined &&
         message.head.serverRecTime > 0) {
@@ -267,8 +288,32 @@ export default class EntryAbility extends UIAbility {
       if (parameters.body != undefined && parameters.body.length > 0) {
         body = parameters.body
       }
+      if (messageImage != undefined && messageImage.length > 0) {
+        image = this.decodeInboxLine(messageImage)
+      }
+      if (parameters.image != undefined && parameters.image.length > 0) {
+        image = this.decodeInboxLine(parameters.image)
+      }
       if (parameters.time != undefined && parameters.time > 0) {
         timestamp = parameters.time
+      }
+      if (this.isMultilineStyle(parameters.style)) {
+        style = 3
+      } else if (this.isMultilineStyle(messageStyle)) {
+        style = 3
+      } else if (typeof parameters.style === 'number') {
+        style = parameters.style
+      } else if (typeof messageStyle === 'number') {
+        style = messageStyle
+      }
+      if (this.isMultilineStyle(parameters.style) || this.isMultilineStyle(messageStyle)) {
+        inboxContentLines = this.parseInboxContentArray(parameters.inboxContent)
+        if (inboxContentLines.length == 0) {
+          inboxContentLines = this.parseInboxContentArray(messageInboxContent)
+        }
+        if (inboxContentLines.length > 0) {
+          body = inboxContentLines.join('\n')
+        }
       }
     }
     if (title.length == 0) {
@@ -286,6 +331,9 @@ export default class EntryAbility extends UIAbility {
     newData.titles = [...oldData.titles, title]
     newData.bodies = [...oldData.bodies, body]
     newData.times = [...oldData.times, timestamp]
+    newData.images = [...this.getHistoryImages(oldData), image]
+    newData.styles = [...this.getHistoryStyles(oldData), style]
+    newData.inboxContents = [...this.getHistoryInboxContents(oldData), inboxContentLines]
     this.historyStoreData = newData
     AppStorage.setOrCreate(HISTORY_DATA_VALUE_KEY, newData)
     AppStorage.setOrCreate('historyRefreshTick', Date.now())
@@ -295,6 +343,111 @@ export default class EntryAbility extends UIAbility {
       }
     })
     this.persistHistoryData()
+  }
+
+  private buildInboxContentBody(inboxContent: Array<string> | string | undefined): string {
+    if (inboxContent == undefined) {
+      return ''
+    }
+    let lines: Array<string> = []
+    if (typeof inboxContent === 'string') {
+      let parts: Array<string> = inboxContent.split('|')
+      for (let i = 0; i < parts.length; i++) {
+        let line: string = this.decodeInboxLine(parts[i])
+        if (line.length > 0) {
+          lines.push(line)
+        }
+      }
+    } else {
+      for (let i = 0; i < inboxContent.length; i++) {
+        let line: string = inboxContent[i]
+        if (line.length > 0) {
+          lines.push(line)
+        }
+      }
+    }
+    return lines.join('\n')
+  }
+
+  private getHistoryImages(data: HistoryStoreData): Array<string> {
+    let images: Array<string> = []
+    if (data.images == undefined) {
+      images = []
+    } else {
+      images = data.images
+    }
+    while (images.length < data.titles.length) {
+      images.push('')
+    }
+    return images
+  }
+
+  private getHistoryStyles(data: HistoryStoreData): Array<number> {
+    let styles: Array<number> = []
+    if (data.styles == undefined) {
+      styles = []
+    } else {
+      styles = data.styles
+    }
+    while (styles.length < data.titles.length) {
+      styles.push(0)
+    }
+    return styles
+  }
+
+  private getHistoryInboxContents(data: HistoryStoreData): Array<Array<string>> {
+    let inboxContents: Array<Array<string>> = []
+    if (data.inboxContents == undefined) {
+      inboxContents = []
+    } else {
+      inboxContents = data.inboxContents
+    }
+    while (inboxContents.length < data.titles.length) {
+      inboxContents.push([])
+    }
+    return inboxContents
+  }
+
+  private parseInboxContentArray(inboxContent: Array<string> | string | undefined): Array<string> {
+    if (inboxContent == undefined) {
+      return []
+    }
+    let lines: Array<string> = []
+    if (typeof inboxContent === 'string') {
+      let parts: Array<string> = inboxContent.split('|')
+      for (let i = 0; i < parts.length; i++) {
+        let line: string = this.decodeInboxLine(parts[i])
+        if (line.length > 0) {
+          lines.push(line)
+        }
+      }
+    } else {
+      for (let i = 0; i < inboxContent.length; i++) {
+        let line: string = this.decodeInboxLine(inboxContent[i])
+        if (line.length > 0) {
+          lines.push(line)
+        }
+      }
+    }
+    return lines
+  }
+
+  private isMultilineStyle(style: number | string | undefined): boolean {
+    if (typeof style === 'number') {
+      return style == 3
+    }
+    if (typeof style === 'string') {
+      return style == '3'
+    }
+    return false
+  }
+
+  private decodeInboxLine(value: string): string {
+    try {
+      return decodeURIComponent(value)
+    } catch (err) {
+      return value
+    }
   }
 
   private applyHistoryTabSelection(): void {
@@ -325,6 +478,15 @@ export default class EntryAbility extends UIAbility {
     if (parameters.body != undefined && parameters.body.length > 0) {
       return true
     }
+    if (parameters.image != undefined && parameters.image.length > 0) {
+      return true
+    }
+    if (parameters.inboxContent != undefined) {
+      return true
+    }
+    if (parameters.style != undefined) {
+      return true
+    }
     if (parameters.time != undefined && parameters.time > 0) {
       return true
     }
@@ -337,9 +499,15 @@ export default class EntryAbility extends UIAbility {
     let titlesJson = pref.getSync(HISTORY_TITLES_KEY, '[]') as string
     let bodiesJson = pref.getSync(HISTORY_BODIES_KEY, '[]') as string
     let timesJson = pref.getSync(HISTORY_TIMES_KEY, '[]') as string
+    let imagesJson = pref.getSync(HISTORY_IMAGES_KEY, '[]') as string
+    let stylesJson = pref.getSync(HISTORY_STYLES_KEY, '[]') as string
+    let inboxContentsJson = pref.getSync(HISTORY_INBOX_CONTENTS_KEY, '[]') as string
     data.titles = this.parseStringArray(titlesJson)
     data.bodies = this.parseStringArray(bodiesJson)
     data.times = this.parseNumberArray(timesJson)
+    data.images = this.parseStringArray(imagesJson)
+    data.styles = this.parseNumberArray(stylesJson)
+    data.inboxContents = this.parseStringArrayArray(inboxContentsJson)
     return data
   }
 
@@ -351,6 +519,9 @@ export default class EntryAbility extends UIAbility {
     pref.putSync(HISTORY_TITLES_KEY, JSON.stringify(this.historyStoreData.titles))
     pref.putSync(HISTORY_BODIES_KEY, JSON.stringify(this.historyStoreData.bodies))
     pref.putSync(HISTORY_TIMES_KEY, JSON.stringify(this.historyStoreData.times))
+    pref.putSync(HISTORY_IMAGES_KEY, JSON.stringify(this.historyStoreData.images))
+    pref.putSync(HISTORY_STYLES_KEY, JSON.stringify(this.historyStoreData.styles))
+    pref.putSync(HISTORY_INBOX_CONTENTS_KEY, JSON.stringify(this.historyStoreData.inboxContents))
     pref.flushSync()
   }
 
@@ -374,6 +545,18 @@ export default class EntryAbility extends UIAbility {
       }
     } catch (err) {
       hilog.error(DOMAIN, 'HistoryStore', 'Failed to parse number array: %{public}s', JSON.stringify(err))
+    }
+    return []
+  }
+
+  private parseStringArrayArray(value: string): Array<Array<string>> {
+    try {
+      let parsed: object = JSON.parse(value) as object
+      if (Array.isArray(parsed)) {
+        return parsed as Array<Array<string>>
+      }
+    } catch (err) {
+      hilog.error(DOMAIN, 'HistoryStore', 'Failed to parse string array array: %{public}s', JSON.stringify(err))
     }
     return []
   }

@@ -8,6 +8,9 @@ class HistoryStoreData {
   titles: Array<string> = []
   bodies: Array<string> = []
   times: Array<number> = []
+  images: Array<string> = []
+  styles: Array<number> = []
+  inboxContents: Array<Array<string>> = []
 }
 
 class HistoryMessage {
@@ -15,12 +18,19 @@ class HistoryMessage {
   title: string
   body: string
   time: number
+  image: string
+  style: number
+  inboxContents: Array<string>
 
-  constructor(id: string, title: string, body: string, time: number) {
+  constructor(id: string, title: string, body: string, time: number, image: string, style: number,
+    inboxContents: Array<string>) {
     this.id = id
     this.title = title
     this.body = body
     this.time = time
+    this.image = image
+    this.style = style
+    this.inboxContents = inboxContents
   }
 }
 
@@ -76,6 +86,9 @@ export struct HistoryView {
     let titles = data.titles
     let bodies = data.bodies
     let times = data.times
+    let images = this.getHistoryImages(data)
+    let styles = this.getHistoryStyles(data)
+    let inboxContents = this.getHistoryInboxContents(data)
     let count: number = titles.length
     if (bodies.length < count) {
       count = bodies.length
@@ -86,12 +99,63 @@ export struct HistoryView {
     let list: Array<HistoryMessage> = []
     for (let i = 0; i < count; i++) {
       let id = `${times[i]}_${i}`
-      list.push(new HistoryMessage(id, titles[i], bodies[i], times[i]))
+      let image: string = ''
+      if (i < images.length) {
+        image = images[i]
+      }
+      let style: number = 0
+      if (i < styles.length) {
+        style = styles[i]
+      }
+      let inboxContent: Array<string> = []
+      if (i < inboxContents.length) {
+        inboxContent = inboxContents[i]
+      }
+      list.push(new HistoryMessage(id, titles[i], bodies[i], times[i], image, style, inboxContent))
     }
     list.sort((left: HistoryMessage, right: HistoryMessage) => {
       return right.time - left.time
     })
     this.messages = list
+  }
+
+  private getHistoryImages(data: HistoryStoreData): Array<string> {
+    let images: Array<string> = []
+    if (data.images == undefined) {
+      images = []
+    } else {
+      images = data.images
+    }
+    while (images.length < data.titles.length) {
+      images.push('')
+    }
+    return images
+  }
+
+  private getHistoryStyles(data: HistoryStoreData): Array<number> {
+    let styles: Array<number> = []
+    if (data.styles == undefined) {
+      styles = []
+    } else {
+      styles = data.styles
+    }
+    while (styles.length < data.titles.length) {
+      styles.push(0)
+    }
+    return styles
+  }
+
+  private getHistoryInboxContents(data: HistoryStoreData): Array<Array<string>> {
+    let inboxContents: Array<Array<string>> = []
+    if (data.inboxContents == undefined) {
+      inboxContents = []
+    } else {
+      inboxContents = data.inboxContents
+    }
+    while (inboxContents.length < data.titles.length) {
+      inboxContents.push([])
+    }
+    return inboxContents
   }
 
   private onRefreshTickChange(): void {
@@ -132,6 +196,21 @@ export struct HistoryView {
       this.historyStoreData.titles.splice(index, 1)
       this.historyStoreData.bodies.splice(index, 1)
       this.historyStoreData.times.splice(index, 1)
+      let images = this.getHistoryImages(this.historyStoreData)
+      if (index < images.length) {
+        images.splice(index, 1)
+        this.historyStoreData.images = images
+      }
+      let styles = this.getHistoryStyles(this.historyStoreData)
+      if (index < styles.length) {
+        styles.splice(index, 1)
+        this.historyStoreData.styles = styles
+      }
+      let inboxContents = this.getHistoryInboxContents(this.historyStoreData)
+      if (index < inboxContents.length) {
+        inboxContents.splice(index, 1)
+        this.historyStoreData.inboxContents = inboxContents
+      }
       AppStorage.setOrCreate<HistoryStoreData>(HISTORY_DATA_VALUE_KEY, this.historyStoreData)
     }
     let updated: Array<HistoryMessage> = []
@@ -200,17 +279,42 @@ export struct HistoryView {
         ForEach(this.messages, (item: HistoryMessage) => {
           ListItem() {
             Column({ space: 6 }) {
-              Text(item.title)
-                .fontSize($r('sys.float.Subtitle_M'))
-                .fontWeight(FontWeight.Medium)
-                .fontColor($r('sys.color.font_primary'))
-                .maxLines(1)
-                .textOverflow({ overflow: TextOverflow.Ellipsis })
-              Text(item.body)
-                .fontSize($r('sys.float.Body_M'))
-                .fontColor($r('sys.color.font_secondary'))
-                .maxLines(2)
-                .textOverflow({ overflow: TextOverflow.Ellipsis })
+              Row() {
+                Column({ space: 4 }) {
+                  Text(item.title)
+                    .fontSize($r('sys.float.Subtitle_M'))
+                    .fontWeight(FontWeight.Medium)
+                    .fontColor($r('sys.color.font_primary'))
+                    .maxLines(1)
+                    .textOverflow({ overflow: TextOverflow.Ellipsis })
+                  if (item.style == 3 && item.inboxContents.length > 0) {
+                    ForEach(item.inboxContents, (line: string) => {
+                      Text(line)
+                        .fontSize($r('sys.float.Body_M'))
+                        .fontColor($r('sys.color.font_secondary'))
+                        .maxLines(1)
+                        .textOverflow({ overflow: TextOverflow.Ellipsis })
+                    }, (line: string, index: number) => `${item.id}_inbox_${index}`)
+                  } else {
+                    Text(item.body)
+                      .fontSize($r('sys.float.Body_M'))
+                      .fontColor($r('sys.color.font_secondary'))
+                      .maxLines(2)
+                      .textOverflow({ overflow: TextOverflow.Ellipsis })
+                  }
+                }
+                .alignItems(HorizontalAlign.Start)
+                .layoutWeight(1)
+                if (item.image.length > 0) {
+                  Image(item.image)
+                    .width(44)
+                    .height(44)
+                    .objectFit(ImageFit.Cover)
+                    .borderRadius($r('sys.float.corner_radius_level4'))
+                    .margin({ left: 10 })
+                }
+              }
+              .alignItems(VerticalAlign.Top)
               Text(this.formatTime(item.time))
                 .fontSize($r('sys.float.Body_S'))
                 .fontColor($r('sys.color.font_secondary'))
