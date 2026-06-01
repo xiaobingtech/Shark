@@ -1,6 +1,7 @@
-import { pasteboard } from '@kit.BasicServicesKit'
 import { promptAction } from '@kit.ArkUI'
 import { common, Want } from '@kit.AbilityKit'
+import { systemShare } from '@kit.ShareKit'
+import { uniformTypeDescriptor as utd } from '@kit.ArkData'
 import { CommonConstants, ProcessUtil } from '@ohos/common'
 import { CardItem } from '../common/CardItem'
 import { CardRightItem } from '../common/CardRightItem'
@@ -13,14 +14,27 @@ import { JWSUtil } from '../common/JWSUtil'
 import { commentManager } from '@kit.AppGalleryKit'
 import { hilog } from '@kit.PerformanceAnalysisKit'
 import { getPhoneHdsTabsContentEndOffset } from '../common/utils/ApiVersionUtil'
+import { pasteboard } from '@kit.BasicServicesKit'
 
 const DEVICE_TOKEN_KEY: string = 'deviceToken'
 const HISTORY_DATA_VALUE_KEY: string = 'historyStoreData'
+
+class HistoryExportItem {
+  title: string = ''
+  body: string = ''
+  time: number = 0
+  image: string = ''
+  style: number = 0
+  inboxContents: Array<string> = []
+}
 
 class HistoryStoreData {
   titles: string[] = []
   bodies: string[] = []
   times: number[] = []
+  images: string[] = []
+  styles: number[] = []
+  inboxContents: Array<Array<string>> = []
 }
 
 @Builder
@@ -46,6 +60,95 @@ export struct SettingView {
   private context = this.uiContext.getHostContext() as common.UIAbilityContext;
 
   @State product: iap.Product|null = null
+
+  private exportHistoryAsJson(): void {
+    let data: HistoryStoreData | undefined =
+      AppStorage.get<HistoryStoreData>(HISTORY_DATA_VALUE_KEY)
+    if (data == undefined || data.titles.length == 0) {
+      promptAction.showToast({ message: '没有可导出的消息' })
+      return
+    }
+    let count: number = data.titles.length
+    if (data.bodies.length < count) {
+      count = data.bodies.length
+    }
+    if (data.times.length < count) {
+      count = data.times.length
+    }
+    let images = this.getHistoryImages(data)
+    let styles = this.getHistoryStyles(data)
+    let inboxContents = this.getHistoryInboxContents(data)
+    let items: HistoryExportItem[] = []
+    for (let i = 0; i < count; i++) {
+      let inboxContent: Array<string> = []
+      if (i < inboxContents.length) {
+        inboxContent = inboxContents[i]
+      }
+      let item = new HistoryExportItem()
+      item.title = data.titles[i]
+      item.body = data.bodies[i]
+      item.time = data.times[i]
+      item.image = images[i]
+      item.style = styles[i]
+      item.inboxContents = inboxContent
+      items.push(item)
+    }
+    let jsonString: string = JSON.stringify(items, null, 2)
+    let sharedData: systemShare.SharedData = new systemShare.SharedData({
+      utd: utd.UniformDataType.PLAIN_TEXT,
+      content: jsonString
+    })
+    let controller: systemShare.ShareController = new systemShare.ShareController(sharedData)
+    let context: common.UIAbilityContext = this.context
+    controller.on('dismiss', () => {
+      console.info('Share panel closed')
+    })
+    controller.show(context, {
+      anchor: {
+        windowOffset: { x: 100, y: 100 },
+        size: { width: 0, height: 0 }
+      }
+    })
+  }
+
+  private getHistoryImages(data: HistoryStoreData): string[] {
+    let images: string[] = []
+    if (data.images == undefined) {
+      images = []
+    } else {
+      images = data.images
+    }
+    while (images.length < data.titles.length) {
+      images.push('')
+    }
+    return images
+  }
+
+  private getHistoryStyles(data: HistoryStoreData): number[] {
+    let styles: number[] = []
+    if (data.styles == undefined) {
+      styles = []
+    } else {
+      styles = data.styles
+    }
+    while (styles.length < data.titles.length) {
+      styles.push(0)
+    }
+    return styles
+  }
+
+  private getHistoryInboxContents(data: HistoryStoreData): Array<Array<string>> {
+    let inboxContents: Array<Array<string>> = []
+    if (data.inboxContents == undefined) {
+      inboxContents = []
+    } else {
+      inboxContents = data.inboxContents
+    }
+    while (inboxContents.length < data.titles.length) {
+      inboxContents.push([])
+    }
+    return inboxContents
+  }
 
   private computeHistoryCount(): number {
     let data: HistoryStoreData | undefined =
@@ -143,7 +246,10 @@ export struct SettingView {
                 isShow: false,
                 textContent: '导出',
                 rightText: this.historyCount + ' 条消息',
-                symbolSrc: $r('sys.symbol.arrow_right_to_line')
+                symbolSrc: $r('sys.symbol.arrow_right_to_line'),
+                onclick: () => {
+                  this.exportHistoryAsJson()
+                }
               })
             }
             .height(undefined)
