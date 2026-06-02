@@ -384,7 +384,7 @@ export struct SettingView {
                 textContent: '使用文档',
                 symbolSrc: $r('sys.symbol.doc_text'),
                 onclick:() => {
-                  this.openBrowser("https://shark.app.xiaobingkj.com/tutorial")
+                  this.openBrowser("https://shark.app.xiaobingkj.com/tutorial.html")
                 }
               })
             }
