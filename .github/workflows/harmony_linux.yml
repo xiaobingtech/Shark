@@ -72,7 +72,7 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      # 5. 下载并合并命令行工具分卷包（仅 Linux，Mac 本地已安装）
+      # 5. 下载并合并命令行工具分卷包
       - name: Download Commandline Tools (Split Archives)
         run: |
           # 创建临时目录
@@ -80,16 +80,16 @@ jobs:
           cd /tmp/cli-tools
           
           # 分卷文件的基础 URL
-          BASE_URL="https://raw.githubusercontent.com/xiaobingtech/commandline-tools-linux-x64-6.0.2.640/refs/heads/main"
+          BASE_URL="https://raw.githubusercontent.com/xiaobingtech/commandline-tools-linux-x64-6.1.0.830/refs/heads/main"
           
           echo "开始下载命令行工具分卷包..."
           
-          # 下载所有分卷文件（001 到 019）
-          for i in {001..019}; do
-            FILENAME="commandline-tools-linux-x64-6.0.2.640.7z.$i"
+          # 下载所有分卷文件（001 到 020）
+          for i in {001..020}; do
+            FILENAME="commandline-tools-linux-x64-6.1.0.830.7z.$i"
             URL="$BASE_URL/$FILENAME"
             echo "下载: $FILENAME"
-            
+          
             # 使用重试机制下载
             for attempt in {1..3}; do
               echo "下载尝试 $attempt..."
@@ -115,15 +115,15 @@ jobs:
           FILE_COUNT=$(ls -1 *.7z.* 2>/dev/null | wc -l)
           echo "找到 $FILE_COUNT 个分卷文件"
           
-          if [ "$FILE_COUNT" -ne 19 ]; then
-            echo "❌ 错误: 期望 19 个分卷文件，但找到 $FILE_COUNT 个"
+          if [ "$FILE_COUNT" -ne 20 ]; then
+            echo "❌ 错误: 期望 20 个分卷文件，但找到 $FILE_COUNT 个"
             exit 1
           fi
           
           # 合并文件
           echo "合并分卷文件..."
-          COMBINED_FILE="commandline-tools-linux-x64-6.0.2.640.7z"
-          cat commandline-tools-linux-x64-6.0.2.640.7z.* > "$COMBINED_FILE"
+          COMBINED_FILE="commandline-tools-linux-x64-6.1.0.830.7z"
+          cat commandline-tools-linux-x64-6.1.0.830.7z.* > "$COMBINED_FILE"
           
           # 验证合并后的文件
           if [ -f "$COMBINED_FILE" ]; then
@@ -165,31 +165,31 @@ jobs:
           
           if [ $? -eq 0 ]; then
             echo "✅ 7z 解压成功"
-            
+          
             # 查看解压出的文件
             echo "解压出的文件:"
             ls -la extract/
-            
+          
             # 查找 zip 文件
             ZIP_FILE=$(find extract -name "*.zip" -type f | head -1)
             if [ -n "$ZIP_FILE" ]; then
               echo "找到 ZIP 文件: $ZIP_FILE"
-              
+          
               echo "第二步：解压 ZIP 文件到 /opt/command-line-tools..."
               # 解压 zip 文件
               unzip "$ZIP_FILE" -d /opt/command-line-tools
-              
+          
               if [ $? -eq 0 ]; then
                 echo "✅ ZIP 解压成功"
-                
+          
                 # 检查解压结果
                 echo "检查解压目录内容..."
                 find /opt/command-line-tools -maxdepth 2 -type f | head -10
-                
+          
                 # 计算文件数量
                 FILE_COUNT=$(find /opt/command-line-tools -type f 2>/dev/null | wc -l)
                 echo "解压出 $FILE_COUNT 个文件"
-                
+          
                 # 检查关键工具
                 echo "查找关键工具:"
                 for tool in hvigorw ohpm hdc hap-sign-tool.jar; do
@@ -200,14 +200,14 @@ jobs:
                     echo "⚠️ 未找到 $tool"
                   fi
                 done
-                
+          
                 # 检查是否有嵌套的目录结构，如果有则调整
                 if [ -d "/opt/command-line-tools/command-line-tools" ]; then
                   echo "发现嵌套目录结构，正在调整..."
                   mv /opt/command-line-tools/command-line-tools/* /opt/command-line-tools/
                   rm -rf /opt/command-line-tools/command-line-tools
                 fi
-                
+          
               else
                 echo "❌ ZIP 解压失败"
                 exit 1
@@ -218,10 +218,10 @@ jobs:
               ALL_FILES=$(find extract -type f)
               echo "所有解压文件:"
               echo "$ALL_FILES"
-              
+          
               # 尝试直接移动所有文件
               mv extract/* /opt/command-line-tools/ 2>/dev/null || true
-              
+          
               FILE_COUNT=$(find /opt/command-line-tools -type f 2>/dev/null | wc -l)
               echo "移动了 $FILE_COUNT 个文件到 /opt/command-line-tools"
             fi
