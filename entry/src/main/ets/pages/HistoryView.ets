@@ -1,8 +1,17 @@
-import { distributedDataObject } from '@kit.ArkData'
+import { distributedDataObject, preferences } from '@kit.ArkData'
+import { common } from '@kit.AbilityKit'
+import { BusinessError } from '@kit.BasicServicesKit'
 import { getPhoneHdsTabsContentEndOffset } from '../common/utils/ApiVersionUtil'
 
 const HISTORY_DATA_KEY: string = 'historyDataObject'
 const HISTORY_DATA_VALUE_KEY: string = 'historyStoreData'
+const PREFERENCES_NAME: string = 'shark.db'
+const HISTORY_TITLES_KEY: string = 'historyTitles'
+const HISTORY_BODIES_KEY: string = 'historyBodies'
+const HISTORY_TIMES_KEY: string = 'historyTimes'
+const HISTORY_IMAGES_KEY: string = 'historyImages'
+const HISTORY_STYLES_KEY: string = 'historyStyles'
+const HISTORY_INBOX_CONTENTS_KEY: string = 'historyInboxContents'
 
 class HistoryStoreData {
   titles: Array<string> = []
@@ -212,6 +221,24 @@ export struct HistoryView {
         this.historyStoreData.inboxContents = inboxContents
       }
       AppStorage.setOrCreate<HistoryStoreData>(HISTORY_DATA_VALUE_KEY, this.historyStoreData)
+      // 持久化到分布式数据对象
+      if (this.historyDataObject != null) {
+        this.historyDataObject.save('local', (err: BusinessError, result: distributedDataObject.SaveSuccessResponse) => {
+          if (err != undefined && err.code != 0) {
+            console.error('Failed to save history after deletion: ' + JSON.stringify(err))
+          }
+        })
+      }
+      // 持久化到 preferences（磁盘），参考 EntryAbility.persistHistoryData
+      let context = getContext(this) as common.UIAbilityContext
+      let pref = preferences.getPreferencesSync(context, { name: PREFERENCES_NAME })
+      pref.putSync(HISTORY_TITLES_KEY, JSON.stringify(this.historyStoreData.titles))
+      pref.putSync(HISTORY_BODIES_KEY, JSON.stringify(this.historyStoreData.bodies))
+      pref.putSync(HISTORY_TIMES_KEY, JSON.stringify(this.historyStoreData.times))
+      pref.putSync(HISTORY_IMAGES_KEY, JSON.stringify(this.historyStoreData.images))
+      pref.putSync(HISTORY_STYLES_KEY, JSON.stringify(this.historyStoreData.styles))
+      pref.putSync(HISTORY_INBOX_CONTENTS_KEY, JSON.stringify(this.historyStoreData.inboxContents))
+      pref.flushSync()
     }
     let updated: Array<HistoryMessage> = []
     for (let i = 0; i < this.messages.length; i++) {
