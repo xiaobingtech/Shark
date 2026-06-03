@@ -169,7 +169,7 @@ export struct SettingView {
   getConsumableProducts() {
     const queryProductParam: iap.QueryProductsParameter = {
       productType: iap.ProductType.CONSUMABLE,
-      productIds: ['com.xiaobingkj.shark.coffee']
+      productIds: ['com.xiaobingkj.shark.tea']
     };
     const context: common.UIAbilityContext = getContext(this) as common.UIAbilityContext;
     iap.queryProducts(context, queryProductParam).then((result) => {
