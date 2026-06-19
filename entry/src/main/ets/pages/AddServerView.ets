@@ -8,7 +8,9 @@ import { efRcpClientApi } from '@yunkss/ef_rcp'
 
 const DOMAIN: number = 0x0000
 const PREFERENCES_NAME: string = 'shark.db'
+const SERVER_BASE_URL_KEY: string = 'serverBaseUrl'
 const SERVER_LIST_KEY: string = 'serverList'
+const DEVICE_KEY: string = 'deviceKey'
 
 interface RegisterResponseData {
   key: string
@@ -37,8 +39,9 @@ export function AddServerViewBuilder(name: string, param: Object) {
 @Component
 export struct AddServerView {
   @StorageLink('navPathStack') navPathStack: NavPathStack = new NavPathStack()
-  @StorageLink('serverBaseUrl') serverBaseUrl: string = 'https://shark.xiaobingkj.com'
+  @StorageLink(SERVER_BASE_URL_KEY) serverBaseUrl: string = 'https://shark.xiaobingkj.com'
   @StorageLink('deviceToken') deviceToken: string = ''
+  @StorageLink(DEVICE_KEY) deviceKey: string = ''
   @StorageLink(SERVER_LIST_KEY) serverList: Array<ServerInfo> = []
   @State serverUrl: string = 'https://'
 
@@ -72,21 +75,19 @@ export struct AddServerView {
   }
 
   private saveServerUrl(): void {
-    if (this.serverUrl.length === 0 || this.serverUrl === 'https://') {
+    let targetServerUrl = this.normalizeServerUrl(this.serverUrl)
+    if (!this.isValidServerUrl(targetServerUrl)) {
       promptAction.showToast({
-        message: '请输入服务器地址'
+        message: '请输入正确的服务器地址'
       })
       return
     }
-    this.registerAndSaveServer()
+    this.registerAndSaveServer(targetServerUrl)
   }
 
-  private async registerAndSaveServer(): Promise<void> {
-    // 临时设置 baseURL 用于注册
-    let originalBaseUrl = this.serverBaseUrl
-    this.serverBaseUrl = this.serverUrl
-
+  private async registerAndSaveServer(targetServerUrl: string): Promise<void> {
     let response = await efRcpClientApi.post<RegisterResponse>({
+      baseURL: targetServerUrl,
       url: '/register',
       query: {
         'device_key': '',
@@ -113,8 +114,13 @@ export struct AddServerView {
       }
     }
 
-    // 添加到服务器列表
-    this.addToServerList(this.serverUrl, key)
+    this.serverUrl = targetServerUrl
+    this.serverBaseUrl = targetServerUrl
+    if (key.length > 0) {
+      this.deviceKey = key
+    }
+    this.addToServerList(targetServerUrl, key)
+    this.persistSelectedServer()
 
     promptAction.showToast({
       message: '保存成功'
@@ -137,7 +143,9 @@ export struct AddServerView {
 
     if (existingIndex >= 0) {
       // 更新已存在的服务器
-      this.serverList[existingIndex] = serverInfo
+      let nextServerList = [...this.serverList]
+      nextServerList[existingIndex] = serverInfo
+      this.serverList = nextServerList
     } else {
       // 添加新服务器
       this.serverList = [...this.serverList, serverInfo]
@@ -151,6 +159,28 @@ export struct AddServerView {
     let data = preferences.getPreferencesSync(getContext(this), { name: PREFERENCES_NAME })
     data.putSync(SERVER_LIST_KEY, JSON.stringify(this.serverList))
     data.flush()
+  }
+
+  private persistSelectedServer(): void {
+    let data = preferences.getPreferencesSync(getContext(this), { name: PREFERENCES_NAME })
+    data.putSync(SERVER_BASE_URL_KEY, this.serverBaseUrl)
+    data.putSync(DEVICE_KEY, this.deviceKey)
+    data.flush()
+  }
+
+  private normalizeServerUrl(url: string): string {
+    let normalizedUrl = url.trim()
+    while (normalizedUrl.endsWith('/')) {
+      normalizedUrl = normalizedUrl.slice(0, normalizedUrl.length - 1)
+    }
+    return normalizedUrl
+  }
+
+  private isValidServerUrl(url: string): boolean {
+    if (url.length === 0 || url === 'https://' || url === 'http://') {
+      return false
+    }
+    return url.startsWith('https://') || url.startsWith('http://')
   }
 
   private startScan(): void {

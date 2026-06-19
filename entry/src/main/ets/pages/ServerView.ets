@@ -17,6 +17,7 @@ const DEVICE_TOKEN_KEY: string = 'deviceToken'
 const DEVICE_TOKEN_READY_KEY: string = 'hasDeviceToken'
 const DEVICE_KEY: string = 'deviceKey'
 const SERVER_LIST_KEY: string = 'serverList'
+const SERVER_BASE_URL_KEY: string = 'serverBaseUrl'
 const SERVER_BASE_URL_DEFAULT: string = 'https://shark.xiaobingkj.com'
 
 interface RegisterResponseData {
@@ -42,7 +43,7 @@ export struct ServerView {
   @StorageLink(DEVICE_TOKEN_KEY) deviceToken: string = ''
   @StorageLink(DEVICE_TOKEN_READY_KEY) hasDeviceToken: boolean = false
   @StorageLink(DEVICE_KEY) deviceKey: string = ''
-  @StorageLink('serverBaseUrl') serverBaseUrl: string = SERVER_BASE_URL_DEFAULT
+  @StorageLink(SERVER_BASE_URL_KEY) serverBaseUrl: string = SERVER_BASE_URL_DEFAULT
   @StorageProp('currentBreakpoint') currentBreakpoint: string = ''
   @StorageLink('isServerListVisible') isServerListVisible: boolean = false
   @StorageLink(SERVER_LIST_KEY) serverList: Array<ServerInfo> = []
@@ -106,7 +107,9 @@ export struct ServerView {
 
     if (existingIndex >= 0) {
       // 更新已存在的服务器
-      this.serverList[existingIndex] = serverInfo
+      let nextServerList = [...this.serverList]
+      nextServerList[existingIndex] = serverInfo
+      this.serverList = nextServerList
     } else {
       // 添加新服务器
       this.serverList = [...this.serverList, serverInfo]
@@ -142,6 +145,7 @@ export struct ServerView {
 
   private async registerDeviceOnServer(token: string): Promise<void> {
     let response = await efRcpClientApi.post<RegisterResponse>({
+      baseURL: this.normalizeServerUrl(this.serverBaseUrl),
       url: '/register',
       query: {
         'device_key': this.deviceKey,
@@ -169,6 +173,14 @@ export struct ServerView {
       // 将当前服务器信息添加到列表
       this.addToServerList(this.serverBaseUrl, newKey)
     }
+  }
+
+  private normalizeServerUrl(url: string): string {
+    let normalizedUrl = url.trim()
+    while (normalizedUrl.endsWith('/')) {
+      normalizedUrl = normalizedUrl.slice(0, normalizedUrl.length - 1)
+    }
+    return normalizedUrl
   }
 
   private buildPushUrlDisplay(): string {

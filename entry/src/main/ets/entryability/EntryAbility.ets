@@ -171,11 +171,6 @@ export default class EntryAbility extends UIAbility {
     // Main window is created, set main page for this ability
     hilog.info(DOMAIN, 'testTag', '%{public}s', 'Ability onWindowStageCreate');
 
-    efRcp.setBaseURL('https://shark.xiaobingkj.com')
-      .disableLoading()
-      .enableLogInterceptor()
-      .create()
-
     AppStorage.setOrCreate('windowStage', windowStage);
 
     AppStorage.setOrCreate('navPathStack', new NavPathStack())
@@ -190,6 +185,10 @@ export default class EntryAbility extends UIAbility {
     let savedServerBaseUrl = data.getSync(SERVER_BASE_URL_KEY, SERVER_BASE_URL_DEFAULT) as string
     let savedServerListJson = data.getSync(SERVER_LIST_KEY, '[]') as string
     let savedServerList: Array<ServerInfo> = this.parseServerList(savedServerListJson)
+    efRcp.setBaseURL(savedServerBaseUrl)
+      .disableLoading()
+      .enableLogInterceptor()
+      .create()
     AppStorage.setOrCreate(DEVICE_TOKEN_KEY, savedToken)
     AppStorage.setOrCreate(DEVICE_TOKEN_READY_KEY, savedReady)
     AppStorage.setOrCreate(DEVICE_KEY, savedDeviceKey)
