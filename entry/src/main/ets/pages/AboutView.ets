@@ -27,7 +27,7 @@ export struct AboutView {
   build() {
     Column() {
       Column() {
-        Image($r('app.media.startIcon'))
+        Image($r('app.media.appIcon'))
           .draggable(false)
           .width($r('app.float.about_image_size'))
           .height($r('app.float.about_image_size'))
