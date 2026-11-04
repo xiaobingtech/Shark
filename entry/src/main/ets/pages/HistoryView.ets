@@ -1,6 +1,7 @@
 import { distributedDataObject, preferences } from '@kit.ArkData'
 import { common } from '@kit.AbilityKit'
 import { BusinessError } from '@kit.BasicServicesKit'
+import { SymbolGlyphModifier } from '@kit.ArkUI'
 import { getPhoneHdsTabsContentEndOffset } from '../common/utils/ApiVersionUtil'
 
 const HISTORY_DATA_KEY: string = 'historyDataObject'
@@ -46,6 +47,9 @@ class HistoryMessage {
 @Component
 export struct HistoryView {
   @State messages: Array<HistoryMessage> = []
+  @State filteredMessages: Array<HistoryMessage> = []
+  @State isSearching: boolean = false
+  @State searchText: string = ''
   @StorageProp('currentBreakpoint') currentBreakpoint: string = ''
   @Watch('onRefreshTickChange')
   @StorageLink('historyRefreshTick') refreshTick: number = 0
@@ -89,6 +93,7 @@ export struct HistoryView {
     }
     if (this.historyStoreData == null) {
       this.messages = []
+      this.filterMessages()
       return
     }
     let data: HistoryStoreData = this.historyStoreData
@@ -126,6 +131,53 @@ export struct HistoryView {
       return right.time - left.time
     })
     this.messages = list
+    this.filterMessages()
+  }
+
+  private filterMessages(): void {
+    const keyword = this.searchText.trim().toLowerCase()
+    this.filteredMessages = keyword.length === 0 ? this.messages :
+      this.messages.filter((item: HistoryMessage) =>
+        item.title.toLowerCase().includes(keyword) || item.body.toLowerCase().includes(keyword) ||
+        item.inboxContents.some((line: string) => line.toLowerCase().includes(keyword)))
+  }
+
+  private buildMenuItems(): Array<NavigationMenuItem> {
+    return [{
+      value: '搜索',
+      symbolIcon: new SymbolGlyphModifier($r('sys.symbol.magnifyingglass')),
+      action: () => {
+        this.listScroller.closeAllSwipeActions()
+        this.isSearching = true
+      }
+    }]
+  }
+
+  @Builder
+  buildSearchBar() {
+    Row({ space: 8 }) {
+      Search({ value: this.searchText, placeholder: '搜索消息标题或内容' })
+        .id('historyMessageSearch')
+        .layoutWeight(1)
+        .defaultFocus(true)
+        .onAppear(() => {
+          this.getUIContext().getFocusController().requestFocus('historyMessageSearch')
+        })
+        .onChange((value: string) => {
+          this.listScroller.closeAllSwipeActions()
+          this.searchText = value
+          this.filterMessages()
+        })
+      Button('取消', { buttonStyle: ButtonStyleMode.TEXTUAL })
+        .onClick(() => {
+          this.getUIContext().getFocusController().clearFocus()
+          this.isSearching = false
+          this.searchText = ''
+          this.filterMessages()
+        })
+    }
+    .padding($r('sys.float.padding_level8'))
+    .width('100%')
   }
 
   private getHistoryImages(data: HistoryStoreData): Array<string> {
@@ -247,6 +299,7 @@ export struct HistoryView {
       }
     }
     this.messages = updated
+    this.filterMessages()
   }
 
   private showDeleteConfirmDialog(item: HistoryMessage): void {
@@ -302,80 +355,97 @@ export struct HistoryView {
 
   build() {
     Navigation() {
-      List({ scroller: this.listScroller, space: 10}) {
-        ForEach(this.messages, (item: HistoryMessage) => {
-          ListItem() {
-            Column({ space: 6 }) {
-              Row() {
-                Column({ space: 4 }) {
-                  Text(item.title)
-                    .fontSize($r('sys.float.Subtitle_M'))
-                    .fontWeight(FontWeight.Medium)
-                    .fontColor($r('sys.color.font_primary'))
-                    .maxLines(1)
-                    .textOverflow({ overflow: TextOverflow.Ellipsis })
-                  if (item.style == 3 && item.inboxContents.length > 0) {
-                    ForEach(item.inboxContents, (line: string) => {
-                      Text(line)
-                        .fontSize($r('sys.float.Body_M'))
-                        .fontColor($r('sys.color.font_secondary'))
+      Column() {
+        if (this.isSearching) {
+          this.buildSearchBar()
+        }
+        if (this.filteredMessages.length === 0) {
+          Text(this.searchText.trim().length > 0 ? '未找到匹配的消息' : '暂无历史消息')
+            .fontColor($r('sys.color.font_secondary'))
+            .layoutWeight(1)
+            .width('100%')
+            .textAlign(TextAlign.Center)
+        } else {
+          List({ scroller: this.listScroller, space: 10}) {
+            ForEach(this.filteredMessages, (item: HistoryMessage) => {
+              ListItem() {
+                Column({ space: 6 }) {
+                  Row() {
+                    Column({ space: 4 }) {
+                      Text(item.title)
+                        .fontSize($r('sys.float.Subtitle_M'))
+                        .fontWeight(FontWeight.Medium)
+                        .fontColor($r('sys.color.font_primary'))
                         .maxLines(1)
                         .textOverflow({ overflow: TextOverflow.Ellipsis })
-                    }, (line: string, index: number) => `${item.id}_inbox_${index}`)
-                  } else {
-                    Text(item.body)
-                      .fontSize($r('sys.float.Body_M'))
-                      .fontColor($r('sys.color.font_secondary'))
-                      .maxLines(2)
-                      .textOverflow({ overflow: TextOverflow.Ellipsis })
+                      if (item.style == 3 && item.inboxContents.length > 0) {
+                        ForEach(item.inboxContents, (line: string) => {
+                          Text(line)
+                            .fontSize($r('sys.float.Body_M'))
+                            .fontColor($r('sys.color.font_secondary'))
+                            .maxLines(1)
+                            .textOverflow({ overflow: TextOverflow.Ellipsis })
+                        }, (line: string, index: number) => `${item.id}_inbox_${index}`)
+                      } else {
+                        Text(item.body)
+                          .fontSize($r('sys.float.Body_M'))
+                          .fontColor($r('sys.color.font_secondary'))
+                          .maxLines(2)
+                          .textOverflow({ overflow: TextOverflow.Ellipsis })
+                      }
+                    }
+                    .alignItems(HorizontalAlign.Start)
+                    .layoutWeight(1)
+                    if (item.image.length > 0) {
+                      Image(item.image)
+                        .width(44)
+                        .height(44)
+                        .objectFit(ImageFit.Cover)
+                        .borderRadius($r('sys.float.corner_radius_level4'))
+                        .margin({ left: 10 })
+                    }
                   }
+                  .alignItems(VerticalAlign.Top)
+                  Text(this.formatTime(item.time))
+                    .fontSize($r('sys.float.Body_S'))
+                    .fontColor($r('sys.color.font_secondary'))
                 }
                 .alignItems(HorizontalAlign.Start)
-                .layoutWeight(1)
-                if (item.image.length > 0) {
-                  Image(item.image)
-                    .width(44)
-                    .height(44)
-                    .objectFit(ImageFit.Cover)
-                    .borderRadius($r('sys.float.corner_radius_level4'))
-                    .margin({ left: 10 })
-                }
+                .padding($r('sys.float.padding_level8'))
+                .width('100%')
+                .backgroundColor($r('sys.color.comp_background_primary'))
+                .borderRadius($r('sys.float.corner_radius_level8'))
               }
-              .alignItems(VerticalAlign.Top)
-              Text(this.formatTime(item.time))
-                .fontSize($r('sys.float.Body_S'))
-                .fontColor($r('sys.color.font_secondary'))
-            }
-            .alignItems(HorizontalAlign.Start)
-            .padding($r('sys.float.padding_level8'))
-            .width('100%')
-            .backgroundColor($r('sys.color.comp_background_primary'))
-            .borderRadius($r('sys.float.corner_radius_level8'))
+              .borderRadius($r('sys.float.corner_radius_level8'))
+              .clip(true)
+              .swipeAction({
+                end: {
+                  builder: () => {
+                    this.buildDeleteAction(item)
+                  },
+                  onAction: () => {
+                    this.showDeleteConfirmDialog(item)
+                  },
+                  actionAreaDistance: 56
+                }
+              })
+              .transition({ type: TransitionType.Delete, opacity: 0 })
+            }, (item: HistoryMessage) => item.id)
           }
-          .borderRadius($r('sys.float.corner_radius_level8'))
-          .clip(true)
-          .swipeAction({
-            end: {
-              builder: () => {
-                this.buildDeleteAction(item)
-              },
-              onAction: () => {
-                this.showDeleteConfirmDialog(item)
-              },
-              actionAreaDistance: 56
-            }
-          })
-          .transition({ type: TransitionType.Delete, opacity: 0 })
-        }, (item: HistoryMessage) => item.id)
+          .padding($r('sys.float.padding_level8'))
+          .width('100%')
+          .layoutWeight(1)
+          .contentEndOffset(getPhoneHdsTabsContentEndOffset(this.currentBreakpoint))
+          .scrollBar(BarState.Off)
+          .edgeEffect(EdgeEffect.Spring, { alwaysEnabled: true })
+          .backgroundColor($r('sys.color.background_secondary'))
+        }
       }
-      .padding($r('sys.float.padding_level8'))
       .width('100%')
       .height('100%')
-      .contentEndOffset(getPhoneHdsTabsContentEndOffset(this.currentBreakpoint))
-      .scrollBar(BarState.Off)
-      .edgeEffect(EdgeEffect.Spring, { alwaysEnabled: true })
       .backgroundColor($r('sys.color.background_secondary'))
     }
     .title('历史消息')
+    .menus(this.buildMenuItems())
   }
 }
