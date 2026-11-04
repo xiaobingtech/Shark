@@ -80,13 +80,13 @@ jobs:
           cd /tmp/cli-tools
           
           # 分卷文件的基础 URL
-          BASE_URL="https://raw.githubusercontent.com/xiaobingtech/commandline-tools-linux-x64-6.1.0.830/refs/heads/main"
+          BASE_URL="https://raw.githubusercontent.com/xiaobingtech/commandline-tools-linux-x64-26.0.0.821/refs/heads/main"
           
           echo "开始下载命令行工具分卷包..."
           
           # 下载所有分卷文件（001 到 020）
-          for i in {001..020}; do
-            FILENAME="commandline-tools-linux-x64-6.1.0.830.7z.$i"
+          for i in {001..021}; do
+            FILENAME="commandline-tools-linux-x64-26.0.0.821.7z.$i"
             URL="$BASE_URL/$FILENAME"
             echo "下载: $FILENAME"
           
@@ -115,15 +115,15 @@ jobs:
           FILE_COUNT=$(ls -1 *.7z.* 2>/dev/null | wc -l)
           echo "找到 $FILE_COUNT 个分卷文件"
           
-          if [ "$FILE_COUNT" -ne 20 ]; then
-            echo "❌ 错误: 期望 20 个分卷文件，但找到 $FILE_COUNT 个"
+          if [ "$FILE_COUNT" -ne 21 ]; then
+            echo "❌ 错误: 期望 21 个分卷文件，但找到 $FILE_COUNT 个"
             exit 1
           fi
           
           # 合并文件
           echo "合并分卷文件..."
-          COMBINED_FILE="commandline-tools-linux-x64-6.1.0.830.7z"
-          cat commandline-tools-linux-x64-6.1.0.830.7z.* > "$COMBINED_FILE"
+          COMBINED_FILE="commandline-tools-linux-x64-26.0.0.821.7z"
+          cat commandline-tools-linux-x64-26.0.0.821.7z.* > "$COMBINED_FILE"
           
           # 验证合并后的文件
           if [ -f "$COMBINED_FILE" ]; then
