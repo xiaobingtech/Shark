@@ -59,6 +59,22 @@
     {
       "name": "retry",
       "value": "重试"
+    },
+    {
+      "name": "about_wechat",
+      "value": "微信公众号：范小兵"
+    },
+    {
+      "name": "about_xiaohongshu",
+      "value": "小红书：范小兵"
+    },
+    {
+      "name": "about_douyin",
+      "value": "抖音：范小兵"
+    },
+    {
+      "name": "about_wechat_copied",
+      "value": "公众号“范小兵”已复制到剪贴板，到微信中添加公众号即可"
     }
   ]
 }
