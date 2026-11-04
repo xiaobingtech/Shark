@@ -241,35 +241,33 @@ jobs:
       # 6. 根据实际位置配置环境变量
       - name: Configure Environment
         run: |
-          # 查找工具的实际位置
-          HVIGORW_PATH=$(find /opt -name "hvigorw" -type f 2>/dev/null | head -1)
-          OHPM_PATH=$(find /opt -name "ohpm" -type f 2>/dev/null | head -1)
-          HDC_PATH=$(find /opt -name "hdc" -type f 2>/dev/null | head -1)
-          
-          # 提取目录路径并添加到 PATH
-          if [ -n "$HVIGORW_PATH" ]; then
-            HVIGORW_DIR=$(dirname "$HVIGORW_PATH")
-            echo "$HVIGORW_DIR" >> $GITHUB_PATH
-          fi
-          
-          if [ -n "$OHPM_PATH" ]; then
-            OHPM_DIR=$(dirname "$OHPM_PATH")
-            echo "$OHPM_DIR" >> $GITHUB_PATH
-          fi
-          
-          if [ -n "$HDC_PATH" ]; then
-            HDC_DIR=$(dirname "$HDC_PATH")
-            echo "$HDC_DIR" >> $GITHUB_PATH
-          fi
-          
-          # 检查是否有通用的 bin 目录
-          BIN_DIRS=$(find /opt/command-line-tools -name "bin" -type d 2>/dev/null)
-          for dir in $BIN_DIRS; do
-            echo "$dir" >> $GITHUB_PATH
+          # 只添加工具入口目录，避免 node_modules/npm/bin 中的内部脚本覆盖 npm。
+          TOOL_ROOT=/opt/command-line-tools
+          TOOL_DIRS=()
+          for tool in node hvigorw ohpm hdc; do
+            TOOL_PATH=$(find "$TOOL_ROOT" -type f -name "$tool" ! -path '*/node_modules/*' -print -quit)
+            if [ -z "$TOOL_PATH" ] || [ ! -x "$TOOL_PATH" ]; then
+              echo "::error::未找到可执行工具: $tool"
+              exit 1
+            fi
+            TOOL_DIR=$(dirname "$TOOL_PATH")
+            TOOL_DIRS+=("$TOOL_DIR")
+            echo "$TOOL_DIR" >> "$GITHUB_PATH"
+            if [ "$tool" = node ]; then
+              export NODE_HOME=$(dirname "$TOOL_DIR")
+              echo "NODE_HOME=$NODE_HOME" >> "$GITHUB_ENV"
+              echo "DEVECO_NODE_HOME=$NODE_HOME" >> "$GITHUB_ENV"
+            fi
           done
-          
-          # 设置 DEVECO_SDK_HOME 到 PATH
-          echo "/opt/command-line-tools/sdk" >> $GITHUB_PATH
+
+          # GITHUB_PATH 对后续步骤生效，当前步骤需要同步更新 PATH。
+          export PATH="$(IFS=:; echo "${TOOL_DIRS[*]}"):$PATH"
+          hash -r
+          for tool in node npm hvigorw ohpm hdc; do
+            command -v "$tool"
+          done
+          node --version
+          npm --version
 
       # 7. 创建符号链接
       - name: Create Symbolic Links
