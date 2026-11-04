@@ -47,6 +47,18 @@
     {
       "name": "setting_review",
       "value": "评分"
+    },
+    {
+      "name": "setting_friend_apps",
+      "value": "友情链接"
+    },
+    {
+      "name": "no_apps",
+      "value": "暂无应用"
+    },
+    {
+      "name": "retry",
+      "value": "重试"
     }
   ]
 }

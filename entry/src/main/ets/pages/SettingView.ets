@@ -436,6 +436,20 @@ export struct SettingView {
 
             ListItem({ style: ListItemStyle.CARD }) {
               CardItem({
+                isShow: false,
+                textContent: $r('app.string.setting_friend_apps'),
+                symbolSrc: $r('sys.symbol.link'),
+                onclick: () => {
+                  this.navPathStack.pushPathByName('FriendAppView', null)
+                },
+                onClose: () => {}
+              })
+            }
+            .height(undefined)
+            .width('100%')
+
+            ListItem({ style: ListItemStyle.CARD }) {
+              CardItem({
                 isShow: this.aboutViewShow,
                 textContent: $r('app.string.about'),
                 symbolSrc: $r('sys.symbol.info_circle'),

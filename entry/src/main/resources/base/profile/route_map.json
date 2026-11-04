@@ -14,6 +14,11 @@
       "name": "SoundView",
       "pageSourceFile": "src/main/ets/pages/SoundView.ets",
       "buildFunction": "SoundViewBuilder"
+    },
+    {
+      "name": "FriendAppView",
+      "pageSourceFile": "src/main/ets/pages/FriendAppView.ets",
+      "buildFunction": "FriendAppViewBuilder"
     }
   ]
 }
