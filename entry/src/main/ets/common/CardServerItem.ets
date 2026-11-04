@@ -20,7 +20,7 @@ export struct CardServerItem {
   titleText?: Resource | string
   subtitleText?: Resource | string
   symbolSrc?: Resource
-  showCheckmark: boolean = false
+  @Prop showCheckmark: boolean = false
   onclick: Function = () => {
   }
 

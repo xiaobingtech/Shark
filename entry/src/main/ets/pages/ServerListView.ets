@@ -1,4 +1,3 @@
-import { SymbolGlyphModifier } from '@kit.ArkUI'
 import { preferences } from '@kit.ArkData'
 import { CardServerItem } from '../common/CardServerItem'
 
@@ -14,12 +13,11 @@ export struct ServerListView {
   @StorageLink('deviceKey') deviceKey: string = ''
   @StorageLink('serverList') serverList: Array<ServerInfo> = []
   @StorageLink('isServerListVisible') isServerListVisible: boolean = false
+  private listScroller: ListScroller = new ListScroller()
 
   private selectServer(server: ServerInfo): void {
     this.serverBaseUrl = server.url
-    if (server.key.length > 0) {
-      this.deviceKey = server.key
-    }
+    this.deviceKey = server.key
     this.isServerListVisible = false
     // 持久化选中的服务器
     this.persistSelectedServer()
@@ -32,9 +30,64 @@ export struct ServerListView {
     data.flush()
   }
 
+  private deleteServer(server: ServerInfo): void {
+    this.listScroller.closeAllSwipeActions()
+    this.serverList = this.serverList.filter((item: ServerInfo) => item.url !== server.url)
+    if (this.serverBaseUrl === server.url) {
+      const nextServer: ServerInfo | undefined = this.serverList[0]
+      this.serverBaseUrl = nextServer?.url ?? 'https://shark.xiaobingkj.com'
+      this.deviceKey = nextServer?.key ?? ''
+    }
+    const data = preferences.getPreferencesSync(getContext(this), { name: 'shark.db' })
+    data.putSync('serverList', JSON.stringify(this.serverList))
+    data.putSync('serverBaseUrl', this.serverBaseUrl)
+    data.putSync('deviceKey', this.deviceKey)
+    data.flushSync()
+  }
+
+  private showDeleteConfirmDialog(server: ServerInfo): void {
+    this.getUIContext().showAlertDialog({
+      title: '删除服务器',
+      message: `确定要删除服务器 ${server.url} 吗？`,
+      autoCancel: true,
+      alignment: DialogAlignment.Center,
+      primaryButton: {
+        value: '取消',
+        action: () => this.listScroller.closeAllSwipeActions()
+      },
+      secondaryButton: {
+        value: '删除',
+        fontColor: Color.White,
+        backgroundColor: Color.Red,
+        action: () => this.deleteServer(server)
+      },
+      cancel: () => this.listScroller.closeAllSwipeActions()
+    })
+  }
+
+  @Builder
+  buildDeleteAction(server: ServerInfo) {
+    Row() {
+      Button({ type: ButtonType.Circle, stateEffect: true }) {
+        SymbolGlyph($r('sys.symbol.trash'))
+          .fontSize(20)
+          .fontColor([Color.White])
+      }
+      .width(36)
+      .height(36)
+      .backgroundColor(Color.Red)
+      .accessibilityText('删除服务器')
+      .onClick(() => this.showDeleteConfirmDialog(server))
+    }
+    .width(56)
+    .height('100%')
+    .justifyContent(FlexAlign.Center)
+    .backgroundColor($r('sys.color.comp_background_tertiary'))
+  }
+
   build() {
     Column() {
-      List() {
+      List({ scroller: this.listScroller }) {
         ListItemGroup() {
           ForEach(this.serverList, (server: ServerInfo) => {
             ListItem({ style: ListItemStyle.CARD }) {
@@ -50,6 +103,11 @@ export struct ServerListView {
             }
             .height(undefined)
             .width('100%')
+            .swipeAction({
+              end: {
+                builder: () => this.buildDeleteAction(server)
+              }
+            })
           }, (server: ServerInfo) => server.url)
         }
         .divider({
