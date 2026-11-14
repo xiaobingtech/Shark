@@ -5,6 +5,7 @@ import { BusinessError } from '@kit.BasicServicesKit';
 import { hilog } from '@kit.PerformanceAnalysisKit';
 import { efRcp } from '@yunkss/ef_rcp';
 import { updateManager } from '@kit.StoreKit';
+import { notificationManager } from '@kit.NotificationKit';
 import { BundleManagerUtil, DynamicInstallManager, Logger, StorageKey, WebUtil, WindowUtil } from '@ohos/common';
 
 const DOMAIN = 0x0000;
@@ -25,6 +26,7 @@ const HISTORY_TIMES_KEY: string = 'historyTimes';
 const HISTORY_IMAGES_KEY: string = 'historyImages';
 const HISTORY_STYLES_KEY: string = 'historyStyles';
 const HISTORY_INBOX_CONTENTS_KEY: string = 'historyInboxContents';
+const HISTORY_NOTIFICATION_KEYS: string = 'historyNotificationKeys';
 
 class HistoryStoreData {
   titles: Array<string> = [];
@@ -85,7 +87,7 @@ interface WantMessageParameters {
   inboxContent?: Array<string> | string;
   image?: string;
   time?: number;
-  _push_notifyid?: number;
+  _push_notifyid?: number | string;
   push_wantAgentInfo?: PushWantAgentInfo;
 }
 
@@ -93,6 +95,9 @@ export default class EntryAbility extends UIAbility {
   private historyDataObject: distributedDataObject.DataObject | null = null;
   private historyStoreData: HistoryStoreData | null = null;
   private pendingHistoryTab: boolean = false;
+  private notificationImportQueue: Promise<void> = Promise.resolve();
+  private importedNotificationKeys: Array<string> = [];
+  private historyKeysLoaded: boolean = false;
 
   private windowObj?: window.Window
   private curBp: string = ''
@@ -157,8 +162,12 @@ export default class EntryAbility extends UIAbility {
     hilog.debug(DOMAIN, 'testTag', `want.parameters:${want.parameters}`)
     this.pendingHistoryTab = this.shouldOpenHistoryTab(want)
     if (this.pendingHistoryTab) {
-      this.appendHistoryMessage(want)
       this.applyHistoryTabSelection()
+      this.notificationImportQueue = this.notificationImportQueue
+        .then(() => this.importNotificationHistory(want))
+        .catch((error: BusinessError) => {
+          hilog.error(DOMAIN, 'HistoryStore', 'Failed to import notifications: %{public}s', JSON.stringify(error))
+        })
     }
   }
 
@@ -242,8 +251,108 @@ export default class EntryAbility extends UIAbility {
     return dataObject
   }
 
-  private appendHistoryMessage(want: Want): void {
-    let parameters = want.parameters as WantMessageParameters
+  // Capture the notification snapshot before removing anything. Serialize notification taps so
+  // overlapping cold/warm launches cannot import or clear the same snapshot concurrently.
+  private async importNotificationHistory(want: Want): Promise<void> {
+    let notifications: Array<notificationManager.NotificationRequest> = []
+    try {
+      notifications = await notificationManager.getActiveNotifications()
+    } catch (error) {
+      // Keep the remaining notifications intact when the snapshot cannot be read.
+      hilog.error(DOMAIN, 'HistoryStore', 'Failed to read active notifications: %{public}s', JSON.stringify(error))
+    }
+    this.ensureHistoryDataObject()
+    const latestData = AppStorage.get<HistoryStoreData>(HISTORY_DATA_VALUE_KEY)
+    if (latestData !== undefined) {
+      this.historyStoreData = latestData
+    }
+    const pref = preferences.getPreferencesSync(this.context, { name: PREFERENCES_NAME })
+    if (!this.historyKeysLoaded) {
+      const savedKeys = pref.getSync(HISTORY_NOTIFICATION_KEYS, '[]')
+      if (typeof savedKeys === 'string') {
+        this.importedNotificationKeys = this.parseStringArray(savedKeys)
+      }
+      this.historyKeysLoaded = true
+    }
+
+    const clickedParameters: WantMessageParameters = want.parameters ?? {}
+    const clickedId = this.getNotificationId(clickedParameters)
+    const storedNotifications: Array<notificationManager.NotificationRequest> = []
+    const previousData = this.historyStoreData
+    const previousKeys = [...this.importedNotificationKeys]
+    try {
+      let clickedStored: boolean = false
+      for (const notification of notifications) {
+        const key = this.getNotificationImportKey(notification)
+        const isClicked = clickedId.length > 0 && clickedId === String(notification.id)
+        let stored = isClicked && this.appendHistoryMessage(clickedParameters, key)
+        if (!stored) {
+          stored = this.appendHistoryMessage(this.getNotificationParameters(notification), key)
+        }
+        if (stored) {
+          storedNotifications.push(notification)
+          if (isClicked) {
+            clickedStored = true
+          }
+        }
+      }
+      // The system normally dismisses the tapped notification before delivering its Want.
+      if (!clickedStored) {
+        this.appendHistoryMessage(clickedParameters)
+      }
+      this.persistHistoryData()
+    } catch (error) {
+      // A failed write must not mark rows as imported or allow the snapshot to be cleared.
+      this.historyStoreData = previousData
+      this.importedNotificationKeys = previousKeys
+      throw new Error('Failed to persist notification history: ' + JSON.stringify(error))
+    }
+    if (this.historyStoreData !== null) {
+      AppStorage.setOrCreate(HISTORY_DATA_VALUE_KEY, this.historyStoreData)
+      AppStorage.setOrCreate('historyRefreshTick', Date.now())
+    }
+
+    // Cancel only the saved snapshot. A notification arriving during import must remain
+    // visible until its own contents have been saved; cancelAll() could lose that message.
+    for (const notification of storedNotifications) {
+      try {
+        await notificationManager.cancel(notification.id ?? 0, notification.label ?? '')
+      } catch (error) {
+        hilog.warn(DOMAIN, 'HistoryStore', 'Failed to cancel saved notification: %{public}s', JSON.stringify(error))
+      }
+    }
+  }
+
+  private getNotificationId(parameters: WantMessageParameters): string {
+    const message = parameters.push_wantAgentInfo?.wants?.[0]?.parameters?.message
+    const id = parameters._push_notifyid ?? message?.body?.notifyId
+    return id === undefined ? '' : String(id)
+  }
+
+  private getNotificationImportKey(notification: notificationManager.NotificationRequest): string {
+    return JSON.stringify([notification.id ?? 0, notification.label ?? '',
+      notification.deliveryTime ?? 0, notification.hashCode ?? ''])
+  }
+
+  private getNotificationParameters(notification: notificationManager.NotificationRequest): WantMessageParameters {
+    const parameters: WantMessageParameters = JSON.parse(JSON.stringify(notification.extraInfo ?? {}))
+    const content = notification.content
+    const basic = content.normal ?? content.longText ?? content.multiLine ?? content.picture
+    parameters.title = basic?.title ?? ''
+    parameters.body = basic?.text ?? ''
+    parameters.time = notification.deliveryTime ?? Date.now()
+    parameters._push_notifyid = notification.id
+    if (content.longText !== undefined) {
+      parameters.body = content.longText.longText || content.longText.text
+    }
+    if (content.multiLine !== undefined) {
+      parameters.style = 3
+      parameters.inboxContent = content.multiLine.lines
+    }
+    return parameters
+  }
+
+  private appendHistoryMessage(parameters: WantMessageParameters, sourceKey: string = ''): boolean {
     let title: string = ''
     let body: string = ''
     let image: string = ''
@@ -315,15 +424,17 @@ export default class EntryAbility extends UIAbility {
         }
       }
     }
-    if (title.length == 0) {
-      title = '推送标题'
+    // An action-only Want contains no message. Do not create a synthetic history row.
+    if (title.length === 0 && body.length === 0 && image.length === 0 && inboxContentLines.length === 0) {
+      return false
     }
-    if (body.length == 0) {
-      body = '推送内容'
+    const messageKey = JSON.stringify([this.getNotificationId(parameters), title, body, timestamp])
+    if (this.importedNotificationKeys.includes(messageKey) ||
+      (sourceKey.length > 0 && this.importedNotificationKeys.includes(sourceKey))) {
+      return true
     }
-    this.ensureHistoryDataObject()
-    if (this.historyStoreData == null || this.historyDataObject == null) {
-      return
+    if (this.historyStoreData == null) {
+      return false
     }
     let oldData = this.historyStoreData
     let newData = new HistoryStoreData()
@@ -334,14 +445,11 @@ export default class EntryAbility extends UIAbility {
     newData.styles = [...this.getHistoryStyles(oldData), style]
     newData.inboxContents = [...this.getHistoryInboxContents(oldData), inboxContentLines]
     this.historyStoreData = newData
-    AppStorage.setOrCreate(HISTORY_DATA_VALUE_KEY, newData)
-    AppStorage.setOrCreate('historyRefreshTick', Date.now())
-    this.historyDataObject.save('local', (err: BusinessError, result: distributedDataObject.SaveSuccessResponse) => {
-      if (err != undefined && err.code != 0) {
-        hilog.error(DOMAIN, 'HistoryStore', 'Failed to save history: %{public}s', JSON.stringify(err))
-      }
-    })
-    this.persistHistoryData()
+    this.importedNotificationKeys.push(messageKey)
+    if (sourceKey.length > 0) {
+      this.importedNotificationKeys.push(sourceKey)
+    }
+    return true
   }
 
   private buildInboxContentBody(inboxContent: Array<string> | string | undefined): string {
@@ -515,6 +623,7 @@ export default class EntryAbility extends UIAbility {
       return
     }
     let pref = preferences.getPreferencesSync(this.context, { name: PREFERENCES_NAME })
+    pref.putSync(HISTORY_NOTIFICATION_KEYS, JSON.stringify(this.importedNotificationKeys))
     pref.putSync(HISTORY_TITLES_KEY, JSON.stringify(this.historyStoreData.titles))
     pref.putSync(HISTORY_BODIES_KEY, JSON.stringify(this.historyStoreData.bodies))
     pref.putSync(HISTORY_TIMES_KEY, JSON.stringify(this.historyStoreData.times))
