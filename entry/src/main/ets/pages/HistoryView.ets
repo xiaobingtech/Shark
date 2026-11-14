@@ -57,6 +57,7 @@ export struct HistoryView {
   private historyStoreData: HistoryStoreData | null = null
   @StorageLink('navPathStack') navPathStack: NavPathStack = new NavPathStack()
   private listScroller: ListScroller = new ListScroller()
+  private searchController: SearchController = new SearchController()
   private dataChangeCallback: distributedDataObject.DataObserver =
     (sessionId: string, fields: Array<string>) => {
       this.loadMessages()
@@ -142,42 +143,43 @@ export struct HistoryView {
         item.inboxContents.some((line: string) => line.toLowerCase().includes(keyword)))
   }
 
+  private toggleSearch(): void {
+    if (this.isSearching) {
+      this.searchController.stopEditing()
+    }
+    this.getUIContext().animateTo({ duration: 180, curve: Curve.EaseOut }, () => {
+      this.isSearching = !this.isSearching
+    })
+    if (!this.isSearching) {
+      this.searchText = ''
+      this.filterMessages()
+    }
+  }
+
   private buildMenuItems(): Array<NavigationMenuItem> {
     return [{
-      value: '搜索',
-      symbolIcon: new SymbolGlyphModifier($r('sys.symbol.magnifyingglass')),
-      action: () => {
-        this.listScroller.closeAllSwipeActions()
-        this.isSearching = true
-      }
+      value: this.isSearching ? '关闭搜索' : '搜索',
+      symbolIcon: new SymbolGlyphModifier(this.isSearching ?
+        $r('sys.symbol.xmark') : $r('sys.symbol.magnifyingglass')),
+      action: () => this.toggleSearch()
     }]
   }
 
   @Builder
   buildSearchBar() {
-    Row({ space: 8 }) {
-      Search({ value: this.searchText, placeholder: '搜索消息标题或内容' })
-        .id('historyMessageSearch')
-        .layoutWeight(1)
-        .defaultFocus(true)
-        .onAppear(() => {
-          this.getUIContext().getFocusController().requestFocus('historyMessageSearch')
-        })
-        .onChange((value: string) => {
-          this.listScroller.closeAllSwipeActions()
-          this.searchText = value
-          this.filterMessages()
-        })
-      Button('取消', { buttonStyle: ButtonStyleMode.TEXTUAL })
-        .onClick(() => {
-          this.getUIContext().getFocusController().clearFocus()
-          this.isSearching = false
-          this.searchText = ''
-          this.filterMessages()
-        })
-    }
-    .padding($r('sys.float.padding_level8'))
-    .width('100%')
+    Search({ value: this.searchText, placeholder: '搜索消息标题或内容', controller: this.searchController })
+      .id('historyMessageSearch')
+      .width('100%')
+      .defaultFocus(true)
+      .onAppear(() => {
+        this.getUIContext().getFocusController().requestFocus('historyMessageSearch')
+      })
+      .onChange((value: string) => {
+        this.searchText = value
+        this.filterMessages()
+      })
+      .padding($r('sys.float.padding_level8'))
+      .transition(TransitionEffect.OPACITY)
   }
 
   private getHistoryImages(data: HistoryStoreData): Array<string> {
@@ -359,87 +361,88 @@ export struct HistoryView {
         if (this.isSearching) {
           this.buildSearchBar()
         }
-        if (this.filteredMessages.length === 0) {
-          Text(this.searchText.trim().length > 0 ? '未找到匹配的消息' : '暂无历史消息')
-            .fontColor($r('sys.color.font_secondary'))
-            .layoutWeight(1)
-            .width('100%')
-            .textAlign(TextAlign.Center)
-        } else {
-          List({ scroller: this.listScroller, space: 10}) {
-            ForEach(this.filteredMessages, (item: HistoryMessage) => {
-              ListItem() {
-                Column({ space: 6 }) {
-                  Row() {
-                    Column({ space: 4 }) {
-                      Text(item.title)
-                        .fontSize($r('sys.float.Subtitle_M'))
-                        .fontWeight(FontWeight.Medium)
-                        .fontColor($r('sys.color.font_primary'))
-                        .maxLines(1)
-                        .textOverflow({ overflow: TextOverflow.Ellipsis })
-                      if (item.style == 3 && item.inboxContents.length > 0) {
-                        ForEach(item.inboxContents, (line: string) => {
-                          Text(line)
-                            .fontSize($r('sys.float.Body_M'))
-                            .fontColor($r('sys.color.font_secondary'))
-                            .maxLines(1)
-                            .textOverflow({ overflow: TextOverflow.Ellipsis })
-                        }, (line: string, index: number) => `${item.id}_inbox_${index}`)
-                      } else {
-                        Text(item.body)
+        List({ scroller: this.listScroller, space: 10 }) {
+          if (this.filteredMessages.length === 0) {
+            ListItem() {
+              Text(this.searchText.trim().length > 0 ? '未找到匹配的消息' : '暂无历史消息')
+                .fontColor($r('sys.color.font_secondary'))
+                .width('100%')
+                .textAlign(TextAlign.Center)
+                .padding({ top: 40, bottom: 40 })
+            }
+          }
+          ForEach(this.filteredMessages, (item: HistoryMessage) => {
+            ListItem() {
+              Column({ space: 6 }) {
+                Row() {
+                  Column({ space: 4 }) {
+                    Text(item.title)
+                      .fontSize($r('sys.float.Subtitle_M'))
+                      .fontWeight(FontWeight.Medium)
+                      .fontColor($r('sys.color.font_primary'))
+                      .maxLines(1)
+                      .textOverflow({ overflow: TextOverflow.Ellipsis })
+                    if (item.style == 3 && item.inboxContents.length > 0) {
+                      ForEach(item.inboxContents, (line: string) => {
+                        Text(line)
                           .fontSize($r('sys.float.Body_M'))
                           .fontColor($r('sys.color.font_secondary'))
-                          .maxLines(2)
+                          .maxLines(1)
                           .textOverflow({ overflow: TextOverflow.Ellipsis })
-                      }
-                    }
-                    .alignItems(HorizontalAlign.Start)
-                    .layoutWeight(1)
-                    if (item.image.length > 0) {
-                      Image(item.image)
-                        .width(44)
-                        .height(44)
-                        .objectFit(ImageFit.Cover)
-                        .borderRadius($r('sys.float.corner_radius_level4'))
-                        .margin({ left: 10 })
+                      }, (line: string, index: number) => `${item.id}_inbox_${index}`)
+                    } else {
+                      Text(item.body)
+                        .fontSize($r('sys.float.Body_M'))
+                        .fontColor($r('sys.color.font_secondary'))
+                        .maxLines(2)
+                        .textOverflow({ overflow: TextOverflow.Ellipsis })
                     }
                   }
-                  .alignItems(VerticalAlign.Top)
-                  Text(this.formatTime(item.time))
-                    .fontSize($r('sys.float.Body_S'))
-                    .fontColor($r('sys.color.font_secondary'))
+                  .alignItems(HorizontalAlign.Start)
+                  .layoutWeight(1)
+                  if (item.image.length > 0) {
+                    Image(item.image)
+                      .width(44)
+                      .height(44)
+                      .objectFit(ImageFit.Cover)
+                      .borderRadius($r('sys.float.corner_radius_level4'))
+                      .margin({ left: 10 })
+                  }
                 }
-                .alignItems(HorizontalAlign.Start)
-                .padding($r('sys.float.padding_level8'))
-                .width('100%')
-                .backgroundColor($r('sys.color.comp_background_primary'))
-                .borderRadius($r('sys.float.corner_radius_level8'))
+                .alignItems(VerticalAlign.Top)
+                Text(this.formatTime(item.time))
+                  .fontSize($r('sys.float.Body_S'))
+                  .fontColor($r('sys.color.font_secondary'))
               }
+              .alignItems(HorizontalAlign.Start)
+              .padding($r('sys.float.padding_level8'))
+              .width('100%')
+              .backgroundColor($r('sys.color.comp_background_primary'))
               .borderRadius($r('sys.float.corner_radius_level8'))
-              .clip(true)
-              .swipeAction({
-                end: {
-                  builder: () => {
-                    this.buildDeleteAction(item)
-                  },
-                  onAction: () => {
-                    this.showDeleteConfirmDialog(item)
-                  },
-                  actionAreaDistance: 56
-                }
-              })
-              .transition({ type: TransitionType.Delete, opacity: 0 })
-            }, (item: HistoryMessage) => item.id)
-          }
-          .padding($r('sys.float.padding_level8'))
-          .width('100%')
-          .layoutWeight(1)
-          .contentEndOffset(getPhoneHdsTabsContentEndOffset(this.currentBreakpoint))
-          .scrollBar(BarState.Off)
-          .edgeEffect(EdgeEffect.Spring, { alwaysEnabled: true })
-          .backgroundColor($r('sys.color.background_secondary'))
+            }
+            .borderRadius($r('sys.float.corner_radius_level8'))
+            .clip(true)
+            .swipeAction({
+              end: {
+                builder: () => {
+                  this.buildDeleteAction(item)
+                },
+                onAction: () => {
+                  this.showDeleteConfirmDialog(item)
+                },
+                actionAreaDistance: 56
+              }
+            })
+            .transition({ type: TransitionType.Delete, opacity: 0 })
+          }, (item: HistoryMessage) => item.id)
         }
+        .padding($r('sys.float.padding_level8'))
+        .width('100%')
+        .layoutWeight(1)
+        .contentEndOffset(getPhoneHdsTabsContentEndOffset(this.currentBreakpoint))
+        .scrollBar(BarState.Off)
+        .edgeEffect(EdgeEffect.Spring, { alwaysEnabled: true })
+        .backgroundColor($r('sys.color.background_secondary'))
       }
       .width('100%')
       .height('100%')
