@@ -1,0 +1,992 @@
+{
+  "project_root": "/Users/fandong/GitHub/Shark",
+  "selection_required": true,
+  "model_selection_required": true,
+  "confirmation_required": true,
+  "user_confirmed": true,
+  "target_pages": 60,
+  "lines_per_page": 50,
+  "target_lines": 3000,
+  "estimated_selected_lines": 3633,
+  "estimated_selected_pages": 73,
+  "estimated_all_candidate_lines": 10644,
+  "estimated_all_candidate_pages": 213,
+  "supplement_rule": "模型优先选择能体现软件核心功能和真实运行逻辑的源码；不足60页时再从其他相关源码中补充；候选源码仍不足时才生成全部代码材料。",
+  "confirmation_stage": "code-selection",
+  "next_action": "请由模型填写 草稿/代码文件选择.json 的抽取选择和选择理由，再让用户确认；确认后运行 confirm_stage.py --stage code-selection。",
+  "instructions": "The script only inventories source files. The model must choose selected/model_reason before user confirmation. Selected files are extracted in full with blank-only lines removed.",
+  "files": [
+    {
+      "path": "entry/src/main/ets/pages/AboutView.ets",
+      "selected": true,
+      "line_count": 98,
+      "material_line_count": 90,
+      "priority": 20,
+      "selection_tier": "frontend",
+      "evidence": "页面文件证据",
+      "model_reason": "关于页面：软件信息、作者与版权展示"
+    },
+    {
+      "path": "entry/src/main/ets/pages/AddServerView.ets",
+      "selected": true,
+      "line_count": 255,
+      "material_line_count": 228,
+      "priority": 20,
+      "selection_tier": "frontend",
+      "evidence": "页面文件证据",
+      "model_reason": "添加私有服务器：地址校验、扫码、设备注册流程"
+    },
+    {
+      "path": "entry/src/main/ets/pages/HistoryView.ets",
+      "selected": true,
+      "line_count": 381,
+      "material_line_count": 362,
+      "priority": 20,
+      "selection_tier": "frontend",
+      "evidence": "页面文件证据",
+      "model_reason": "历史消息页：推送记录展示、左滑删除与持久化，核心业务页面"
+    },
+    {
+      "path": "entry/src/main/ets/pages/Index.ets",
+      "selected": false,
+      "line_count": 23,
+      "material_line_count": 22,
+      "priority": 20,
+      "selection_tier": "frontend",
+      "evidence": "页面文件证据",
+      "model_reason": "非核心业务代码或模板/资源文件"
+    },
+    {
+      "path": "entry/src/main/ets/pages/MyAppView.ets",
+      "selected": true,
+      "line_count": 193,
+      "material_line_count": 181,
+      "priority": 20,
+      "selection_tier": "frontend",
+      "evidence": "页面文件证据",
+      "model_reason": "更多应用页：应用市场深链推荐列表加载"
+    },
+    {
+      "path": "entry/src/main/ets/pages/ServerListView.ets",
+      "selected": true,
+      "line_count": 83,
+      "material_line_count": 77,
+      "priority": 20,
+      "selection_tier": "frontend",
+      "evidence": "页面文件证据",
+      "model_reason": "服务器列表：多服务器切换与状态展示"
+    },
+    {
+      "path": "entry/src/main/ets/pages/ServerView.ets",
+      "selected": true,
+      "line_count": 665,
+      "material_line_count": 632,
+      "priority": 20,
+      "selection_tier": "frontend",
+      "evidence": "页面文件证据",
+      "model_reason": "服务器主页：设备注册、五种推送样式地址生成与复制，核心业务页面"
+    },
+    {
+      "path": "entry/src/main/ets/pages/SettingView.ets",
+      "selected": true,
+      "line_count": 643,
+      "material_line_count": 599,
+      "priority": 20,
+      "selection_tier": "frontend",
+      "evidence": "页面文件证据",
+      "model_reason": "设置页：历史导出、默认保存开关、设备信息、IAP捐赠，核心业务页面"
+    },
+    {
+      "path": "entry/src/main/ets/pages/SoundView.ets",
+      "selected": true,
+      "line_count": 203,
+      "material_line_count": 194,
+      "priority": 20,
+      "selection_tier": "frontend",
+      "evidence": "页面文件证据",
+      "model_reason": "铃声列表：内置铃声试听与名称复制"
+    },
+    {
+      "path": "entry/src/main/ets/pages/TabPage.ets",
+      "selected": true,
+      "line_count": 260,
+      "material_line_count": 242,
+      "priority": 20,
+      "selection_tier": "frontend",
+      "evidence": "页面文件证据",
+      "model_reason": "主界面标签页导航：服务器/历史消息/设置三标签自适应布局"
+    },
+    {
+      "path": "common/src/main/ets/storagemanager/MockRequest.ets",
+      "selected": false,
+      "line_count": 54,
+      "material_line_count": 48,
+      "priority": 30,
+      "selection_tier": "frontend",
+      "evidence": "数据交互文件证据",
+      "model_reason": "非核心业务代码或模板/资源文件"
+    },
+    {
+      "path": "entry/src/main/ets/common/utils/ApiVersionUtil.ets",
+      "selected": false,
+      "line_count": 16,
+      "material_line_count": 13,
+      "priority": 60,
+      "selection_tier": "frontend",
+      "evidence": "通用能力文件证据",
+      "model_reason": "非核心业务代码或模板/资源文件"
+    },
+    {
+      "path": "common/BuildProfile.ets",
+      "selected": false,
+      "line_count": 17,
+      "material_line_count": 16,
+      "priority": 80,
+      "selection_tier": "frontend",
+      "evidence": "普通源码文件",
+      "model_reason": "非核心业务代码或模板/资源文件"
+    },
+    {
+      "path": "common/hvigorfile.ts",
+      "selected": false,
+      "line_count": 6,
+      "material_line_count": 5,
+      "priority": 80,
+      "selection_tier": "frontend",
+      "evidence": "普通源码文件",
+      "model_reason": "非核心业务代码或模板/资源文件"
+    },
+    {
+      "path": "common/Index.ets",
+      "selected": false,
+      "line_count": 91,
+      "material_line_count": 52,
+      "priority": 80,
+      "selection_tier": "frontend",
+      "evidence": "普通源码文件",
+      "model_reason": "非核心业务代码或模板/资源文件"
+    },
+    {
+      "path": "common/src/main/ets/component/LoadingMore.ets",
+      "selected": false,
+      "line_count": 32,
+      "material_line_count": 30,
+      "priority": 80,
+      "selection_tier": "frontend",
+      "evidence": "普通源码文件",
+      "model_reason": "非核心业务代码或模板/资源文件"
+    },
+    {
+      "path": "common/src/main/ets/component/NoMore.ets",
+      "selected": false,
+      "line_count": 34,
+      "material_line_count": 33,
+      "priority": 80,
+      "selection_tier": "frontend",
+      "evidence": "普通源码文件",
+      "model_reason": "非核心业务代码或模板/资源文件"
+    },
+    {
+      "path": "common/src/main/ets/component/TextAvatar.ets",
+      "selected": false,
+      "line_count": 81,
+      "material_line_count": 71,
+      "priority": 80,
+      "selection_tier": "frontend",
+      "evidence": "普通源码文件",
+      "model_reason": "非核心业务代码或模板/资源文件"
+    },
+    {
+      "path": "common/src/main/ets/component/Toast.ets",
+      "selected": false,
+      "line_count": 45,
+      "material_line_count": 39,
+      "priority": 80,
+      "selection_tier": "frontend",
+      "evidence": "普通源码文件",
+      "model_reason": "非核心业务代码或模板/资源文件"
+    },
+    {
+      "path": "common/src/main/ets/component/TopNavigationView.ets",
+      "selected": false,
+      "line_count": 137,
+      "material_line_count": 126,
+      "priority": 80,
+      "selection_tier": "frontend",
+      "evidence": "普通源码文件",
+      "model_reason": "非核心业务代码或模板/资源文件"
+    },
+    {
+      "path": "common/src/main/ets/component/VideoComponent.ets",
+      "selected": false,
+      "line_count": 109,
+      "material_line_count": 104,
+      "priority": 80,
+      "selection_tier": "frontend",
+      "evidence": "普通源码文件",
+      "model_reason": "非核心业务代码或模板/资源文件"
+    },
+    {
+      "path": "common/src/main/ets/component/WebSheet.ets",
+      "selected": false,
+      "line_count": 83,
+      "material_line_count": 75,
+      "priority": 80,
+      "selection_tier": "frontend",
+      "evidence": "普通源码文件",
+      "model_reason": "非核心业务代码或模板/资源文件"
+    },
+    {
+      "path": "common/src/main/ets/constant/CommonConstants.ets",
+      "selected": false,
+      "line_count": 66,
+      "material_line_count": 65,
+      "priority": 80,
+      "selection_tier": "frontend",
+      "evidence": "普通源码文件",
+      "model_reason": "非核心业务代码或模板/资源文件"
+    },
+    {
+      "path": "common/src/main/ets/constant/CommonEnums.ets",
+      "selected": false,
+      "line_count": 75,
+      "material_line_count": 68,
+      "priority": 80,
+      "selection_tier": "frontend",
+      "evidence": "普通源码文件",
+      "model_reason": "非核心业务代码或模板/资源文件"
+    },
+    {
+      "path": "common/src/main/ets/constant/ErrorCodeConstants.ets",
+      "selected": false,
+      "line_count": 21,
+      "material_line_count": 20,
+      "priority": 80,
+      "selection_tier": "frontend",
+      "evidence": "普通源码文件",
+      "model_reason": "非核心业务代码或模板/资源文件"
+    },
+    {
+      "path": "common/src/main/ets/model/BundleInfoData.ets",
+      "selected": false,
+      "line_count": 26,
+      "material_line_count": 24,
+      "priority": 80,
+      "selection_tier": "frontend",
+      "evidence": "普通源码文件",
+      "model_reason": "非核心业务代码或模板/资源文件"
+    },
+    {
+      "path": "common/src/main/ets/model/GlobalInfoModel.ets",
+      "selected": false,
+      "line_count": 33,
+      "material_line_count": 31,
+      "priority": 80,
+      "selection_tier": "frontend",
+      "evidence": "普通源码文件",
+      "model_reason": "非核心业务代码或模板/资源文件"
+    },
+    {
+      "path": "common/src/main/ets/model/LoadingModel.ets",
+      "selected": false,
+      "line_count": 27,
+      "material_line_count": 24,
+      "priority": 80,
+      "selection_tier": "frontend",
+      "evidence": "普通源码文件",
+      "model_reason": "非核心业务代码或模板/资源文件"
+    },
+    {
+      "path": "common/src/main/ets/model/ResponseData.ets",
+      "selected": false,
+      "line_count": 36,
+      "material_line_count": 32,
+      "priority": 80,
+      "selection_tier": "frontend",
+      "evidence": "普通源码文件",
+      "model_reason": "非核心业务代码或模板/资源文件"
+    },
+    {
+      "path": "common/src/main/ets/routermanager/PageContext.ets",
+      "selected": false,
+      "line_count": 74,
+      "material_line_count": 61,
+      "priority": 80,
+      "selection_tier": "frontend",
+      "evidence": "普通源码文件",
+      "model_reason": "非核心业务代码或模板/资源文件"
+    },
+    {
+      "path": "common/src/main/ets/storagemanager/PreferenceManager.ets",
+      "selected": false,
+      "line_count": 125,
+      "material_line_count": 114,
+      "priority": 80,
+      "selection_tier": "frontend",
+      "evidence": "普通源码文件",
+      "model_reason": "非核心业务代码或模板/资源文件"
+    },
+    {
+      "path": "common/src/main/ets/updateservice/UpdateService.ets",
+      "selected": false,
+      "line_count": 84,
+      "material_line_count": 76,
+      "priority": 80,
+      "selection_tier": "frontend",
+      "evidence": "普通源码文件",
+      "model_reason": "非核心业务代码或模板/资源文件"
+    },
+    {
+      "path": "common/src/main/ets/util/BreakpointSystem.ets",
+      "selected": false,
+      "line_count": 119,
+      "material_line_count": 107,
+      "priority": 80,
+      "selection_tier": "frontend",
+      "evidence": "普通源码文件",
+      "model_reason": "非核心业务代码或模板/资源文件"
+    },
+    {
+      "path": "common/src/main/ets/util/BundleManagerUtil.ets",
+      "selected": false,
+      "line_count": 38,
+      "material_line_count": 35,
+      "priority": 80,
+      "selection_tier": "frontend",
+      "evidence": "普通源码文件",
+      "model_reason": "非核心业务代码或模板/资源文件"
+    },
+    {
+      "path": "common/src/main/ets/util/ColorPickerUtil.ets",
+      "selected": false,
+      "line_count": 135,
+      "material_line_count": 129,
+      "priority": 80,
+      "selection_tier": "frontend",
+      "evidence": "普通源码文件",
+      "model_reason": "非核心业务代码或模板/资源文件"
+    },
+    {
+      "path": "common/src/main/ets/util/ColorUtil.ets",
+      "selected": false,
+      "line_count": 168,
+      "material_line_count": 157,
+      "priority": 80,
+      "selection_tier": "frontend",
+      "evidence": "普通源码文件",
+      "model_reason": "非核心业务代码或模板/资源文件"
+    },
+    {
+      "path": "common/src/main/ets/util/DynamicInstallManager.ets",
+      "selected": false,
+      "line_count": 161,
+      "material_line_count": 151,
+      "priority": 80,
+      "selection_tier": "frontend",
+      "evidence": "普通源码文件",
+      "model_reason": "非核心业务代码或模板/资源文件"
+    },
+    {
+      "path": "common/src/main/ets/util/GlobalContext.ets",
+      "selected": false,
+      "line_count": 42,
+      "material_line_count": 36,
+      "priority": 80,
+      "selection_tier": "frontend",
+      "evidence": "普通源码文件",
+      "model_reason": "非核心业务代码或模板/资源文件"
+    },
+    {
+      "path": "common/src/main/ets/util/ImageUtil.ets",
+      "selected": false,
+      "line_count": 96,
+      "material_line_count": 90,
+      "priority": 80,
+      "selection_tier": "frontend",
+      "evidence": "普通源码文件",
+      "model_reason": "非核心业务代码或模板/资源文件"
+    },
+    {
+      "path": "common/src/main/ets/util/Logger.ets",
+      "selected": false,
+      "line_count": 45,
+      "material_line_count": 37,
+      "priority": 80,
+      "selection_tier": "frontend",
+      "evidence": "普通源码文件",
+      "model_reason": "非核心业务代码或模板/资源文件"
+    },
+    {
+      "path": "common/src/main/ets/util/NetworkUtil.ets",
+      "selected": false,
+      "line_count": 30,
+      "material_line_count": 27,
+      "priority": 80,
+      "selection_tier": "frontend",
+      "evidence": "普通源码文件",
+      "model_reason": "非核心业务代码或模板/资源文件"
+    },
+    {
+      "path": "common/src/main/ets/util/ObservedArray.ets",
+      "selected": false,
+      "line_count": 25,
+      "material_line_count": 24,
+      "priority": 80,
+      "selection_tier": "frontend",
+      "evidence": "普通源码文件",
+      "model_reason": "非核心业务代码或模板/资源文件"
+    },
+    {
+      "path": "common/src/main/ets/util/ProcessUtil.ets",
+      "selected": false,
+      "line_count": 64,
+      "material_line_count": 59,
+      "priority": 80,
+      "selection_tier": "frontend",
+      "evidence": "普通源码文件",
+      "model_reason": "非核心业务代码或模板/资源文件"
+    },
+    {
+      "path": "common/src/main/ets/util/ResourceUtil.ets",
+      "selected": false,
+      "line_count": 146,
+      "material_line_count": 137,
+      "priority": 80,
+      "selection_tier": "frontend",
+      "evidence": "普通源码文件",
+      "model_reason": "非核心业务代码或模板/资源文件"
+    },
+    {
+      "path": "common/src/main/ets/util/VibratorUtils.ets",
+      "selected": false,
+      "line_count": 48,
+      "material_line_count": 45,
+      "priority": 80,
+      "selection_tier": "frontend",
+      "evidence": "普通源码文件",
+      "model_reason": "非核心业务代码或模板/资源文件"
+    },
+    {
+      "path": "common/src/main/ets/util/WebUtil.ets",
+      "selected": false,
+      "line_count": 437,
+      "material_line_count": 401,
+      "priority": 80,
+      "selection_tier": "frontend",
+      "evidence": "普通源码文件",
+      "model_reason": "非核心业务代码或模板/资源文件"
+    },
+    {
+      "path": "common/src/main/ets/util/WindowUtil.ets",
+      "selected": false,
+      "line_count": 234,
+      "material_line_count": 216,
+      "priority": 80,
+      "selection_tier": "frontend",
+      "evidence": "普通源码文件",
+      "model_reason": "非核心业务代码或模板/资源文件"
+    },
+    {
+      "path": "common/src/main/ets/view/EmptyContentView.ets",
+      "selected": false,
+      "line_count": 33,
+      "material_line_count": 31,
+      "priority": 80,
+      "selection_tier": "frontend",
+      "evidence": "普通源码文件",
+      "model_reason": "非核心业务代码或模板/资源文件"
+    },
+    {
+      "path": "common/src/main/ets/view/LoadingFailedView.ets",
+      "selected": false,
+      "line_count": 42,
+      "material_line_count": 40,
+      "priority": 80,
+      "selection_tier": "frontend",
+      "evidence": "普通源码文件",
+      "model_reason": "非核心业务代码或模板/资源文件"
+    },
+    {
+      "path": "common/src/main/ets/view/LoadingView.ets",
+      "selected": false,
+      "line_count": 42,
+      "material_line_count": 39,
+      "priority": 80,
+      "selection_tier": "frontend",
+      "evidence": "普通源码文件",
+      "model_reason": "非核心业务代码或模板/资源文件"
+    },
+    {
+      "path": "common/src/main/ets/view/NoNetworkView.ets",
+      "selected": false,
+      "line_count": 72,
+      "material_line_count": 69,
+      "priority": 80,
+      "selection_tier": "frontend",
+      "evidence": "普通源码文件",
+      "model_reason": "非核心业务代码或模板/资源文件"
+    },
+    {
+      "path": "common/src/main/ets/viewmodel/BaseState.ets",
+      "selected": false,
+      "line_count": 18,
+      "material_line_count": 16,
+      "priority": 80,
+      "selection_tier": "frontend",
+      "evidence": "普通源码文件",
+      "model_reason": "非核心业务代码或模板/资源文件"
+    },
+    {
+      "path": "common/src/main/ets/viewmodel/BaseVM.ets",
+      "selected": false,
+      "line_count": 31,
+      "material_line_count": 26,
+      "priority": 80,
+      "selection_tier": "frontend",
+      "evidence": "普通源码文件",
+      "model_reason": "非核心业务代码或模板/资源文件"
+    },
+    {
+      "path": "common/src/main/ets/viewmodel/BaseVMEvent.ets",
+      "selected": false,
+      "line_count": 18,
+      "material_line_count": 16,
+      "priority": 80,
+      "selection_tier": "frontend",
+      "evidence": "普通源码文件",
+      "model_reason": "非核心业务代码或模板/资源文件"
+    },
+    {
+      "path": "common/src/ohosTest/ets/test/Ability.test.ets",
+      "selected": false,
+      "line_count": 35,
+      "material_line_count": 34,
+      "priority": 80,
+      "selection_tier": "frontend",
+      "evidence": "普通源码文件",
+      "model_reason": "非核心业务代码或模板/资源文件"
+    },
+    {
+      "path": "common/src/ohosTest/ets/test/List.test.ets",
+      "selected": false,
+      "line_count": 5,
+      "material_line_count": 4,
+      "priority": 80,
+      "selection_tier": "frontend",
+      "evidence": "普通源码文件",
+      "model_reason": "非核心业务代码或模板/资源文件"
+    },
+    {
+      "path": "common/src/test/List.test.ets",
+      "selected": false,
+      "line_count": 5,
+      "material_line_count": 4,
+      "priority": 80,
+      "selection_tier": "frontend",
+      "evidence": "普通源码文件",
+      "model_reason": "非核心业务代码或模板/资源文件"
+    },
+    {
+      "path": "common/src/test/LocalUnit.test.ets",
+      "selected": false,
+      "line_count": 33,
+      "material_line_count": 32,
+      "priority": 80,
+      "selection_tier": "frontend",
+      "evidence": "普通源码文件",
+      "model_reason": "非核心业务代码或模板/资源文件"
+    },
+    {
+      "path": "entry/hvigorfile.ts",
+      "selected": false,
+      "line_count": 6,
+      "material_line_count": 5,
+      "priority": 80,
+      "selection_tier": "frontend",
+      "evidence": "普通源码文件",
+      "model_reason": "非核心业务代码或模板/资源文件"
+    },
+    {
+      "path": "entry/src/main/ets/common/AboutItemCard.ets",
+      "selected": false,
+      "line_count": 111,
+      "material_line_count": 102,
+      "priority": 80,
+      "selection_tier": "frontend",
+      "evidence": "普通源码文件",
+      "model_reason": "非核心业务代码或模板/资源文件"
+    },
+    {
+      "path": "entry/src/main/ets/common/CardItem.ets",
+      "selected": true,
+      "line_count": 48,
+      "material_line_count": 45,
+      "priority": 80,
+      "selection_tier": "frontend",
+      "evidence": "普通源码文件",
+      "model_reason": "设置页通用功能卡片组件"
+    },
+    {
+      "path": "entry/src/main/ets/common/CardRightItem.ets",
+      "selected": true,
+      "line_count": 58,
+      "material_line_count": 55,
+      "priority": 80,
+      "selection_tier": "frontend",
+      "evidence": "普通源码文件",
+      "model_reason": "设置页带右侧文字卡片组件"
+    },
+    {
+      "path": "entry/src/main/ets/common/CardServerItem.ets",
+      "selected": true,
+      "line_count": 63,
+      "material_line_count": 60,
+      "priority": 80,
+      "selection_tier": "frontend",
+      "evidence": "普通源码文件",
+      "model_reason": "服务器列表卡片组件：地址与注册状态展示"
+    },
+    {
+      "path": "entry/src/main/ets/common/CardToogleItem.ets",
+      "selected": true,
+      "line_count": 35,
+      "material_line_count": 34,
+      "priority": 80,
+      "selection_tier": "frontend",
+      "evidence": "普通源码文件",
+      "model_reason": "设置页开关卡片组件：默认保存开关"
+    },
+    {
+      "path": "entry/src/main/ets/common/IapDataModel.ets",
+      "selected": true,
+      "line_count": 52,
+      "material_line_count": 45,
+      "priority": 80,
+      "selection_tier": "frontend",
+      "evidence": "普通源码文件",
+      "model_reason": "IAP购买数据结构定义"
+    },
+    {
+      "path": "entry/src/main/ets/common/IAPLogger.ets",
+      "selected": true,
+      "line_count": 23,
+      "material_line_count": 18,
+      "priority": 80,
+      "selection_tier": "frontend",
+      "evidence": "普通源码文件",
+      "model_reason": "IAP日志记录工具"
+    },
+    {
+      "path": "entry/src/main/ets/common/JWSUtil.ets",
+      "selected": true,
+      "line_count": 39,
+      "material_line_count": 36,
+      "priority": 80,
+      "selection_tier": "frontend",
+      "evidence": "普通源码文件",
+      "model_reason": "JWS支付订单解析工具"
+    },
+    {
+      "path": "entry/src/main/ets/common/PurchaseManager.ets",
+      "selected": true,
+      "line_count": 182,
+      "material_line_count": 154,
+      "priority": 80,
+      "selection_tier": "frontend",
+      "evidence": "普通源码文件",
+      "model_reason": "应用内购买管理：华为IAP购买状态加载与保存"
+    },
+    {
+      "path": "entry/src/main/ets/entryability/EntryAbility.ets",
+      "selected": true,
+      "line_count": 615,
+      "material_line_count": 568,
+      "priority": 80,
+      "selection_tier": "frontend",
+      "evidence": "普通源码文件",
+      "model_reason": "应用入口：接收推送消息、解析并持久化历史记录，核心业务逻辑"
+    },
+    {
+      "path": "entry/src/main/ets/entrybackupability/EntryBackupAbility.ets",
+      "selected": true,
+      "line_count": 16,
+      "material_line_count": 13,
+      "priority": 80,
+      "selection_tier": "frontend",
+      "evidence": "普通源码文件",
+      "model_reason": "应用备份能力入口"
+    },
+    {
+      "path": "entry/src/ohosTest/ets/test/Ability.test.ets",
+      "selected": false,
+      "line_count": 35,
+      "material_line_count": 34,
+      "priority": 80,
+      "selection_tier": "frontend",
+      "evidence": "普通源码文件",
+      "model_reason": "非核心业务代码或模板/资源文件"
+    },
+    {
+      "path": "entry/src/ohosTest/ets/test/List.test.ets",
+      "selected": false,
+      "line_count": 5,
+      "material_line_count": 4,
+      "priority": 80,
+      "selection_tier": "frontend",
+      "evidence": "普通源码文件",
+      "model_reason": "非核心业务代码或模板/资源文件"
+    },
+    {
+      "path": "entry/src/test/List.test.ets",
+      "selected": false,
+      "line_count": 5,
+      "material_line_count": 4,
+      "priority": 80,
+      "selection_tier": "frontend",
+      "evidence": "普通源码文件",
+      "model_reason": "非核心业务代码或模板/资源文件"
+    },
+    {
+      "path": "entry/src/test/LocalUnit.test.ets",
+      "selected": false,
+      "line_count": 33,
+      "material_line_count": 32,
+      "priority": 80,
+      "selection_tier": "frontend",
+      "evidence": "普通源码文件",
+      "model_reason": "非核心业务代码或模板/资源文件"
+    },
+    {
+      "path": "hvigorfile.ts",
+      "selected": false,
+      "line_count": 6,
+      "material_line_count": 5,
+      "priority": 80,
+      "selection_tier": "frontend",
+      "evidence": "普通源码文件",
+      "model_reason": "非核心业务代码或模板/资源文件"
+    },
+    {
+      "path": "AppScope/resources/base/element/string.json",
+      "selected": false,
+      "line_count": 8,
+      "material_line_count": 8,
+      "priority": 100,
+      "selection_tier": "supplement",
+      "evidence": "补充源码证据",
+      "model_reason": "非核心业务代码或模板/资源文件"
+    },
+    {
+      "path": "AppScope/resources/base/media/layered_image.json",
+      "selected": false,
+      "line_count": 7,
+      "material_line_count": 7,
+      "priority": 100,
+      "selection_tier": "supplement",
+      "evidence": "补充源码证据",
+      "model_reason": "非核心业务代码或模板/资源文件"
+    },
+    {
+      "path": "common/src/main/resources/base/element/float.json",
+      "selected": false,
+      "line_count": 44,
+      "material_line_count": 44,
+      "priority": 100,
+      "selection_tier": "supplement",
+      "evidence": "补充源码证据",
+      "model_reason": "非核心业务代码或模板/资源文件"
+    },
+    {
+      "path": "common/src/main/resources/base/element/string.json",
+      "selected": false,
+      "line_count": 24,
+      "material_line_count": 24,
+      "priority": 100,
+      "selection_tier": "supplement",
+      "evidence": "补充源码证据",
+      "model_reason": "非核心业务代码或模板/资源文件"
+    },
+    {
+      "path": "common/src/main/resources/en_US/element/string.json",
+      "selected": false,
+      "line_count": 24,
+      "material_line_count": 24,
+      "priority": 100,
+      "selection_tier": "supplement",
+      "evidence": "补充源码证据",
+      "model_reason": "非核心业务代码或模板/资源文件"
+    },
+    {
+      "path": "common/src/main/resources/rawfile/hmos_web_config.json",
+      "selected": false,
+      "line_count": 5,
+      "material_line_count": 5,
+      "priority": 100,
+      "selection_tier": "supplement",
+      "evidence": "补充源码证据",
+      "model_reason": "非核心业务代码或模板/资源文件"
+    },
+    {
+      "path": "common/src/main/resources/rawfile/mockdata/component-page.json",
+      "selected": false,
+      "line_count": 477,
+      "material_line_count": 477,
+      "priority": 100,
+      "selection_tier": "supplement",
+      "evidence": "补充源码证据",
+      "model_reason": "非核心业务代码或模板/资源文件"
+    },
+    {
+      "path": "common/src/main/resources/rawfile/mockdata/discovery-page.json",
+      "selected": false,
+      "line_count": 175,
+      "material_line_count": 175,
+      "priority": 100,
+      "selection_tier": "supplement",
+      "evidence": "补充源码证据",
+      "model_reason": "非核心业务代码或模板/资源文件"
+    },
+    {
+      "path": "common/src/main/resources/rawfile/mockdata/file-data.json",
+      "selected": false,
+      "line_count": 1233,
+      "material_line_count": 1232,
+      "priority": 100,
+      "selection_tier": "supplement",
+      "evidence": "补充源码证据",
+      "model_reason": "非核心业务代码或模板/资源文件"
+    },
+    {
+      "path": "common/src/main/resources/rawfile/mockdata/sample-details-all.json",
+      "selected": false,
+      "line_count": 622,
+      "material_line_count": 622,
+      "priority": 100,
+      "selection_tier": "supplement",
+      "evidence": "补充源码证据",
+      "model_reason": "非核心业务代码或模板/资源文件"
+    },
+    {
+      "path": "common/src/main/resources/rawfile/mockdata/sample-page.json",
+      "selected": false,
+      "line_count": 789,
+      "material_line_count": 789,
+      "priority": 100,
+      "selection_tier": "supplement",
+      "evidence": "补充源码证据",
+      "model_reason": "非核心业务代码或模板/资源文件"
+    },
+    {
+      "path": "common/src/main/resources/rawfile/mockdata/wearable-sample-list.json",
+      "selected": false,
+      "line_count": 58,
+      "material_line_count": 58,
+      "priority": 100,
+      "selection_tier": "supplement",
+      "evidence": "补充源码证据",
+      "model_reason": "非核心业务代码或模板/资源文件"
+    },
+    {
+      "path": "common/src/main/resources/zh_CN/element/string.json",
+      "selected": false,
+      "line_count": 24,
+      "material_line_count": 24,
+      "priority": 100,
+      "selection_tier": "supplement",
+      "evidence": "补充源码证据",
+      "model_reason": "非核心业务代码或模板/资源文件"
+    },
+    {
+      "path": "entry/src/main/resources/base/element/color.json",
+      "selected": false,
+      "line_count": 12,
+      "material_line_count": 12,
+      "priority": 100,
+      "selection_tier": "supplement",
+      "evidence": "补充源码证据",
+      "model_reason": "非核心业务代码或模板/资源文件"
+    },
+    {
+      "path": "entry/src/main/resources/base/element/float.json",
+      "selected": false,
+      "line_count": 20,
+      "material_line_count": 20,
+      "priority": 100,
+      "selection_tier": "supplement",
+      "evidence": "补充源码证据",
+      "model_reason": "非核心业务代码或模板/资源文件"
+    },
+    {
+      "path": "entry/src/main/resources/base/element/string.json",
+      "selected": false,
+      "line_count": 52,
+      "material_line_count": 52,
+      "priority": 100,
+      "selection_tier": "supplement",
+      "evidence": "补充源码证据",
+      "model_reason": "非核心业务代码或模板/资源文件"
+    },
+    {
+      "path": "entry/src/main/resources/base/media/layered_image.json",
+      "selected": false,
+      "line_count": 7,
+      "material_line_count": 7,
+      "priority": 100,
+      "selection_tier": "supplement",
+      "evidence": "补充源码证据",
+      "model_reason": "非核心业务代码或模板/资源文件"
+    },
+    {
+      "path": "entry/src/main/resources/base/profile/backup_config.json",
+      "selected": false,
+      "line_count": 3,
+      "material_line_count": 3,
+      "priority": 100,
+      "selection_tier": "supplement",
+      "evidence": "补充源码证据",
+      "model_reason": "非核心业务代码或模板/资源文件"
+    },
+    {
+      "path": "entry/src/main/resources/base/profile/main_pages.json",
+      "selected": false,
+      "line_count": 6,
+      "material_line_count": 6,
+      "priority": 100,
+      "selection_tier": "supplement",
+      "evidence": "补充源码证据",
+      "model_reason": "非核心业务代码或模板/资源文件"
+    },
+    {
+      "path": "entry/src/main/resources/base/profile/route_map.json",
+      "selected": false,
+      "line_count": 19,
+      "material_line_count": 19,
+      "priority": 100,
+      "selection_tier": "supplement",
+      "evidence": "补充源码证据",
+      "model_reason": "非核心业务代码或模板/资源文件"
+    },
+    {
+      "path": "entry/src/main/resources/dark/element/color.json",
+      "selected": false,
+      "line_count": 8,
+      "material_line_count": 8,
+      "priority": 100,
+      "selection_tier": "supplement",
+      "evidence": "补充源码证据",
+      "model_reason": "非核心业务代码或模板/资源文件"
+    },
+    {
+      "path": "Upload_Management_API/agc-apiclient-1888584514230351552-f36f78b1ca9e435d9d92f7f5c10eaec8.json",
+      "selected": false,
+      "line_count": 1,
+      "material_line_count": 1,
+      "priority": 100,
+      "selection_tier": "supplement",
+      "evidence": "补充源码证据",
+      "model_reason": "非核心业务代码或模板/资源文件"
+    }
+  ],
+  "confirmation_note": "用户确认19个核心业务源码文件抽取",
+  "confirmed_at": "2026-09-06T09:59:57+00:00"
+}

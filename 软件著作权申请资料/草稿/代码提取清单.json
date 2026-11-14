@@ -1,0 +1,214 @@
+{
+  "software_name": "Shark",
+  "version": "1.0.8",
+  "project_root": "/Users/fandong/GitHub/Shark",
+  "file_count": 19,
+  "material_line_count": 3652,
+  "source_line_count": 3912,
+  "selected_source_line_count": 3633,
+  "lines_per_page": 50,
+  "total_pages": 74,
+  "target_pages": 60,
+  "available_candidate_line_count": 10644,
+  "available_candidate_pages": 213,
+  "supplement_status": "候选源码可达到前30页/后30页要求",
+  "mode": "front30_back30",
+  "selection_file": "软件著作权申请资料/草稿/代码文件选择.json",
+  "outputs": [
+    "代码-前30页.md",
+    "代码-后30页.md"
+  ],
+  "files": [
+    {
+      "path": "entry/src/main/ets/pages/AboutView.ets",
+      "source_line_count": 98,
+      "blank_line_count": 8,
+      "selected_line_start": 1,
+      "selected_line_end": 98,
+      "selected_line_count": 90,
+      "material_line_start": 1,
+      "material_line_end": 91
+    },
+    {
+      "path": "entry/src/main/ets/pages/AddServerView.ets",
+      "source_line_count": 255,
+      "blank_line_count": 27,
+      "selected_line_start": 1,
+      "selected_line_end": 255,
+      "selected_line_count": 228,
+      "material_line_start": 92,
+      "material_line_end": 320
+    },
+    {
+      "path": "entry/src/main/ets/pages/HistoryView.ets",
+      "source_line_count": 381,
+      "blank_line_count": 19,
+      "selected_line_start": 1,
+      "selected_line_end": 381,
+      "selected_line_count": 362,
+      "material_line_start": 321,
+      "material_line_end": 683
+    },
+    {
+      "path": "entry/src/main/ets/pages/MyAppView.ets",
+      "source_line_count": 193,
+      "blank_line_count": 12,
+      "selected_line_start": 1,
+      "selected_line_end": 193,
+      "selected_line_count": 181,
+      "material_line_start": 684,
+      "material_line_end": 865
+    },
+    {
+      "path": "entry/src/main/ets/pages/ServerListView.ets",
+      "source_line_count": 83,
+      "blank_line_count": 6,
+      "selected_line_start": 1,
+      "selected_line_end": 83,
+      "selected_line_count": 77,
+      "material_line_start": 866,
+      "material_line_end": 943
+    },
+    {
+      "path": "entry/src/main/ets/pages/ServerView.ets",
+      "source_line_count": 665,
+      "blank_line_count": 33,
+      "selected_line_start": 1,
+      "selected_line_end": 665,
+      "selected_line_count": 632,
+      "material_line_start": 944,
+      "material_line_end": 1576
+    },
+    {
+      "path": "entry/src/main/ets/pages/SettingView.ets",
+      "source_line_count": 643,
+      "blank_line_count": 44,
+      "selected_line_start": 1,
+      "selected_line_end": 643,
+      "selected_line_count": 599,
+      "material_line_start": 1577,
+      "material_line_end": 2176
+    },
+    {
+      "path": "entry/src/main/ets/pages/SoundView.ets",
+      "source_line_count": 203,
+      "blank_line_count": 9,
+      "selected_line_start": 1,
+      "selected_line_end": 203,
+      "selected_line_count": 194,
+      "material_line_start": 2177,
+      "material_line_end": 2371
+    },
+    {
+      "path": "entry/src/main/ets/pages/TabPage.ets",
+      "source_line_count": 260,
+      "blank_line_count": 18,
+      "selected_line_start": 1,
+      "selected_line_end": 260,
+      "selected_line_count": 242,
+      "material_line_start": 2372,
+      "material_line_end": 2614
+    },
+    {
+      "path": "entry/src/main/ets/common/CardItem.ets",
+      "source_line_count": 48,
+      "blank_line_count": 3,
+      "selected_line_start": 1,
+      "selected_line_end": 48,
+      "selected_line_count": 45,
+      "material_line_start": 2615,
+      "material_line_end": 2660
+    },
+    {
+      "path": "entry/src/main/ets/common/CardRightItem.ets",
+      "source_line_count": 58,
+      "blank_line_count": 3,
+      "selected_line_start": 1,
+      "selected_line_end": 58,
+      "selected_line_count": 55,
+      "material_line_start": 2661,
+      "material_line_end": 2716
+    },
+    {
+      "path": "entry/src/main/ets/common/CardServerItem.ets",
+      "source_line_count": 63,
+      "blank_line_count": 3,
+      "selected_line_start": 1,
+      "selected_line_end": 63,
+      "selected_line_count": 60,
+      "material_line_start": 2717,
+      "material_line_end": 2777
+    },
+    {
+      "path": "entry/src/main/ets/common/CardToogleItem.ets",
+      "source_line_count": 35,
+      "blank_line_count": 1,
+      "selected_line_start": 1,
+      "selected_line_end": 35,
+      "selected_line_count": 34,
+      "material_line_start": 2778,
+      "material_line_end": 2812
+    },
+    {
+      "path": "entry/src/main/ets/common/IapDataModel.ets",
+      "source_line_count": 52,
+      "blank_line_count": 7,
+      "selected_line_start": 1,
+      "selected_line_end": 52,
+      "selected_line_count": 45,
+      "material_line_start": 2813,
+      "material_line_end": 2858
+    },
+    {
+      "path": "entry/src/main/ets/common/IAPLogger.ets",
+      "source_line_count": 23,
+      "blank_line_count": 5,
+      "selected_line_start": 1,
+      "selected_line_end": 23,
+      "selected_line_count": 18,
+      "material_line_start": 2859,
+      "material_line_end": 2877
+    },
+    {
+      "path": "entry/src/main/ets/common/JWSUtil.ets",
+      "source_line_count": 39,
+      "blank_line_count": 3,
+      "selected_line_start": 1,
+      "selected_line_end": 39,
+      "selected_line_count": 36,
+      "material_line_start": 2878,
+      "material_line_end": 2914
+    },
+    {
+      "path": "entry/src/main/ets/common/PurchaseManager.ets",
+      "source_line_count": 182,
+      "blank_line_count": 28,
+      "selected_line_start": 1,
+      "selected_line_end": 182,
+      "selected_line_count": 154,
+      "material_line_start": 2915,
+      "material_line_end": 3069
+    },
+    {
+      "path": "entry/src/main/ets/entryability/EntryAbility.ets",
+      "source_line_count": 615,
+      "blank_line_count": 47,
+      "selected_line_start": 1,
+      "selected_line_end": 615,
+      "selected_line_count": 568,
+      "material_line_start": 3070,
+      "material_line_end": 3638
+    },
+    {
+      "path": "entry/src/main/ets/entrybackupability/EntryBackupAbility.ets",
+      "source_line_count": 16,
+      "blank_line_count": 3,
+      "selected_line_start": 1,
+      "selected_line_end": 16,
+      "selected_line_count": 13,
+      "material_line_start": 3639,
+      "material_line_end": 3652
+    }
+  ],
+  "safe_software_filename": "Shark"
+}

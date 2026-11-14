@@ -1,0 +1,25 @@
+{
+  "status": "ok",
+  "method": "user-supplied",
+  "screenshots": [
+    {
+      "route": "",
+      "url": "",
+      "path": "软件著作权申请资料/截图/01-_.png",
+      "source": "软件著作权申请资料/用户截图/历史消息.png"
+    },
+    {
+      "route": "",
+      "url": "",
+      "path": "软件著作权申请资料/截图/02-_.png",
+      "source": "软件著作权申请资料/用户截图/服务器主页.png"
+    },
+    {
+      "route": "",
+      "url": "",
+      "path": "软件著作权申请资料/截图/03-_.png",
+      "source": "软件著作权申请资料/用户截图/服务器列表.png"
+    }
+  ],
+  "errors": []
+}

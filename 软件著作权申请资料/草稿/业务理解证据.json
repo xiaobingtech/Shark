@@ -1,0 +1,263 @@
+{
+  "software_name": "Shark",
+  "project_root": "/Users/fandong/GitHub/Shark",
+  "instruction": "本文件只收集证据，不决定行业、功能或手册结构。请由模型阅读这些证据以及必要的项目源码后，另行编写业务理解模型稿。",
+  "documents": [
+    {
+      "path": "README.md",
+      "size": 5681,
+      "headings": [
+        "Shark",
+        "项目简介",
+        "项目信息",
+        "项目结构",
+        "主要功能模块",
+        "页面模块 (Pages)",
+        "公共组件 (Common)",
+        "技术特性",
+        "核心能力",
+        "权限要求",
+        "构建配置",
+        "开发环境",
+        "前置要求",
+        "依赖管理",
+        "构建与运行",
+        "构建项目",
+        "使用 Hvigor 构建工具",
+        "运行项目",
+        "构建模式",
+        "签名配置",
+        "项目特点",
+        "版本历史",
+        "v1.0.0 (当前版本)",
+        "开发团队"
+      ],
+      "opening": "Shark 项目简介 Shark 是一个基于 HarmonyOS 开发的移动应用项目,支持手机设备。该项目采用 HarmonyOS SDK 6.0.2(22) 开发,兼容 SDK 5.0.0(12)。 项目信息 - 应用包名 : com.xiaobingkj.shark - 版本号 : 1.0.0 (versionCode: 1000000) - 目标设备 : 手机 (Phone) - 开发框架 : HarmonyOS - 目标SDK版本 : 6.0.2(22) - 兼容SDK版本 : 5.0.0(12) 项目结构 主要功能模块 页面模块 (Pages) - Index : 应用主页 - AboutView : 关于页面 - AddServerView : 添加服务器配置 - HistoryView : 历史记录查看 - MyAppView : 我的应用管理 - ServerListView : 服务器列表 - ServerView : 服务器详情与操作 - SettingView : 应用设置 - SoundView : 音频相关功能 - TabPage : 标签页导航 公共组件 (Common) - LoadingMore : 加载更多组件 - NoMore : 无更多数据提示 - TextAvatar : 文本头像显示 - Toast : 消息提示组件 - TopNavigationView : 顶部导航栏 - VideoComponent : 视频播放组件 技术特性 核心能力 - EntryAbility : 应用主入口能力 - EntryBackupAbility : 数据备份能力 - Push Kit : 集成华为推送服务 (com.huawei.service.push.base service) 权限要求 - ohos.permission.INTERNET : 网络访问权限 构建配置 - 构建模式 : Debug / Release - 签名配置 : 支持 HarmonyOS 签名 - 严格模式 : 启用大小写敏感检查和规范化OHM URL 开发环境"
+    },
+    {
+      "path": "Upload_Management_API/Upload_Management_API指南-AppGallery_Connect_API-AGC开放能力-AppGallery_Connect（HarmonyOS_5及以上）.md",
+      "size": 1901,
+      "headings": [],
+      "opening": "应用信息填写完整后，您需要准备应用的相关文件，例如APP软件包，以及应用的图标、介绍图片、视频文件等。您通过Upload Management API可以将上传应用文件改为服务器对服务器上传，相对于AppGallery Connect中上传文件的上传速度更快，且不受您个人设备所在网络的限制。 上传文件的具体流程如下： 1. 获取上传文件地址 在上传文件前，调用获取上传文件地址接口获取文件上传的地址。 2. 上传文件 调用上传文件接口将文件上传到华为文件服务器。 说明 如果上传文件超过接口的文件大小上限，则需要调用分片上传相关接口进行上传。 分片上传文件的具体流程如下： 1. 调用分片上传初始化接口进行初始化。 2. 使用 objectId 和 nspUploadId 调用获取分片上传地址接口获取上传地址。 3. 调用上传分片实体接口上传分片到已获取的上传地址。 4. 上传完所有分片后，调用合并分片接口合并所有分片。 相关推荐 意见反馈 以上内容对您是否有帮助？ 意见反馈 如果您有其他疑问，您也可以通过开发者社区问答频道来和我们联系探讨。"
+    },
+    {
+      "path": "Upload_Management_API/上传分片实体-Upload_Management_API参考-AppGallery_Connect_API-AGC开放能力-AppGallery_Connect（HarmonyOS_5及以上）.md",
+      "size": 4798,
+      "headings": [
+        "功能介绍",
+        "接口原型",
+        "Header",
+        "Body",
+        "响应参数"
+      ],
+      "opening": "功能介绍 此接口用于将分片实体文件上传到AppGallery Connect服务器，每次调用只能上传一个分片，支持多次调用逐个上传多个分片。 接口调用者的角色：账号持有者、管理员、APP管理员、运营。 接口原型 <table id=\"ZH-CN TOPIC 0000002236201298 zh-cn topic 0000001158245067 table8419125694713\" class=\"layoutFixed idpTab\" <tbody <tr id=\"ZH-CN TOPIC 0000002236201298 zh-cn topic 0000001158245067 row19435115613475\" <th class=\"firstcol\" id=\"mcps1.3.2.2.1.3.1.1\" <p id=\"ZH-CN TOPIC 0000002236201298 zh-cn topic 0000001158245067 p10435175617476\" 承载协议</p </th <td class=\"cellrowborder\" <p id=\"ZH-CN TOPIC 0000002236201298 zh-cn topic 0000001158245067 p16636144820917\" <a href=\"https://developer.huawei.com/consumer/cn/doc/app/agc-help-upload-api-obbfile-uploadurl-0000002236041490\" 获取分片上传地址</a 接口中返回的<strong method</strong 参数中指定的请求方式。</p </td </tr <tr id=\"ZH-CN TOPIC 0000002236201298 zh-cn topic 0000001158245067 row1443575613476\" <th class=\"firstcol\" id=\"mcps1.3.2.2.1.3.2.1\" <p id=\"ZH-CN TOPIC 00000022"
+    },
+    {
+      "path": "Upload_Management_API/上传文件-Upload_Management_API参考-AppGallery_Connect_API-AGC开放能力-AppGallery_Connect（HarmonyOS_5及以上）.md",
+      "size": 4762,
+      "headings": [
+        "功能介绍",
+        "使用约束",
+        "接口原型",
+        "header",
+        "Body",
+        "响应参数"
+      ],
+      "opening": "功能介绍 客户端或服务器向AppGallery Connect上传相关文件接口。 浏览器或客户端与服务器之间的接口协议采用HTTPS，Content-Type采用application/octet-stream格式，文件使用application/octet-stream格式编码添加到HTTPS报文中。 此接口当前支持上传的应用软件包包括APP（HarmonyOS应用/元服务）。 接口调用者的角色：账号持有者、管理员、APP管理员、运营。 使用约束 + 文件大小上限：针对APP（HarmonyOS应用/元服务）软件包，HarmonyOS应用不超过4GB，元服务不超过10MB。 + 文件类型要求与获取上传文件地址中请求的文件名后缀相同。 + 用户头像需采用文件加密存储。 接口原型 <table id=\"ZH-CN TOPIC 0000002271160621 zh-cn topic 0000001111845090 table8419125694713\" class=\"layoutFixed idpTab\" <tbody <tr id=\"ZH-CN TOPIC 0000002271160621 zh-cn topic 0000001111845090 row19435115613475\" <th class=\"firstcol\" id=\"mcps1.3.3.2.1.3.1.1\" <p id=\"ZH-CN TOPIC 0000002271160621 zh-cn topic 0000001111845090 p10435175617476\" 承载协议</p </th <td class=\"cellrowborder\" <p id=\"ZH-CN TOPIC 0000002271160621 zh-cn topic 0000001111845090 p19435155674713\" HTTPS PUT</p </td </tr <tr id=\"ZH-CN TOPIC 0000002271160621 zh-cn topic 0000001111845090 row1443575"
+    },
+    {
+      "path": "Upload_Management_API/分片上传初始化-Upload_Management_API参考-AppGallery_Connect_API-AGC开放能力-AppGallery_Connect（HarmonyOS_5及以上）.md",
+      "size": 4926,
+      "headings": [
+        "功能介绍",
+        "接口原型",
+        "Header",
+        "Query",
+        "响应参数"
+      ],
+      "opening": "功能介绍 此接口用于分片信息初始化，在获取分片文件上传地址前调用。 接口调用者的角色：账号持有者、管理员、APP管理员、运营。 接口原型 <table id=\"ZH-CN TOPIC 0000002271000677 zh-cn topic 0000001158365055 table8419125694713\" class=\"layoutFixed idpTab\" <tbody <tr id=\"ZH-CN TOPIC 0000002271000677 zh-cn topic 0000001158365055 row19435115613475\" <th class=\"firstcol\" id=\"mcps1.3.2.2.1.3.1.1\" <p id=\"ZH-CN TOPIC 0000002271000677 zh-cn topic 0000001158365055 p10435175617476\" 承载协议</p </th <td class=\"cellrowborder\" <p id=\"ZH-CN TOPIC 0000002271000677 zh-cn topic 0000001158365055 p19435155674713\" HTTPS POST</p </td </tr <tr id=\"ZH-CN TOPIC 0000002271000677 zh-cn topic 0000001158365055 row1443575613476\" <th class=\"firstcol\" id=\"mcps1.3.2.2.1.3.2.1\" <p id=\"ZH-CN TOPIC 0000002271000677 zh-cn topic 0000001158365055 p1743510563473\" 接口方向</p </th <td class=\"cellrowborder\" <p id=\"ZH-CN TOPIC 0000002271000677 zh-cn topic 0000001158365055 p343595615476\" 开发者服务器 -&gt; 华为服务器</"
+    },
+    {
+      "path": "Upload_Management_API/合并分片-Upload_Management_API参考-AppGallery_Connect_API-AGC开放能力-AppGallery_Connect（HarmonyOS_5及以上）.md",
+      "size": 5091,
+      "headings": [
+        "功能介绍",
+        "接口原型",
+        "Header",
+        "Query",
+        "Body",
+        "请求示例",
+        "响应参数"
+      ],
+      "opening": "功能介绍 此接口用于将已经上传成功后的分片合并为一个文件。 接口调用者的角色：账号持有者、管理员、APP管理员、运营。 接口原型 <table id=\"ZH-CN TOPIC 0000002271160625 zh-cn topic 0000001111845098 table8419125694713\" class=\"layoutFixed idpTab\" <tbody <tr id=\"ZH-CN TOPIC 0000002271160625 zh-cn topic 0000001111845098 row19435115613475\" <th class=\"firstcol\" id=\"mcps1.3.2.2.1.3.1.1\" <p id=\"ZH-CN TOPIC 0000002271160625 zh-cn topic 0000001111845098 p10435175617476\" 承载协议</p </th <td class=\"cellrowborder\" <p id=\"ZH-CN TOPIC 0000002271160625 zh-cn topic 0000001111845098 p19435155674713\" HTTPS POST</p </td </tr <tr id=\"ZH-CN TOPIC 0000002271160625 zh-cn topic 0000001111845098 row1443575613476\" <th class=\"firstcol\" id=\"mcps1.3.2.2.1.3.2.1\" <p id=\"ZH-CN TOPIC 0000002271160625 zh-cn topic 0000001111845098 p1743510563473\" 接口方向</p </th <td class=\"cellrowborder\" <p id=\"ZH-CN TOPIC 0000002271160625 zh-cn topic 0000001111845098 p343595615476\" 开发者服务器 -&gt; 华为服务器</p </"
+    },
+    {
+      "path": "Upload_Management_API/获取分片上传地址-Upload_Management_API参考-AppGallery_Connect_API-AGC开放能力-AppGallery_Connect（HarmonyOS_5及以上）.md",
+      "size": 5458,
+      "headings": [
+        "功能介绍",
+        "接口原型",
+        "Header",
+        "Query",
+        "Body",
+        "请求示例",
+        "响应参数",
+        "响应示例"
+      ],
+      "opening": "功能介绍 此接口用于获取文件所有分片的上传地址，调用此接口前必须先调用分片上传初始化接口完成分片初始化。 接口调用者的角色：账号持有者、管理员、APP管理员、运营。 接口原型 <table id=\"ZH-CN TOPIC 0000002236041490 zh-cn topic 0000001111685208 table8419125694713\" class=\"layoutFixed idpTab\" <tbody <tr id=\"ZH-CN TOPIC 0000002236041490 zh-cn topic 0000001111685208 row19435115613475\" <th class=\"firstcol\" id=\"mcps1.3.2.2.1.3.1.1\" <p id=\"ZH-CN TOPIC 0000002236041490 zh-cn topic 0000001111685208 p10435175617476\" 承载协议</p </th <td class=\"cellrowborder\" <p id=\"ZH-CN TOPIC 0000002236041490 zh-cn topic 0000001111685208 p19435155674713\" HTTPS POST</p </td </tr <tr id=\"ZH-CN TOPIC 0000002236041490 zh-cn topic 0000001111685208 row1443575613476\" <th class=\"firstcol\" id=\"mcps1.3.2.2.1.3.2.1\" <p id=\"ZH-CN TOPIC 0000002236041490 zh-cn topic 0000001111685208 p1743510563473\" 接口方向</p </th <td class=\"cellrowborder\" <p id=\"ZH-CN TOPIC 0000002236041490 zh-cn topic 0000001111685208 p343595615476\" 开"
+    },
+    {
+      "path": "Upload_Management_API/获取文件上传地址-Upload_Management_API参考-AppGallery_Connect_API-AGC开放能力-AppGallery_Connect（HarmonyOS_5及以上）.md",
+      "size": 5174,
+      "headings": [
+        "功能介绍",
+        "接口原型",
+        "Header",
+        "Query",
+        "响应参数"
+      ],
+      "opening": "功能介绍 上传文件至AppGallery Connect前需要先调用此接口获取上传地址，包括图片、视频、APP、PDF等文件。 此接口当前支持获取上传地址的应用软件包格式包括APP（HarmonyOS应用/元服务）。 接口调用者的角色：账号持有者、管理员、APP管理员、运营。 接口原型 <table id=\"ZH-CN TOPIC 0000002236201294 zh-cn topic 0000001111685200 table8419125694713\" class=\"layoutFixed idpTab\" <tbody <tr id=\"ZH-CN TOPIC 0000002236201294 zh-cn topic 0000001111685200 row19435115613475\" <th class=\"firstcol\" id=\"mcps1.3.2.2.1.3.1.1\" <p id=\"ZH-CN TOPIC 0000002236201294 zh-cn topic 0000001111685200 p10435175617476\" 承载协议</p </th <td class=\"cellrowborder\" <p id=\"ZH-CN TOPIC 0000002236201294 zh-cn topic 0000001111685200 p19435155674713\" HTTPS GET</p </td </tr <tr id=\"ZH-CN TOPIC 0000002236201294 zh-cn topic 0000001111685200 row1443575613476\" <th class=\"firstcol\" id=\"mcps1.3.2.2.1.3.2.1\" <p id=\"ZH-CN TOPIC 0000002236201294 zh-cn topic 0000001111685200 p1743510563473\" 接口方向</p </th <td class=\"cellrowborder\" <p id=\"ZH-CN TOPIC 0000002"
+    },
+    {
+      "path": "common/obfuscation-rules.txt",
+      "size": 1007,
+      "headings": [
+        "Define project specific obfuscation rules here.",
+        "You can include the obfuscation configuration files in the current module's build-profile.json5.",
+        "For more details, see",
+        "https://developer.huawei.com/consumer/cn/doc/harmonyos-guides-V5/source-obfuscation-V5",
+        "Obfuscation options:",
+        "-disable-obfuscation: disable all obfuscations",
+        "-enable-property-obfuscation: obfuscate the property names",
+        "-enable-toplevel-obfuscation: obfuscate the names in the global scope",
+        "-compact: remove unnecessary blank spaces and all line feeds",
+        "-remove-log: remove all console.* statements",
+        "-print-namecache: print the name cache that contains the mapping from the old names to new names",
+        "-apply-namecache: reuse the given cache file",
+        "Keep options:",
+        "-keep-property-name: specifies property names that you want to keep",
+        "-keep-global-name: specifies names that you want to keep in the global scope"
+      ],
+      "opening": "Define project specific obfuscation rules here. You can include the obfuscation configuration files in the current module's build-profile.json5. For more details, see https://developer.huawei.com/consumer/cn/doc/harmonyos-guides-V5/source-obfuscation-V5 Obfuscation options: -disable-obfuscation: disable all obfuscations -enable-property-obfuscation: obfuscate the property names -enable-toplevel-obfuscation: obfuscate the names in the global scope -compact: remove unnecessary blank spaces and all line feeds -remove-log: remove all console. statements -print-namecache: print the name cache that contains the mapping from the old names to new names -apply-namecache: reuse the given cache file Keep options: -keep-property-name: specifies property names that you want to keep -keep-global-name: specifies names that you want to keep in the global scope -enable-property-obfuscation -enable-toplev"
+    },
+    {
+      "path": "docs/ShareKit.md",
+      "size": 2493,
+      "headings": [],
+      "opening": "通过分享面板发起分享 更新时间: 2026-04-20 14:34 接口说明 表1 宿主应用发起分享接口功能介绍 类名 接口名 描述 SharedData constructor(record: SharedRecord) SharedData构造函数 SharedData addRecord(record: SharedRecord): void 添加分享记录 SharedData getRecords(): Array<SharedRecord 获取分享记录 ShareController constructor(data: SharedData) ShareController构造函数 ShareController show(context: common.UIAbilityContext, options: ShareControllerOptions): Promise<void 显示分享面板 ShareController on(event: 'dismiss', callback: () = void): void 注册分享面板关闭事件监听 ShareController off(event: 'dismiss', callback: () = void): void 取消分享面板关闭事件监听 开发步骤 根据不同的分享场景，参考下表： 分享场景 参考链接 分享App Linking直达应用 分享App Linking直达应用 分享图片 分享图片 分享视频 分享视频 分享普通链接直达浏览器 分享普通链接直达浏览器 分享文本 分享文本 2in1设备可通过配置的方式决定分享面板的显示位置。 参考如下： 导入相关模块。 import { common } from '@kit.AbilityKit'; import { systemShare } from '@kit.ShareKit'; import { uniformTypeDescriptor as utd } from '@kit.ArkData'; 构造分享数据，可添加多条分享记录。 // 构造Sha"
+    },
+    {
+      "path": "entry/obfuscation-rules.txt",
+      "size": 1002,
+      "headings": [
+        "Define project specific obfuscation rules here.",
+        "You can include the obfuscation configuration files in the current module's build-profile.json5.",
+        "For more details, see",
+        "https://developer.huawei.com/consumer/cn/doc/harmonyos-guides/source-obfuscation",
+        "Obfuscation options:",
+        "-disable-obfuscation: disable all obfuscations",
+        "-enable-property-obfuscation: obfuscate the property names",
+        "-enable-toplevel-obfuscation: obfuscate the names in the global scope",
+        "-compact: remove unnecessary blank spaces and all line feeds",
+        "-remove-log: remove all console.* statements",
+        "-print-namecache: print the name cache that contains the mapping from the old names to new names",
+        "-apply-namecache: reuse the given cache file",
+        "Keep options:",
+        "-keep-property-name: specifies property names that you want to keep",
+        "-keep-global-name: specifies names that you want to keep in the global scope"
+      ],
+      "opening": "Define project specific obfuscation rules here. You can include the obfuscation configuration files in the current module's build-profile.json5. For more details, see https://developer.huawei.com/consumer/cn/doc/harmonyos-guides/source-obfuscation Obfuscation options: -disable-obfuscation: disable all obfuscations -enable-property-obfuscation: obfuscate the property names -enable-toplevel-obfuscation: obfuscate the names in the global scope -compact: remove unnecessary blank spaces and all line feeds -remove-log: remove all console. statements -print-namecache: print the name cache that contains the mapping from the old names to new names -apply-namecache: reuse the given cache file Keep options: -keep-property-name: specifies property names that you want to keep -keep-global-name: specifies names that you want to keep in the global scope -enable-property-obfuscation -enable-toplevel-obf"
+    },
+    {
+      "path": "entry/src/main/ets/pages/@ohos.data.distributedDataObject (分布式数据对象).md",
+      "size": 51672,
+      "headings": [],
+      "opening": "@ohos.data.distributedDataObject (分布式数据对象) 更新时间: 2026-02-02 17:31 本模块提供管理基本数据对象的相关能力，包括创建、查询、删除、修改、订阅等；同时支持相同应用多设备间的分布式数据对象协同能力。分布式数据对象处理数据时，不会解析用户数据的内容，存储路径安全性较低，不建议传输个人敏感数据和隐私数据。 说明 本模块首批接口从API version 8开始支持。后续版本的新增接口，采用上角标单独标记接口的起始版本。 导入模块 支持设备PhonePC/2in1TabletTVWearable import { distributedDataObject } from '@kit.ArkData'; distributedDataObject.create 支持设备PhonePC/2in1TabletTVWearable create(context: Context, source: object): DataObject 创建一个分布式数据对象。对象属性支持基本类型（数字类型、布尔类型和字符串类型）以及复杂类型（数组、基本类型嵌套）。 系统能力： SystemCapability.DistributedDataManager.DataObject.DistributedObject 参数： 参数名 类型 必填 说明 context Context 是 应用的上下文。 FA模型的应用Context定义见Context。 Stage模型的应用Context定义见Context。 source object 是 设置分布式数据对象的属性。 返回值： 类型 说明 DataObject 创建完成的分布式数据对象。 错误码： 以下错误码的详细介绍请参见通用错误码。 错误码ID 错误信息 401 Parameter error. Possible causes: 1. Mandatory parameters are left unspecified; 2. Incorrect parameter types. 示例： FA模型"
+    },
+    {
+      "path": "entry/src/main/ets/pages/List.md",
+      "size": 92387,
+      "headings": [],
+      "opening": "List 更新时间: 2026-03-09 10:50 列表包含一系列相同宽度的列表项。适合连续、多行呈现同类数据，例如图片和文本。 List的懒加载是指组件按需加载可见区域可见的子组件。相比全量加载，使用懒加载可以提升应用启动速度，减少内存消耗。List和ForEach、LazyForEach、Repeat结合，懒加载能力存在差异： 当List和ForEach结合，会一次性创建所有的子节点，在需要的时候布局和渲染屏幕范围内的节点。当用户滑动时，划出屏幕范围的节点不会下树销毁，划入屏幕范围的节点会布局和渲染。 当List和LazyForEach结合，会一次性创建、布局、渲染屏幕范围的节点。当用户滑动时，划出屏幕范围的节点会下树销毁，划入屏幕范围的节点会创建、布局、渲染。 当List和带virtualScroll的Repeat结合，它的懒加载行为和LazyForEach一致。当List和不带virtualScroll的Repeat结合，它的懒加载行为和ForEach一致。 如果可滚动组件嵌套List组件，并且滚动方向相同，List组件又没有设置主轴尺寸时，List组件会全量加载子组件，导致懒加载失效。该场景推荐使用List嵌套ListItemGroup组件以实现优化性能。 List的预加载是指除了加载显示区域可见区域外子组件外，还支持空闲时隙提前加载部分显示区域外不可见的子组件。使用预加载可以减少滚动丢帧，提升流畅性。预加载需要结合懒加载才会生效。List支持通过cachedCount设置预加载的数量。默认会预加载显示区域上下各一屏子节点（最大预加载16行子节点）。List和ForEach、LazyForEach、Repeat结合，预加载能力存在差异： 当List和ForEach结合，如果设置了cachedCount，除了会布局显示区域内子组件外，还会在空闲时隙预布局显示区域外cachedCount范围内的子节点。 当List和LazyForEach结合，如果设置了cachedCount，除了会创建和布局显示区域内子组件外，还会在空闲时隙预创建和预布局显示区域外cache"
+    },
+    {
+      "path": "entry/src/main/ets/pages/ef-rcp的README.md",
+      "size": 30780,
+      "headings": [
+        "<center>ef_rcp</center>",
+        "<center>V1.0.12(API12)</center>",
+        "📚简介",
+        "🛠️包含组件",
+        "📦安装",
+        "🍊ohpm",
+        "📦使用",
+        "1.在项目中引入插件",
+        "2.ef_rcp使用API",
+        "前言",
+        "1.efRcpConfig配置类参数详解(1.0.8有改动)",
+        "2.efRcp工具类(1.0.8有改动)",
+        "3.efRcpClientApi工具类(1.0.3有改动)",
+        "4.EfRcpError工具类",
+        "5.EfRcpResponse工具类",
+        "[eftool](https://ohpm.openharmony.cn/#/cn/detail/@yunkss%2Feftool)工具类ohpm地址",
+        "star `ef_rcp` 希望您可以动一动小手点点小⭐⭐",
+        "👴希望大家如有好的需求踊跃提交,如有问题请前往gitee提交issue，我闲暇时间会扩充与修复优化"
+      ],
+      "opening": "<center ef rcp</center <center V1.0.12(API12)</center -------------------------------------------------------------------------------- 📚简介 ef rcp 是 eftool 的rcp网络请求相关包.提供了rcp的上传,下载,post,get,cancel,delete,put等操作 你可以引入使用，也可以 拷贝 和修改使用，如需分享扩展 希望可以注明原出处即可 也希望能把bug及时反馈回来。 我努力健全 中文 注释，为源码学习者提供良好地学习环境，争取做到人人都能看得懂。 🛠️包含组件 模块 介绍 ---------------- -------------------------------------- efRcp 提供针对efRcp的一系列请求相关功能的配置工具类 efRcpConfig efRcp所有的相关配置命名空间 efRcpClientApi 提供针对于统一post,get,delete,put等请求的灵活封装 EfRcpError efRcp的统一异常处理对象,内置toString方法 EfRcpResponse efRcp的统一响应对象,成功请求的数据为data异常的结果为error 📦安装 🍊ohpm 执行安装命令 特殊说明 ef rcp依赖于ef json,故将依赖引入为dependencies方式,即开发者在使用ef rcp时无需自行引入ef json,ef rcp会自动下载对应依赖版本 但如果开发者自身业务需要使用JSON相关内容，则仍需要自行引入ef json 📦使用 1.在项目中引入插件 类按需引入,项目需要使用那个就引入 2.ef rcp使用API 前言 efRcp封装需要大家共建和提出建议与需求,已完善传post,postForm,put,get,delete,cancel请求,统一上传下载,以及配置证书,期待大家提出宝贵意见 后端Demo示例为Java开发,大家自行下载使用与阅读,如有问题请提出Iss"
+    },
+    {
+      "path": "entry/src/main/ets/pages/发送通知消息.md",
+      "size": 29747,
+      "headings": [],
+      "opening": "发送通知消息 更新时间: 2026-01-14 17:55 场景介绍 通知消息通过Push Kit通道直接下发，可在终端设备的通知中心、锁屏、横幅等展示，用户点击后拉起应用。您可以通过设置通知消息样式来吸引用户。 约束与限制 发送通知消息能力支持Phone、Tablet、PC/2in1设备。并且从5.1.0(18)版本开始新增支持Wearable设备；从5.1.1(19)版本开始，新增支持TV设备。 开通权益 Push Kit根据消息内容，将通知消息分类为服务与通讯、资讯营销两大类别，开放通知消息自分类权益。 两种类型的通知消息在提醒方式、消息展示位置、推送数量上皆存在差异。更多说明与权益申请详情参见申请通知消息自分类权益。 注意 若您未申请通知消息自分类权益，则推送的通知消息默认为资讯营销类（category取值为MARKETING）消息；若您仅需发送资讯营销类消息，则无需申请通知消息自分类权益。 资讯营销类消息每天可发送消息数量根据应用类型分为2条或5条，详情请参见通知消息推送数量管理规则。若您发送通知消息被频控，请尝试发送测试消息或申请自分类权益，详情请参见消息频控。 频控规则 调测阶段，每个项目每日全网最多可推送1000条测试消息。发送测试消息需设置testMessage为true。 正式发布阶段，单设备单应用下每日推送消息总条数受设备消息频控限制，系统会根据现网使用场景和流量进行管控，不合理的使用场景系统会进行频控。 服务通讯类消息与资讯营销类消息存在不同的频控策略，详情请参见通知消息推送数量管理规则。 开发步骤 参见指导获取Push Token。 为确保应用可正常收到消息，应用发送通知前需调用requestEnableNotification()方法弹出提醒，告知用户需要允许接收通知消息。示例代码如下： // 文件路径: src/main/ets/entryability/EntryAbility.ets import { BusinessError } from '@kit.BasicServicesKit'; import { UIAbility } f"
+    }
+  ],
+  "code_evidence": {
+    "project_name": "Shark",
+    "software_name_candidate": "Shark",
+    "frameworks": [],
+    "language": "TypeScript",
+    "routes": [
+      "/"
+    ],
+    "feature_name_candidates": [
+      "ets ServerView",
+      "ets MyAppView",
+      "ets Index",
+      "ets ServerListView",
+      "ets TabPage",
+      "ets SoundView",
+      "ets AboutView",
+      "ets AddServerView",
+      "ets SettingView",
+      "ets HistoryView",
+      "MockRequest"
+    ],
+    "entry_files": [],
+    "page_files": [
+      "entry/src/main/ets/pages/ServerView.ets",
+      "entry/src/main/ets/pages/MyAppView.ets",
+      "entry/src/main/ets/pages/Index.ets",
+      "entry/src/main/ets/pages/ServerListView.ets",
+      "entry/src/main/ets/pages/TabPage.ets",
+      "entry/src/main/ets/pages/SoundView.ets",
+      "entry/src/main/ets/pages/AboutView.ets",
+      "entry/src/main/ets/pages/AddServerView.ets",
+      "entry/src/main/ets/pages/SettingView.ets",
+      "entry/src/main/ets/pages/HistoryView.ets"
+    ],
+    "component_files": [],
+    "api_files": [
+      "common/src/main/ets/storagemanager/MockRequest.ets"
+    ],
+    "run_command_candidates": [],
+    "package": {
+      "name": "",
+      "path": "",
+      "version": "V1.0",
+      "scripts": {},
+      "dependency_names": []
+    }
+  },
+  "external_research_notes": ""
+}
