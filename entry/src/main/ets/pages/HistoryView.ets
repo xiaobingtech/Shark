@@ -167,19 +167,22 @@ export struct HistoryView {
 
   @Builder
   buildSearchBar() {
-    Search({ value: this.searchText, placeholder: '搜索消息标题或内容', controller: this.searchController })
-      .id('historyMessageSearch')
-      .width('100%')
-      .defaultFocus(true)
-      .onAppear(() => {
-        this.getUIContext().getFocusController().requestFocus('historyMessageSearch')
-      })
-      .onChange((value: string) => {
-        this.searchText = value
-        this.filterMessages()
-      })
-      .padding($r('sys.float.padding_level8'))
-      .transition(TransitionEffect.OPACITY)
+    Row() {
+      Search({ value: this.searchText, placeholder: '搜索消息标题或内容', controller: this.searchController })
+        .id('historyMessageSearch')
+        .width('100%')
+        .defaultFocus(true)
+        .onAppear(() => {
+          this.getUIContext().getFocusController().requestFocus('historyMessageSearch')
+        })
+        .onChange((value: string) => {
+          this.searchText = value
+          this.filterMessages()
+        })
+    }
+    .width('100%')
+    .padding($r('sys.float.padding_level8'))
+    .transition(TransitionEffect.OPACITY)
   }
 
   private getHistoryImages(data: HistoryStoreData): Array<string> {

@@ -7,11 +7,11 @@
         "material": {
           "certpath": "./dis.cer",
           "keyAlias": "key",
-          "keyPassword": "0000001CFCDE899AF2AF36D9E364FEB303885D1F6A87DC2603163F237EF82641E5FF3449A626C4372AED95E7",
+          "keyPassword": "0000001C0BEC04DFD53E1CF6689D93D729BBA8E898DBA19FDD343ED7E905C3F073C87DF77C1ACFC05E594CF6",
           "profile": "./disRelease.p7b",
           "signAlg": "SHA256withECDSA",
           "storeFile": "./dis.p12",
-          "storePassword": "0000001C396DAF7BC263240A53014FE2F794934F1478E9640650871C6EF10E3BDF90D91A0C990048162701A5"
+          "storePassword": "0000001C8BF34F80DE83908AC8A7F0A5C351890C6347AC72BC67735B4B97D920DB9D6A1269AFDE7E90891D56"
         }
       },
       {
@@ -20,11 +20,11 @@
         "material": {
           "certpath": "/Users/fandong/.ohos/config/device_Shark_YBXqv5bFF4V_GESz_t79C0aFFinYXuDuJlGlanjpMZM=.cer",
           "keyAlias": "debugKey",
-          "keyPassword": "0000001B3DF33445748B8084E1E04122CDF6FF24CE6F32B771F75FF6F423B4B6308AFE957E77744ADFA84E",
+          "keyPassword": "0000001B9DE3685368870204AEBD539B8E9BCC89A5F1BE26D3CE99939934F331CF00F566BA5FF729F72AFB",
           "profile": "/Users/fandong/.ohos/config/device_Shark_YBXqv5bFF4V_GESz_t79C0aFFinYXuDuJlGlanjpMZM=.p7b",
           "signAlg": "SHA256withECDSA",
           "storeFile": "/Users/fandong/.ohos/config/device_Shark_YBXqv5bFF4V_GESz_t79C0aFFinYXuDuJlGlanjpMZM=.p12",
-          "storePassword": "0000001B7395CDD61FBC6A956E5AD8F0809519E8A0A317C945A67C942C6E2ED0A809B9D3EC1AC68860C93D"
+          "storePassword": "0000001BFE50A4C7953387063991E2BFEE2B1803CAD8CFBD60C94A0DB8ADCD38D181EA2DABB1E8B5C9CC29"
         }
       }
     ],
