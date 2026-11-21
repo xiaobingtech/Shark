@@ -13,6 +13,15 @@ const HISTORY_TIMES_KEY: string = 'historyTimes'
 const HISTORY_IMAGES_KEY: string = 'historyImages'
 const HISTORY_STYLES_KEY: string = 'historyStyles'
 const HISTORY_INBOX_CONTENTS_KEY: string = 'historyInboxContents'
+const HISTORY_TITLE_PREVIEW_LINES: number = 1
+const HISTORY_BODY_PREVIEW_LINES: number = 2
+const HISTORY_INBOX_PREVIEW_LINES: number = 1
+const HISTORY_EXPANDED_LINES: number = 2147483647
+const IMAGE_DISMISS_DISTANCE: number = 96
+const IMAGE_FLICK_DISTANCE: number = 28
+const IMAGE_FLICK_VELOCITY: number = 900
+const IMAGE_DOUBLE_TAP_SCALE: number = 2.5
+const IMAGE_MAX_SCALE: number = 4
 
 class HistoryStoreData {
   titles: Array<string> = []
@@ -45,11 +54,313 @@ class HistoryMessage {
 }
 
 @Component
+struct HistoryMessageCard {
+  @Prop @Watch('updateCanExpand') item: HistoryMessage
+  @Prop timeLabel: string = ''
+  onOpenImage: (imageUrl: string) => void = () => {}
+  @State private expanded: boolean = false
+  @State private canExpand: boolean = false
+  private textWidth: number = 0
+
+  private exceedsPreview(text: string, fontSize: Resource, maxLines: number,
+    fontWeight: FontWeight = FontWeight.Normal): boolean {
+    const measure = this.getUIContext().getMeasureUtils()
+    const previewHeight = measure.measureTextSize({
+      textContent: text, constraintWidth: this.textWidth, fontSize, fontWeight, maxLines
+    }).height
+    const nextLineHeight = measure.measureTextSize({
+      textContent: text, constraintWidth: this.textWidth, fontSize, fontWeight, maxLines: maxLines + 1
+    }).height
+    return Number(nextLineHeight) > Number(previewHeight)
+  }
+
+  private updateCanExpand(): void {
+    if (this.textWidth <= 0) {
+      return
+    }
+    this.canExpand = this.exceedsPreview(this.item.title, $r('sys.float.Subtitle_M'), HISTORY_TITLE_PREVIEW_LINES,
+      FontWeight.Medium) || (this.item.style === 3 && this.item.inboxContents.length > 0 ?
+      this.item.inboxContents.some((line: string) =>
+        this.exceedsPreview(line, $r('sys.float.Body_M'), HISTORY_INBOX_PREVIEW_LINES)) :
+      this.exceedsPreview(this.item.body, $r('sys.float.Body_M'), HISTORY_BODY_PREVIEW_LINES))
+    if (!this.canExpand) {
+      this.expanded = false
+    }
+  }
+
+  build() {
+    Column({ space: 6 }) {
+      Row() {
+        Column({ space: 4 }) {
+          Text(this.item.title)
+            .fontSize($r('sys.float.Subtitle_M'))
+            .fontWeight(FontWeight.Medium)
+            .fontColor($r('sys.color.font_primary'))
+            .maxLines(this.expanded ? HISTORY_EXPANDED_LINES : HISTORY_TITLE_PREVIEW_LINES)
+            .textOverflow({ overflow: TextOverflow.Ellipsis })
+          if (this.item.style === 3 && this.item.inboxContents.length > 0) {
+            ForEach(this.item.inboxContents, (line: string) => {
+              Text(line)
+                .fontSize($r('sys.float.Body_M'))
+                .fontColor($r('sys.color.font_secondary'))
+                .maxLines(this.expanded ? HISTORY_EXPANDED_LINES : HISTORY_INBOX_PREVIEW_LINES)
+                .textOverflow({ overflow: TextOverflow.Ellipsis })
+            }, (line: string, index: number) => `${index}_${line}`)
+          } else {
+            Text(this.item.body)
+              .fontSize($r('sys.float.Body_M'))
+              .fontColor($r('sys.color.font_secondary'))
+              .maxLines(this.expanded ? HISTORY_EXPANDED_LINES : HISTORY_BODY_PREVIEW_LINES)
+              .textOverflow({ overflow: TextOverflow.Ellipsis })
+          }
+        }
+        .alignItems(HorizontalAlign.Start)
+        .layoutWeight(1)
+        .onSizeChange((_, size: SizeOptions) => {
+          this.textWidth = Number(size.width ?? 0)
+          this.updateCanExpand()
+        })
+        if (this.item.image.length > 0) {
+          Image(this.item.image)
+            .width(44)
+            .height(44)
+            .objectFit(ImageFit.Cover)
+            .draggable(false)
+            .borderRadius($r('sys.float.corner_radius_level4'))
+            .margin({ left: 10 })
+            .focusable(true)
+            .accessibilityText('查看大图')
+            .onClick(() => {
+              this.onOpenImage(this.item.image)
+            })
+        }
+      }
+      .alignItems(VerticalAlign.Top)
+      Row() {
+        Text(this.timeLabel)
+          .fontSize($r('sys.float.Body_S'))
+          .fontColor($r('sys.color.font_secondary'))
+        if (this.canExpand) {
+          Button(this.expanded ? '收起' : '展开', { buttonStyle: ButtonStyleMode.TEXTUAL })
+            .fontSize($r('sys.float.Body_S'))
+            .constraintSize({ minHeight: 40 })
+            .onClick(() => {
+              this.expanded = !this.expanded
+            })
+        }
+      }
+      .width('100%')
+      .justifyContent(FlexAlign.SpaceBetween)
+    }
+    .alignItems(HorizontalAlign.Start)
+    .padding($r('sys.float.padding_level8'))
+    .width('100%')
+    .backgroundColor($r('sys.color.comp_background_primary'))
+    .borderRadius($r('sys.float.corner_radius_level8'))
+  }
+}
+
+interface ImageOffset {
+  x: number
+  y: number
+}
+
+@Component
+struct HistoryImagePreview {
+  @Prop imageUrl: string = ''
+  onClose: () => void = () => {}
+  @State private dragOffset: number = 0
+  @State private loadFailed: boolean = false
+  @State private imageScale: number = 1
+  @State private imageOffset: ImageOffset = { x: 0, y: 0 }
+  private viewportWidth: number = 0
+  private viewportHeight: number = 0
+  private imageAspectRatio: number = 0
+  private pinching: boolean = false
+  private pinchStartScale: number = 1
+  private pinchStartOffset: ImageOffset = { x: 0, y: 0 }
+  private pinchCenter: ImageOffset = { x: 0, y: 0 }
+  private panStartOffset: ImageOffset = { x: 0, y: 0 }
+  private panningImage: boolean = false
+  private draggingToClose: boolean = false
+
+  private clampOffset(x: number, y: number): ImageOffset {
+    if (this.imageScale === 1 || this.imageAspectRatio <= 0) {
+      return { x: 0, y: 0 }
+    }
+    const imageWidth = Math.min(this.viewportWidth, this.viewportHeight * this.imageAspectRatio)
+    const imageHeight = imageWidth / this.imageAspectRatio
+    const maxX = Math.max(0, (imageWidth * this.imageScale - this.viewportWidth) / 2)
+    const maxY = Math.max(0, (imageHeight * this.imageScale - this.viewportHeight) / 2)
+    return {
+      x: Math.max(-maxX, Math.min(x, maxX)),
+      y: Math.max(-maxY, Math.min(y, maxY))
+    }
+  }
+
+  private zoomAt(scale: number, startScale: number, startOffset: ImageOffset, center: ImageOffset): void {
+    this.imageScale = Math.max(1, Math.min(scale, IMAGE_MAX_SCALE))
+    const factor = this.imageScale / startScale
+    this.imageOffset = this.clampOffset(
+      startOffset.x * factor + (center.x - this.viewportWidth / 2) * (1 - factor),
+      startOffset.y * factor + (center.y - this.viewportHeight / 2) * (1 - factor)
+    )
+  }
+
+  private toggleZoom(event: GestureEvent): void {
+    if (this.pinching || this.imageAspectRatio <= 0) {
+      return
+    }
+    const point = event.fingerInfos?.[0]
+    const center: ImageOffset = {
+      x: point?.localX ?? this.viewportWidth / 2,
+      y: point?.localY ?? this.viewportHeight / 2
+    }
+    const scale = this.imageScale > 1 ? 1 : IMAGE_DOUBLE_TAP_SCALE
+    this.getUIContext().animateTo({ duration: 180, curve: Curve.EaseOut }, () => {
+      this.zoomAt(scale, this.imageScale, this.imageOffset, center)
+    })
+  }
+
+  private startPinch(event: GestureEvent): void {
+    this.pinching = true
+    this.panningImage = false
+    this.draggingToClose = false
+    this.dragOffset = 0
+    this.pinchStartScale = this.imageScale
+    this.pinchStartOffset = this.imageOffset
+    this.pinchCenter = { x: event.pinchCenterX, y: event.pinchCenterY }
+  }
+
+  private startPan(event: GestureEvent): void {
+    this.panningImage = !this.pinching && this.imageScale > 1
+    this.draggingToClose = !this.pinching && this.imageScale === 1 && event.offsetY > Math.abs(event.offsetX)
+    this.panStartOffset = this.imageOffset
+  }
+
+  private updatePan(event: GestureEvent): void {
+    if (this.panningImage) {
+      this.imageOffset = this.clampOffset(
+        this.panStartOffset.x + event.offsetX, this.panStartOffset.y + event.offsetY)
+    } else if (this.draggingToClose) {
+      this.dragOffset = Math.max(0, event.offsetY)
+    }
+  }
+
+  private endPan(event: GestureEvent): void {
+    const flickedDown = event.offsetY >= IMAGE_FLICK_DISTANCE && event.velocityY >= IMAGE_FLICK_VELOCITY
+    if (this.draggingToClose && event.offsetY > Math.abs(event.offsetX) &&
+      (event.offsetY >= IMAGE_DISMISS_DISTANCE || flickedDown)) {
+      this.onClose()
+    } else {
+      this.resetDrag()
+    }
+  }
+
+  private resetDrag(): void {
+    this.panningImage = false
+    this.draggingToClose = false
+    this.getUIContext().animateTo({ duration: 180, curve: Curve.EaseOut }, () => {
+      this.dragOffset = 0
+    })
+  }
+
+  build() {
+    Stack({ alignContent: Alignment.TopEnd }) {
+      Column()
+        .width('100%')
+        .height('100%')
+        .backgroundColor(Color.Black)
+        .opacity(1 - Math.min(this.dragOffset / IMAGE_DISMISS_DISTANCE, 1) * 0.45)
+        .expandSafeArea([SafeAreaType.SYSTEM, SafeAreaType.CUTOUT])
+
+      Stack() {
+        Column() {
+          if (this.loadFailed) {
+            Text('图片加载失败')
+              .fontColor(Color.White)
+          } else {
+            Image(this.imageUrl)
+              .width('100%')
+              .height('100%')
+              .objectFit(ImageFit.Contain)
+              .draggable(false)
+              .scale({ x: this.imageScale, y: this.imageScale })
+              .onComplete((event) => {
+                if (event && event.width > 0 && event.height > 0) {
+                  this.imageAspectRatio = event.width / event.height
+                }
+              })
+              .onError(() => {
+                this.loadFailed = true
+              })
+          }
+        }
+        .width('100%')
+        .height('100%')
+        .justifyContent(FlexAlign.Center)
+        .translate({ x: this.imageOffset.x, y: this.imageOffset.y + this.dragOffset })
+      }
+      .width('100%')
+      .height('100%')
+      .clip(true)
+      .hitTestBehavior(HitTestMode.None)
+      .onSizeChange((_, size: SizeOptions) => {
+        this.viewportWidth = Number(size.width ?? 0)
+        this.viewportHeight = Number(size.height ?? 0)
+        this.imageOffset = this.clampOffset(this.imageOffset.x, this.imageOffset.y)
+      })
+
+      Button({ type: ButtonType.Circle }) {
+        SymbolGlyph($r('sys.symbol.xmark'))
+          .fontSize(20)
+          .fontColor([Color.White])
+      }
+      .width(44)
+      .height(44)
+      .margin({ top: 8, right: 12 })
+      .backgroundColor('#66000000')
+      .accessibilityText('关闭图片预览')
+      .onClick(() => {
+        this.onClose()
+      })
+    }
+    .width('100%')
+    .height('100%')
+    .gesture(
+      GestureGroup(GestureMode.Parallel,
+        PinchGesture({ fingers: 2, isFingerCountLimited: true })
+          .onActionStart((event: GestureEvent) => this.startPinch(event))
+          .onActionUpdate((event: GestureEvent) => {
+            if (this.imageAspectRatio > 0) {
+              this.zoomAt(this.pinchStartScale * event.scale, this.pinchStartScale,
+                this.pinchStartOffset, this.pinchCenter)
+            }
+          })
+          .onActionEnd(() => { this.pinching = false })
+          .onActionCancel(() => { this.pinching = false }),
+        GestureGroup(GestureMode.Exclusive,
+          TapGesture({ count: 2, fingers: 1, isFingerCountLimited: true })
+            .onAction((event: GestureEvent) => this.toggleZoom(event)),
+          PanGesture({ fingers: 1, isFingerCountLimited: true })
+            .onActionStart((event: GestureEvent) => this.startPan(event))
+            .onActionUpdate((event: GestureEvent) => this.updatePan(event))
+            .onActionEnd((event: GestureEvent) => this.endPan(event))
+            .onActionCancel(() => this.resetDrag())
+        )
+      )
+    )
+  }
+}
+
+@Component
 export struct HistoryView {
   @State messages: Array<HistoryMessage> = []
   @State filteredMessages: Array<HistoryMessage> = []
   @State isSearching: boolean = false
   @State searchText: string = ''
+  @State private previewImageUrl: string = ''
+  @State private showImagePreview: boolean = false
   @StorageProp('currentBreakpoint') currentBreakpoint: string = ''
   @Watch('onRefreshTickChange')
   @StorageLink('historyRefreshTick') refreshTick: number = 0
@@ -358,6 +669,16 @@ export struct HistoryView {
     .backgroundColor($r('sys.color.comp_background_tertiary'))
   }
 
+  @Builder
+  buildImagePreview() {
+    HistoryImagePreview({
+      imageUrl: this.previewImageUrl,
+      onClose: () => {
+        this.showImagePreview = false
+      }
+    })
+  }
+
   build() {
     Navigation() {
       Column() {
@@ -376,52 +697,14 @@ export struct HistoryView {
           }
           ForEach(this.filteredMessages, (item: HistoryMessage) => {
             ListItem() {
-              Column({ space: 6 }) {
-                Row() {
-                  Column({ space: 4 }) {
-                    Text(item.title)
-                      .fontSize($r('sys.float.Subtitle_M'))
-                      .fontWeight(FontWeight.Medium)
-                      .fontColor($r('sys.color.font_primary'))
-                      .maxLines(1)
-                      .textOverflow({ overflow: TextOverflow.Ellipsis })
-                    if (item.style == 3 && item.inboxContents.length > 0) {
-                      ForEach(item.inboxContents, (line: string) => {
-                        Text(line)
-                          .fontSize($r('sys.float.Body_M'))
-                          .fontColor($r('sys.color.font_secondary'))
-                          .maxLines(1)
-                          .textOverflow({ overflow: TextOverflow.Ellipsis })
-                      }, (line: string, index: number) => `${item.id}_inbox_${index}`)
-                    } else {
-                      Text(item.body)
-                        .fontSize($r('sys.float.Body_M'))
-                        .fontColor($r('sys.color.font_secondary'))
-                        .maxLines(2)
-                        .textOverflow({ overflow: TextOverflow.Ellipsis })
-                    }
-                  }
-                  .alignItems(HorizontalAlign.Start)
-                  .layoutWeight(1)
-                  if (item.image.length > 0) {
-                    Image(item.image)
-                      .width(44)
-                      .height(44)
-                      .objectFit(ImageFit.Cover)
-                      .borderRadius($r('sys.float.corner_radius_level4'))
-                      .margin({ left: 10 })
-                  }
+              HistoryMessageCard({
+                item: item,
+                timeLabel: this.formatTime(item.time),
+                onOpenImage: (imageUrl: string) => {
+                  this.previewImageUrl = imageUrl
+                  this.showImagePreview = true
                 }
-                .alignItems(VerticalAlign.Top)
-                Text(this.formatTime(item.time))
-                  .fontSize($r('sys.float.Body_S'))
-                  .fontColor($r('sys.color.font_secondary'))
-              }
-              .alignItems(HorizontalAlign.Start)
-              .padding($r('sys.float.padding_level8'))
-              .width('100%')
-              .backgroundColor($r('sys.color.comp_background_primary'))
-              .borderRadius($r('sys.float.corner_radius_level8'))
+              })
             }
             .borderRadius($r('sys.float.corner_radius_level8'))
             .clip(true)
@@ -453,5 +736,10 @@ export struct HistoryView {
     }
     .title('历史消息')
     .menus(this.buildMenuItems())
+    .bindContentCover($$this.showImagePreview, this.buildImagePreview(), {
+      modalTransition: ModalTransition.ALPHA,
+      backgroundColor: Color.Transparent,
+      enableSafeArea: true
+    })
   }
 }
